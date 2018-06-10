@@ -4,5 +4,5 @@ import Root from './Root';
 
 // import registerServiceWorker from './common/utils/registerServiceWorker';
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+ReactDOM.render(<Root />, document.getElementById('pin-dashboard'));
 // registerServiceWorker();

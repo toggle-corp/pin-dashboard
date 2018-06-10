@@ -1,7 +1,6 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-// import PropTypes from 'prop-types';
-
-import styles from './styles.scss';
+import Overview from './views/Overview';
 
 const propTypes = {
 };
@@ -9,19 +8,14 @@ const propTypes = {
 const defaultProps = {
 };
 
+// eslint-disable-next-line react/prefer-stateless-function
 class App extends React.PureComponent {
     static propTypes = propTypes;
     static defaultProps = defaultProps;
 
-    getClassName = () => styles.app
-
     render() {
-        const className = this.getClassName();
-
         return (
-            <div className={className}>
-                Hello
-            </div>
+            <Overview />
         );
     }
 }

@@ -1,0 +1,13 @@
+@import '../../stylesheets/base';
+
+.overview {
+    position: relative;
+    background-color: transparent;
+    height: 512px;
+
+    .info {
+        position: absolute;
+        bottom: $spacing-super-large;
+        left: $spacing-super-large;
+    }
+}

@@ -1,0 +1,8 @@
+@import '../../../stylesheets/base';
+@import '../../../stylesheets/heading';
+
+.landslides-risk {
+    .heading {
+        @extend %heading;
+    }
+}

@@ -1,0 +1,8 @@
+@import '../../../stylesheets/base';
+@import '../../../stylesheets/heading';
+
+.landslides-surveyed {
+    .heading {
+        @extend %heading;
+    }
+}

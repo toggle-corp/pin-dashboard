@@ -1,0 +1,13 @@
+@import '../../stylesheets/base';
+
+.info-layer {
+    .title {
+        margin: 0;
+        text-transform: uppercase;
+        font-size: $font-size-super-large;
+    }
+
+    .content {
+        display: flex;
+    }
+}

@@ -4,13 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const getEnvVariables = require('./env.js');
 
 const appBase = process.cwd();
 const appSrc = path.resolve(appBase, 'src/');
-const appDist = path.resolve(appBase, 'build/');
+// const appDist = path.resolve(appBase, 'build/');
+const appDist = path.resolve(process.env.HOME, 'Public/http/wordpress/wp-content/themes/ultrasimpleRes/dashboard/');
 const appIndexJs = path.resolve(appBase, 'src/index.js');
 const appIndexHtml = path.resolve(appBase, 'public/index.html');
 
@@ -22,13 +23,12 @@ module.exports = (env) => {
         output: {
             path: appDist,
             publicPath: '/',
-            chunkFilename: 'js/[name].[chunkhash].js',
-            filename: 'js/[name].[chunkhash].js',
-            sourceMapFilename: 'sourcemaps/[file].map',
+            filename: 'main.js',
         },
 
         mode: 'development',
-        devtool: 'cheap-module-source-map',
+        // devtool: 'cheap-module-source-map',
+        devtool: 'source-map',
         performance: {
             hints: 'warning',
         },

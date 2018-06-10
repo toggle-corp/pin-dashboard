@@ -1,0 +1,17 @@
+@import '../../stylesheets/base';
+
+.label {
+    color: $color-text;
+
+    &.low {
+        color: $color-success;
+    }
+
+    &.medium {
+        color: $color-warning;
+    }
+
+    &.high {
+        color: $color-danger;
+    }
+}
