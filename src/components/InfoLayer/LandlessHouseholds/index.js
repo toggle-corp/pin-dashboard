@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import DonutChart from '../../../vendor/react-store/components/Visualization/DonutChart';
+
 import styles from './styles.scss';
 import Label from '../../Label';
 
@@ -32,6 +34,10 @@ export default class LandlessHouseholds extends React.PureComponent {
     render() {
         const { data } = this.props;
         const className = this.getClassName();
+        const chartData = [
+            { label: 'Hello', value: '10' },
+            { label: 'Hello from the other side', value: '13' },
+        ];
 
         return (
             <div className={className}>
@@ -39,9 +45,12 @@ export default class LandlessHouseholds extends React.PureComponent {
                     Landless households
                 </h4>
                 <div className={styles.content}>
-                    <div className={styles.chart}>
-                        Chart
-                    </div>
+                    <DonutChart
+                        className={styles.chart}
+                        data={chartData}
+                        valueAccessor={d => d.value}
+                        labelAccessor={d => d.label}
+                    />
                     <div className={styles.details}>
                         <Label
                             type="low"

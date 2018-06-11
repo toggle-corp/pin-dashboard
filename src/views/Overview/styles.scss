@@ -1,13 +1,18 @@
 @import '../../stylesheets/base';
 
 .overview {
+    display: flex;
     position: relative;
     background-color: transparent;
-    height: 512px;
+
+    .map-container {
+        flex-grow: 1;
+    }
 
     .info {
-        position: absolute;
-        bottom: $spacing-super-large;
-        left: $spacing-super-large;
+        flex-shrink: 0;
+        border: $width-separator-thin solid $color-accent;
+        background-color: rgba(255, 255, 255, .9);
+        padding: $spacing-small;
     }
 }

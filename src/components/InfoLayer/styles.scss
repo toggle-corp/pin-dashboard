@@ -3,6 +3,7 @@
 .info-layer {
     .title {
         margin: 0;
+        padding: $spacing-small;
         text-transform: uppercase;
         font-size: $font-size-super-large;
     }
@@ -10,8 +11,10 @@
     .content {
         display: grid;
         grid-template-areas:
-            "landslides-surveyed landslides-risk land-purchased"
-            "geohazard-affected-households landless-households number-of-people-relocated";
+            "landslides-surveyed landslides-risk"
+            "land-purchased landless-households"
+            "geohazard-affected-households geohazard-affected-households"
+            "number-of-people-relocated number-of-people-relocated";
 
 
         %block {
@@ -20,32 +23,32 @@
 
         .landslides-surveyed {
             @extend %block;
-            grid-area: "landslides-surveyed";
+            grid-area: landslides-surveyed;
         }
 
         .landslides-risk {
             @extend %block;
-            grid-area: "landslides-risk";
+            grid-area: landslides-risk;
         }
 
         .land-purchased {
             @extend %block;
-            grid-area: "land-purchased";
+            grid-area: land-purchased;
         }
 
         .geohazard-affected-households {
             @extend %block;
-            grid-area: "geohazard-affected-households";
+            grid-area: geohazard-affected-households;
         }
 
         .landless-households {
             @extend %block;
-            grid-area: "landless-household";
+            grid-area: landless-households;
         }
 
         .number-of-people-relocated {
             @extend %block;
-            grid-area: "number-of-people-relocated";
+            grid-area: number-of-people-relocated;
         }
     }
 }

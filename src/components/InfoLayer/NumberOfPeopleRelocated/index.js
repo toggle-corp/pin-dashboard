@@ -55,27 +55,27 @@ export default class NumberOfPeopleRelocated extends React.PureComponent {
                 <div className={styles.content}>
                     <Item
                         image="http://localhost/male-icon.png"
-                        number={data.male}
+                        value={data.male}
                     />
                     <Item
                         image="http://localhost/female-icon.png"
-                        number={data.female}
+                        value={data.female}
                     />
                     <Item
                         image="http://localhost/male-child-icon.png"
-                        number={data.maleChild}
+                        value={data.maleChild}
                     />
                     <Item
                         image="http://localhost/female-child-icon.png"
-                        number={data.femaleChild}
+                        value={data.femaleChild}
                     />
                     <Item
                         image="http://localhost/male-old-icon.png"
-                        number={data.maleOld}
+                        value={data.maleOld}
                     />
                     <Item
                         image="http://localhost/female-old-icon.png"
-                        number={data.femaleOld}
+                        value={data.femaleOld}
                     />
                 </div>
             </div>

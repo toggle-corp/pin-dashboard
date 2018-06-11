@@ -7,7 +7,6 @@ import InfoLayer from '../../components/InfoLayer';
 import styles from './styles.scss';
 
 import NepalDistrictsGeoJsonRequest from './requests/NepalDistrictsGeoJsonRequest';
-import Number from '../../components/Number';
 
 const propTypes = {
     className: PropTypes.string,
@@ -130,7 +129,7 @@ export default class Overview extends React.PureComponent {
             landlessHouseholds: emptyObject,
             numberOfPeopleRelocated: {
                 male: 679,
-                femal: 720,
+                female: 720,
                 maleChild: 554,
                 femaleChild: 420,
                 maleOld: 599,
@@ -139,16 +138,7 @@ export default class Overview extends React.PureComponent {
         };
 
         return (
-            <div
-                className={className}
-                ref={this.mapContainer}
-            >
-                <MapLayer
-                    map={this.map}
-                    geoJson={nepalDistricts}
-                    options={mapLayerOptions}
-                    zoomOnLoad
-                />
+            <div className={className}>
                 <InfoLayer
                     landslidesSurveyed={data.landslidesSurveyed}
                     landslidesRisk={data.landslidesRisk}
@@ -159,6 +149,17 @@ export default class Overview extends React.PureComponent {
                     className={styles.info}
                     info={info}
                 />
+                <div
+                    className={styles.mapContainer}
+                    ref={this.mapContainer}
+                >
+                    <MapLayer
+                        map={this.map}
+                        geoJson={nepalDistricts}
+                        options={mapLayerOptions}
+                        zoomOnLoad
+                    />
+                </div>
             </div>
         );
     }

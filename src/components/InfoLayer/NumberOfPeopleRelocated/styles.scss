@@ -8,11 +8,12 @@
 
     .content {
         display: flex;
+        align-items: flex-end;
 
         .item {
             padding: $spacing-small;
 
-            .number {
+            .value {
                 text-align: center;
             }
         }
