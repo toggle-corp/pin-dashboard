@@ -1,0 +1,24 @@
+@import '../../../stylesheets/base';
+@import '../../../stylesheets/heading';
+
+.land-purchased {
+    .heading {
+        @extend %heading;
+    }
+
+    .content {
+        .detail {
+            display: flex;
+
+            .value {
+                flex-shrink: 0;
+                padding-right: $spacing-small;
+                font-weight: $font-weight-bold;
+            }
+
+            .description {
+                padding: 0;
+            }
+        }
+    }
+}

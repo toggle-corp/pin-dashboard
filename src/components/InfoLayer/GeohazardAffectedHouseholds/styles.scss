@@ -1,0 +1,17 @@
+@import '../../../stylesheets/base';
+@import '../../../stylesheets/heading';
+
+.geohazard-affected-households {
+    .heading {
+        @extend %heading;
+    }
+
+    .content {
+        display: flex;
+
+        .chart {
+            width: 96px;
+            height: 96px;
+        }
+    }
+}

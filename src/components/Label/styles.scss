@@ -1,7 +1,13 @@
 @import '../../stylesheets/base';
 
 .label {
+    display: flex;
     color: $color-text;
+
+    .title {
+        flex-shrink: 0;
+        padding-right: $spacing-medium;
+    }
 
     &.low {
         color: $color-success;

@@ -70,21 +70,27 @@ export default class InfoLayer extends React.PureComponent {
                 </h3>
                 <div className={styles.content}>
                     <LandslidesSurveyed
+                        className={styles.landslidesSurveyed}
                         data={landslidesSurveyed}
                     />
                     <LandslidesRisk
+                        className={styles.landslidesRisk}
                         data={landslidesRisk}
                     />
                     <LandPurchased
+                        className={styles.landPurchased}
                         data={landPurchased}
                     />
                     <GeohazardAffectedHouseholds
+                        className={styles.geohazardAffectedHouseholds}
                         data={geohazardAffectedHouseholds}
                     />
                     <LandlessHouseholds
+                        className={styles.landlessHouseholds}
                         data={landlessHouseholds}
                     />
                     <NumberOfPeopleRelocated
+                        className={styles.numberOfPeopleRelocated}
                         data={numberOfPeopleRelocated}
                     />
                 </div>

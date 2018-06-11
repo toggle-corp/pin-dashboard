@@ -1,0 +1,20 @@
+@import '../../../stylesheets/base';
+@import '../../../stylesheets/heading';
+
+.number-of-people-relocated {
+    .heading {
+        @extend %heading;
+    }
+
+    .content {
+        display: flex;
+
+        .item {
+            padding: $spacing-small;
+
+            .number {
+                text-align: center;
+            }
+        }
+    }
+}

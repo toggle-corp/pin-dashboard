@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import styles from './styles.scss';
+import Label from '../../Label';
 
 const propTypes = {
     className: PropTypes.string,
@@ -34,7 +35,31 @@ export default class LandlessHouseholds extends React.PureComponent {
 
         return (
             <div className={className}>
-                Hello
+                <h4 className={styles.heading}>
+                    Landless households
+                </h4>
+                <div className={styles.content}>
+                    <div className={styles.chart}>
+                        Chart
+                    </div>
+                    <div className={styles.details}>
+                        <Label
+                            type="low"
+                            title="Eligible"
+                            value={data.eligible}
+                        />
+                        <Label
+                            type="medium"
+                            title="Applied"
+                            value={data.applied}
+                        />
+                        <Label
+                            type="high"
+                            title="Relocated"
+                            value={data.relocated}
+                        />
+                    </div>
+                </div>
             </div>
         );
     }

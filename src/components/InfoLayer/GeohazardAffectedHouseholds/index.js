@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Label from '../../Label';
 import styles from './styles.scss';
 
 const propTypes = {
@@ -34,7 +35,31 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
 
         return (
             <div className={className}>
-                Hello
+                <h4 className={styles.heading}>
+                    Geohazard affected households
+                </h4>
+                <div className={styles.content}>
+                    <div className={styles.chart}>
+                        Chart
+                    </div>
+                    <div className={styles.details}>
+                        <Label
+                            type="low"
+                            title="Eligible"
+                            value={data.eligible}
+                        />
+                        <Label
+                            type="medium"
+                            title="Applied"
+                            value={data.applied}
+                        />
+                        <Label
+                            type="high"
+                            title="Relocated"
+                            value={data.relocated}
+                        />
+                    </div>
+                </div>
             </div>
         );
     }

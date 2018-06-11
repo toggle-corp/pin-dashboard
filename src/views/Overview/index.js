@@ -119,12 +119,23 @@ export default class Overview extends React.PureComponent {
         };
 
         const data = {
-            landslidesSurveyed: emptyObject,
+            landslidesSurveyed: {
+                cat1: 261,
+                cat2: 451,
+                cat3: 366,
+            },
             landslidesRisk: emptyObject,
             landPurchased: emptyObject,
             geohazardAffectedHouseholds: emptyObject,
             landlessHouseholds: emptyObject,
-            numberOfPeopleRelocated: emptyObject,
+            numberOfPeopleRelocated: {
+                male: 679,
+                femal: 720,
+                maleChild: 554,
+                femaleChild: 420,
+                maleOld: 599,
+                femaleOld: 523,
+            },
         };
 
         return (
