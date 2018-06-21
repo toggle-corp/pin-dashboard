@@ -7,6 +7,7 @@ import InfoLayer from '../../components/InfoLayer';
 import styles from './styles.scss';
 
 import NepalDistrictsGeoJsonRequest from './requests/NepalDistrictsGeoJsonRequest';
+import NepalGaunpalikasGeoJsonRequest from './requests/NepalGaunpalikasGeoJsonRequest';
 
 const propTypes = {
     className: PropTypes.string,
@@ -32,23 +33,26 @@ export default class Overview extends React.PureComponent {
         this.state = {
             info: this.defaultInfo,
             nepalDistricts: undefined,
-            number: 100,
         };
 
-        setTimeout(() => {
-            this.setState({ number: 1000 });
-        }, 1000);
+        const setState = d => this.setState(d);
+        this.nepalDistrictsRequest = new NepalDistrictsGeoJsonRequest({
+            setState,
+        });
 
-        this.nepalDistrictRequest = new NepalDistrictsGeoJsonRequest({
-            setState: d => this.setState(d),
+        this.nepalGaunpalikasRequest = new NepalGaunpalikasGeoJsonRequest({
+            setState,
         });
 
         this.mapContainer = React.createRef();
     }
 
     componentWillMount() {
-        this.nepalDistrictRequest.init();
-        this.nepalDistrictRequest.start();
+        this.nepalDistrictsRequest.init();
+        this.nepalGaunpalikasRequest.init();
+
+        this.nepalDistrictsRequest.start();
+        this.nepalGaunpalikasRequest.start();
     }
 
     componentDidMount() {
@@ -84,15 +88,16 @@ export default class Overview extends React.PureComponent {
             weight: 1,
             color: '#000',
             fillColor: '#fff',
-            fillOpacity: '0.55',
+            fillOpacity: '0.6',
         });
 
         layer.on('mouseover', () => {
             layer.setStyle({
-                fillColor: '#a0a0a0',
+                fillColor: '#aaa',
             });
+
             this.setInfo({
-                title: feature.properties.DISTRICT,
+                title: feature.properties.distName,
             });
         });
 
@@ -102,15 +107,36 @@ export default class Overview extends React.PureComponent {
             });
             this.setInfo(this.defaultInfo);
         });
+
+        layer.on('click', () => {
+            this.handleLayerClick(layer);
+        });
     }
 
+    handleLayerClick = (layer) => {
+        const { activeDistrictCode } = this.state;
+        const {
+            feature: {
+                properties: {
+                    distCode,
+                },
+            },
+        } = layer;
+
+        if (distCode && activeDistrictCode !== distCode) {
+            this.setState({ activeDistCode: distCode });
+        } else {
+            this.setState({ activeDistCode: undefined });
+        }
+    }
 
     render() {
         const className = this.getClassName();
         const {
             info,
             nepalDistricts,
-            number,
+            nepalGaunpalikas,
+            activeDistCode,
         } = this.state;
 
         const mapLayerOptions = {
@@ -155,7 +181,7 @@ export default class Overview extends React.PureComponent {
                 >
                     <MapLayer
                         map={this.map}
-                        geoJson={nepalDistricts}
+                        geoJson={activeDistCode ? nepalGaunpalikas : nepalDistricts}
                         options={mapLayerOptions}
                         zoomOnLoad
                     />

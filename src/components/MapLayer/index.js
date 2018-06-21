@@ -8,8 +8,17 @@ export default class MapLayer extends React.PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.map !== this.props.map ||
-            nextProps.geoJson !== this.props.geoJson) {
+        const {
+            map: nextMap,
+            geoJson: nextGeoJson,
+        } = nextProps;
+
+        const {
+            map,
+            geoJson,
+        } = this.props;
+
+        if (nextMap !== map || nextGeoJson !== geoJson) {
             this.destroy();
             this.load(nextProps);
         }
@@ -32,6 +41,7 @@ export default class MapLayer extends React.PureComponent {
             zoomOnLoad,
             options,
         } = props;
+
         if (!map || !geoJson) {
             return;
         }

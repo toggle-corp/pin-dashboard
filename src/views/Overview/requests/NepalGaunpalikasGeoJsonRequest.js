@@ -3,16 +3,16 @@ import Request from '../../../utils/Request.js';
 
 import {
     createParamsForGet,
-    urlForNepalDistrictsGeoJson,
+    urlForNepalGaunpalikasGeoJson,
 } from '../../../rest';
 
-export default class NepalDistrictsGeoJsonRequest extends Request {
+export default class NepalGaunpalikasGeoJsonRequest extends Request {
     handlePreLoad = () => {
-        this.parent.setState({ pendingNepalDistrictGeoJson: true });
+        this.parent.setState({ pendingNepalGaunpalikaGeoJson: true });
     }
 
     handlePostLoad = () => {
-        this.parent.setState({ pendingNepalDistrictGeoJson: false });
+        this.parent.setState({ pendingNepalGaunpalikaGeoJson: false });
     }
 
     handleSuccess = (response) => {
@@ -22,13 +22,13 @@ export default class NepalDistrictsGeoJsonRequest extends Request {
         );
 
         this.parent.setState({
-            nepalDistricts: geoJson,
+            nepalGaunpalikas: geoJson,
         });
     }
 
     init = () => {
         this.createDefault({
-            url: urlForNepalDistrictsGeoJson,
+            url: urlForNepalGaunpalikasGeoJson,
             createParams: createParamsForGet,
         });
     }
