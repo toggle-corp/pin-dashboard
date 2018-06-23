@@ -56,6 +56,9 @@ export default class Label extends React.PureComponent {
                 <div className={styles.title}>
                     { title }
                 </div>
+                <div className={styles.separator}>
+                    -
+                </div>
                 <div className={styles.value}>
                     { value }
                 </div>

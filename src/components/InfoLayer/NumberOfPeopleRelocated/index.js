@@ -36,7 +36,7 @@ export default class NumberOfPeopleRelocated extends React.PureComponent {
                 src={p.image}
             />
             <div className={styles.value}>
-                { p.value }
+                { p.value || '-' }
             </div>
         </div>
     )

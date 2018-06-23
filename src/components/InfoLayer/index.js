@@ -54,7 +54,7 @@ export default class InfoLayer extends React.PureComponent {
     render() {
         const className = this.getClassName();
         const {
-            info,
+            title,
             landslidesSurveyed,
             landslidesRisk,
             landPurchased,
@@ -66,7 +66,7 @@ export default class InfoLayer extends React.PureComponent {
         return (
             <div className={className}>
                 <h3 className={styles.title}>
-                    {info.title}
+                    {title}
                 </h3>
                 <div className={styles.content}>
                     <LandslidesSurveyed

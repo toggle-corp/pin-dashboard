@@ -6,7 +6,12 @@
 
     .title {
         flex-shrink: 0;
-        padding-right: $spacing-medium;
+        padding-right: $spacing-small;
+    }
+
+    .separator {
+        flex-shrink: 0;
+        padding-right: $spacing-small;
     }
 
     &.low {

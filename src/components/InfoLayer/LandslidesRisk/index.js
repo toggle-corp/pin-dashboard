@@ -42,17 +42,17 @@ export default class LandslidesRisk extends React.PureComponent {
                     <Label
                         type="low"
                         title="Cat 1"
-                        value={data.cat1}
+                        value={data.CAT1}
                     />
                     <Label
                         type="medium"
                         title="Cat 2"
-                        value={data.cat2}
+                        value={data.CAT2}
                     />
                     <Label
                         type="high"
                         title="Cat 3"
-                        value={data.cat3}
+                        value={data.CAT3}
                     />
                 </div>
             </div>

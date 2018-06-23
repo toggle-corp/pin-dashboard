@@ -1,18 +1,18 @@
 import * as topojson from 'topojson-client';
-import Request from '../../../utils/Request.js';
+import Request from '../utils/Request.js';
 
 import {
     createParamsForGet,
-    urlForNepalGaunpalikasGeoJson,
-} from '../../../rest';
+    urlForNepalDistrictsGeoJson,
+} from '../rest';
 
-export default class NepalGaunpalikasGeoJsonRequest extends Request {
+export default class NepalDistrictsGeoJsonRequest extends Request {
     handlePreLoad = () => {
-        this.parent.setState({ pendingNepalGaunpalikaGeoJson: true });
+        this.parent.setState({ pendingDistricts: true });
     }
 
     handlePostLoad = () => {
-        this.parent.setState({ pendingNepalGaunpalikaGeoJson: false });
+        this.parent.setState({ pendingDistricts: false });
     }
 
     handleSuccess = (response) => {
@@ -22,13 +22,13 @@ export default class NepalGaunpalikasGeoJsonRequest extends Request {
         );
 
         this.parent.setState({
-            nepalGaunpalikas: geoJson,
+            districtsGeoJson: geoJson,
         });
     }
 
     init = () => {
         this.createDefault({
-            url: urlForNepalGaunpalikasGeoJson,
+            url: urlForNepalDistrictsGeoJson,
             createParams: createParamsForGet,
         });
     }

@@ -35,8 +35,9 @@ export default class LandlessHouseholds extends React.PureComponent {
         const { data } = this.props;
         const className = this.getClassName();
         const chartData = [
-            { label: 'Hello', value: '10' },
-            { label: 'Hello from the other side', value: '13' },
+            { label: 'Eligible', value: data.Eligible },
+            { label: 'Applied', value: data.Applied },
+            { label: 'Relocated', value: data.Relocated },
         ];
 
         return (
@@ -55,17 +56,17 @@ export default class LandlessHouseholds extends React.PureComponent {
                         <Label
                             type="low"
                             title="Eligible"
-                            value={data.eligible}
+                            value={data.Eligible}
                         />
                         <Label
                             type="medium"
                             title="Applied"
-                            value={data.applied}
+                            value={data.Applied}
                         />
                         <Label
                             type="high"
                             title="Relocated"
-                            value={data.relocated}
+                            value={data.Relocated}
                         />
                     </div>
                 </div>

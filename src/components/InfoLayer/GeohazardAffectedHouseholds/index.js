@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import DonutChart from '../../../vendor/react-store/components/Visualization/DonutChart';
+
 import Label from '../../Label';
 import styles from './styles.scss';
 
@@ -33,30 +35,39 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
         const { data } = this.props;
         const className = this.getClassName();
 
+        const chartData = [
+            { label: 'Eligible', value: data.Eligible },
+            { label: 'Applied', value: data.Applied },
+            { label: 'Relocated', value: data.Relocated },
+        ];
+
         return (
             <div className={className}>
                 <h4 className={styles.heading}>
                     Geohazard affected households
                 </h4>
                 <div className={styles.content}>
-                    <div className={styles.chart}>
-                        Chart
-                    </div>
+                    <DonutChart
+                        className={styles.chart}
+                        data={chartData}
+                        valueAccessor={d => d.value}
+                        labelAccessor={d => d.label}
+                    />
                     <div className={styles.details}>
                         <Label
                             type="low"
                             title="Eligible"
-                            value={data.eligible}
+                            value={data.Eligible}
                         />
                         <Label
                             type="medium"
                             title="Applied"
-                            value={data.applied}
+                            value={data.Applied}
                         />
                         <Label
                             type="high"
                             title="Relocated"
-                            value={data.relocated}
+                            value={data.Relocated}
                         />
                     </div>
                 </div>

@@ -6,12 +6,12 @@ import styles from './styles.scss';
 const propTypes = {
     className: PropTypes.string,
 
-    // eslint-disable-next-line react/forbid-prop-types
-    data: PropTypes.object.isRequired,
+    data: PropTypes.string,
 };
 
 const defaultProps = {
     className: '',
+    data: undefined,
 };
 
 export default class LandPurchased extends React.PureComponent {
@@ -59,12 +59,8 @@ export default class LandPurchased extends React.PureComponent {
                 </h4>
                 <div className={styles.content}>
                     <Detail
-                        value={4056}
-                        description="Hectares purchased"
-                    />
-                    <Detail
-                        value={250}
-                        description="m2 per household average"
+                        value={data || '--'}
+                        description="m2"
                     />
                 </div>
             </div>

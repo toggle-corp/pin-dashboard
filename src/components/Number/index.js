@@ -13,7 +13,6 @@ const defaultProps = {
     value: undefined,
 };
 
-
 export default class Number extends React.PureComponent {
     static propTypes = propTypes;
     static defaultProps = defaultProps;

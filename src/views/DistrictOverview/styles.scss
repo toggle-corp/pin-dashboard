@@ -1,13 +1,21 @@
 @import '../../stylesheets/base';
 
-.overview {
+.district-overview {
     display: flex;
     position: relative;
     background-color: transparent;
 
     .map-container {
+        position: relative;
         flex-grow: 1;
         user-select: none;
+
+        .back-button {
+            position: absolute;
+            top: $spacing-small;
+            right: $spacing-small;
+            z-index: 1111;
+        }
     }
 
     .info {

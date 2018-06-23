@@ -6,6 +6,7 @@ import {
 } from '../config/rest';
 
 export * from './geoJson';
+export * from './metadata';
 
 export const createParamsForGet = () => ({
     method: GET,
