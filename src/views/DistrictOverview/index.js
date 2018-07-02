@@ -73,6 +73,12 @@ export default class DistrictOverview extends React.PureComponent {
         this.districtMetadataRequest.stop();
     }
 
+    handleMapLoad = () => {
+        const featureGroup = L.featureGroup(this.currentDistrictLayers);
+        const bounds = featureGroup.getBounds();
+        this.map.fitBounds(bounds);
+    }
+
     handleMapFeature = (feature, layer) => {
         const {
             properties: {
@@ -91,10 +97,6 @@ export default class DistrictOverview extends React.PureComponent {
             });
 
             this.currentDistrictLayers.push(layer);
-            const featureGroup = L.featureGroup(this.currentDistrictLayers);
-            const bounds = featureGroup.getBounds();
-            this.map.fitBounds(bounds);
-
             layer.on('mouseover', this.handleLayerMouseOver);
             layer.on('mouseout', this.handleLayerMouseOut);
             layer.on('click', this.handleLayerClick);
@@ -223,15 +225,17 @@ export default class DistrictOverview extends React.PureComponent {
                         map={this.map}
                         geoJson={geoJson}
                         options={this.mapLayerOptions}
+                        onLoad={this.handleMapLoad}
                         zoomOnLoad
 
                     />
+                    <LayerInfo
+                        className={styles.layerInfo}
+                        layer={hoverOverLayer}
+                        layerData={gaunpalikas}
+                        offset={this.mapContainerOffset}
+                    />
                 </div>
-                <LayerInfo
-                    layer={hoverOverLayer}
-                    layerData={gaunpalikas}
-                    offset={this.mapContainerOffset}
-                />
             </div>
         );
     }

@@ -217,12 +217,13 @@ export default class Overview extends React.PureComponent {
                         options={this.mapLayerOptions}
                         zoomOnLoad
                     />
+                    <LayerInfo
+                        className={styles.layerInfo}
+                        layer={hoverOverLayer}
+                        layerData={districts}
+                        offset={this.mapContainerOffset}
+                    />
                 </div>
-                <LayerInfo
-                    layer={hoverOverLayer}
-                    layerData={districts}
-                    offset={this.mapContainerOffset}
-                />
             </div>
         );
     }

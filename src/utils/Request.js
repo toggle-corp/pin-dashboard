@@ -45,6 +45,7 @@ export default class Request {
             this.handleAbort,
             this.handlePreLoad,
             this.handlePostLoad,
+            this.afterLoad,
             this.retryTime,
             this.maxRetryTime,
             this.decayVal,

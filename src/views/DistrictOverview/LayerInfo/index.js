@@ -116,28 +116,33 @@ export default class LayerInfo extends React.PureComponent {
         }
 
         const GaunpalikaInfo = this.renderGaunpalikaInfo;
+        return (
+            <div className={className}>
+                <GaunpalikaInfo />
+            </div>
+        );
 
         // eslint-disable-next-line no-underscore-dangle
-        const map = layer._map;
-        const bounds = layer.getBounds();
-        const centerLatLng = bounds.getCenter();
+        // const map = layer._map;
+        // const bounds = layer.getBounds();
+        // const centerLatLng = bounds.getCenter();
 
-        const center = map.latLngToLayerPoint([centerLatLng.lat, centerLatLng.lng]);
+        // const center = map.latLngToLayerPoint([centerLatLng.lat, centerLatLng.lng]);
 
-        const style = {
-            left: `${center.x + offset.left}px`,
-            top: `${center.y + offset.top}px`,
-        };
+        // const style = {
+        //     left: `${center.x + offset.left}px`,
+        //     top: `${center.y + offset.top}px`,
+        // };
 
-        return (
-            <Float>
-                <div
-                    style={style}
-                    className={className}
-                >
-                    <GaunpalikaInfo />
-                </div>
-            </Float>
-        );
+        // return (
+        //     <Float>
+        //         <div
+        //             style={style}
+        //             className={className}
+        //         >
+        //             <GaunpalikaInfo />
+        //         </div>
+        //     </Float>
+        // );
     }
 }

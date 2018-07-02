@@ -16,6 +16,13 @@
             right: $spacing-small;
             z-index: 1111;
         }
+
+        .layer-info {
+            position: absolute;
+            top: 32px;
+            right: $spacing-medium;
+            z-index: 1111;
+        }
     }
 
     .info {

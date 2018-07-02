@@ -40,6 +40,7 @@ export default class MapLayer extends React.PureComponent {
             geoJson,
             zoomOnLoad,
             options,
+            onLoad,
         } = props;
 
         if (!map || !geoJson) {
@@ -50,6 +51,9 @@ export default class MapLayer extends React.PureComponent {
 
         if (zoomOnLoad) {
             map.fitBounds(this.layer.getBounds());
+        }
+        if (onLoad) {
+            onLoad();
         }
     }
 

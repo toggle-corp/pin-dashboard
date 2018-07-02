@@ -6,8 +6,16 @@
     background-color: transparent;
 
     .map-container {
+        position: relative;
         flex-grow: 1;
         user-select: none;
+
+        .layer-info {
+            position: absolute;
+            top: $spacing-medium;
+            right: $spacing-medium;
+            z-index: 1111;
+        }
     }
 
     .info {
