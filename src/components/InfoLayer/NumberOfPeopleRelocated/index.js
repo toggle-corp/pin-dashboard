@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import webEndPoint from '../../../rest/webEndPoint';
 import styles from './styles.scss';
 
 const propTypes = {
@@ -54,27 +55,27 @@ export default class NumberOfPeopleRelocated extends React.PureComponent {
                 </h4>
                 <div className={styles.content}>
                     <Item
-                        image="http://localhost/male-icon.png"
+                        image={`${webEndPoint}/male-icon.png`}
                         value={data.male}
                     />
                     <Item
-                        image="http://localhost/female-icon.png"
+                        image={`${webEndPoint}/female-icon.png`}
                         value={data.female}
                     />
                     <Item
-                        image="http://localhost/male-child-icon.png"
+                        image={`${webEndPoint}/male-child-icon.png`}
                         value={data.maleChild}
                     />
                     <Item
-                        image="http://localhost/female-child-icon.png"
+                        image={`${webEndPoint}/female-child-icon.png`}
                         value={data.femaleChild}
                     />
                     <Item
-                        image="http://localhost/male-old-icon.png"
+                        image={`${webEndPoint}/male-old-icon.png`}
                         value={data.maleOld}
                     />
                     <Item
-                        image="http://localhost/female-old-icon.png"
+                        image={`${webEndPoint}/female-old-icon.png`}
                         value={data.femaleOld}
                     />
                 </div>

@@ -76,13 +76,13 @@ export default class DistrictOverview extends React.PureComponent {
     handleMapFeature = (feature, layer) => {
         const {
             properties: {
-                FIRST_DIST: districtName,
+                DISTRICT: districtName,
             },
         } = feature;
 
         const { districtName: districtNameFromProps } = this.props;
 
-        if (districtName.toLowerCase() === districtNameFromProps.toLowerCase()) {
+        if (districtName.toLowerCase() === districtNameFromProps) {
             layer.setStyle({
                 weight: 1,
                 color: '#000',
@@ -115,11 +115,7 @@ export default class DistrictOverview extends React.PureComponent {
         this.setState({ hoverOverLayer: layer });
     }
 
-    handleLayerMouseOut = (e) => {
-        const { target: layer } = e;
-
-        // layer.setStyle({ fillColor: '#fff' });
-
+    handleLayerMouseOut = () => {
         this.setState({ hoverOverLayer: undefined });
     }
 
@@ -133,7 +129,7 @@ export default class DistrictOverview extends React.PureComponent {
         const {
             feature: {
                 properties: {
-                    FIRST_GaPa: gaunpalikaName,
+                    NAME: gaunpalikaName,
                 },
             },
         } = layer;

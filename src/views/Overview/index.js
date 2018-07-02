@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 
+import LoadingAnimation from '../../vendor/react-store/components/View/LoadingAnimation';
+
 import MapLayer from '../../components/MapLayer';
 import InfoLayer from '../../components/InfoLayer';
 import styles from './styles.scss';
@@ -105,8 +107,7 @@ export default class Overview extends React.PureComponent {
         this.setState({ hoverOverLayer: layer });
     }
 
-    handleLayerMouseOut = (e) => {
-        const { target: layer } = e;
+    handleLayerMouseOut = () => {
         this.setState({ hoverOverLayer: undefined });
     }
 
@@ -120,7 +121,7 @@ export default class Overview extends React.PureComponent {
         const {
             feature: {
                 properties: {
-                    distName,
+                    district,
                 },
             },
         } = layer;
@@ -129,10 +130,10 @@ export default class Overview extends React.PureComponent {
             activeLayer.setStyle({ fillColor: '#fff' });
         }
 
-        if (distName && activeDistrictName !== distName) {
+        if (district && activeDistrictName !== district) {
             layer.setStyle({ fillColor: '#099' });
             this.setState({
-                activeDistrictName: distName,
+                activeDistrictName: district,
                 activeLayer: layer,
             });
         } else {
@@ -149,22 +150,24 @@ export default class Overview extends React.PureComponent {
         const {
             feature: {
                 properties: {
-                    distName,
+                    district,
                 },
             },
         } = layer;
 
         const { onLayerDoubleClick } = this.props;
-        onLayerDoubleClick(distName);
+        onLayerDoubleClick(district);
     }
 
     render() {
         const className = this.getClassName();
         const { geoJson } = this.props;
+
         const {
             activeDistrictName,
             hoverOverLayer,
             metadata,
+            pendingMetadata,
         } = this.state;
 
         let title;
@@ -191,6 +194,9 @@ export default class Overview extends React.PureComponent {
 
         return (
             <div className={className}>
+                {(pendingMetadata || !geoJson) && (
+                    <LoadingAnimation large />
+                )}
                 <InfoLayer
                     landslidesSurveyed={landslidesSurveyed}
                     landslidesRisk={landslidesRisk}
