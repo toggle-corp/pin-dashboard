@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 
+import LoadingAnimation from '../../vendor/react-store/components/View/LoadingAnimation';
+
 import AccentButton from '../../vendor/react-store/components/Action/Button/AccentButton';
 
 import MapLayer from '../../components/MapLayer';
@@ -22,6 +24,19 @@ const defaultProps = {
 };
 
 const emptyObject = {};
+const cat2CircleOptions = {
+    radius: 5,
+    fillColor: '#FF9801',
+    stroke: false,
+    fillOpacity: 1,
+};
+
+const cat3CircleOptions = {
+    radius: 5,
+    fillColor: '#F44336',
+    stroke: false,
+    fillOpacity: 1,
+};
 
 export default class DistrictOverview extends React.PureComponent {
     static propTypes = propTypes;
@@ -32,6 +47,7 @@ export default class DistrictOverview extends React.PureComponent {
 
         this.state = {
             metadata: {},
+            pendingMetadata: false,
         };
 
         const setState = d => this.setState(d);
@@ -44,6 +60,7 @@ export default class DistrictOverview extends React.PureComponent {
         };
 
         this.currentDistrictLayers = [];
+        this.circles = [];
     }
 
     componentWillMount() {
@@ -126,6 +143,7 @@ export default class DistrictOverview extends React.PureComponent {
         const {
             activeGaunpalikaName,
             activeLayer,
+            metadata,
         } = this.state;
 
         const {
@@ -140,8 +158,30 @@ export default class DistrictOverview extends React.PureComponent {
             activeLayer.setStyle({ fillColor: '#fff' });
         }
 
+        this.circles.forEach((c) => {
+            c.remove();
+        });
+        this.circles.length = 0;
+
         if (gaunpalikaName && activeGaunpalikaName !== gaunpalikaName) {
-            layer.setStyle({ fillColor: '#099' });
+            const { gaupalikas } = metadata;
+            const gaunpalikaData = gaupalikas[gaunpalikaName];
+
+            if (gaunpalikaData) {
+                gaunpalikaData.cat2_points.forEach((p) => {
+                    const circle = L.circleMarker([p.latitude, p.longitude], cat2CircleOptions);
+                    circle.addTo(this.map);
+                    this.circles.push(circle);
+                });
+
+                gaunpalikaData.cat3_points.forEach((p) => {
+                    const circle = L.circleMarker([p.latitude, p.longitude], cat3CircleOptions);
+                    circle.addTo(this.map);
+                    this.circles.push(circle);
+                });
+            }
+
+            layer.setStyle({ fillColor: '#ccc' });
             this.setState({
                 activeGaunpalikaName: gaunpalikaName,
                 activeLayer: layer,
@@ -175,6 +215,7 @@ export default class DistrictOverview extends React.PureComponent {
             metadata,
             activeGaunpalikaName,
             hoverOverLayer,
+            pendingMetadata,
         } = this.state;
 
         let infoLayerSource;
@@ -200,6 +241,12 @@ export default class DistrictOverview extends React.PureComponent {
 
         return (
             <div className={className}>
+                {pendingMetadata && (
+                    <LoadingAnimation
+                        className={styles.loadingAnimation}
+                        large
+                    />
+                )}
                 <InfoLayer
                     landslidesSurveyed={landslidesSurveyed}
                     landslidesRisk={landslidesRiskRating}

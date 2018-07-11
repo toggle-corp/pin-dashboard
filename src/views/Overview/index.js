@@ -195,7 +195,10 @@ export default class Overview extends React.PureComponent {
         return (
             <div className={className}>
                 {(pendingMetadata || !geoJson) && (
-                    <LoadingAnimation large />
+                    <LoadingAnimation
+                        className={styles.loadingAnimation}
+                        large
+                    />
                 )}
                 <InfoLayer
                     landslidesSurveyed={landslidesSurveyed}

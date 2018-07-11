@@ -5,6 +5,10 @@
     position: relative;
     background-color: transparent;
 
+    .loading-animation {
+        z-index: 1111,
+    }
+
     .map-container {
         position: relative;
         flex-grow: 1;
