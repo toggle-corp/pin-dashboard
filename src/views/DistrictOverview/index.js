@@ -191,7 +191,7 @@ export default class DistrictOverview extends React.PureComponent {
 
         const {
             landslidesSurveyed = emptyObject,
-            landslidesRisk = emptyObject,
+            landslidesRiskRating = emptyObject,
             landPurchased,
             geohazardAffected = emptyObject,
             landless = emptyObject,
@@ -202,7 +202,7 @@ export default class DistrictOverview extends React.PureComponent {
             <div className={className}>
                 <InfoLayer
                     landslidesSurveyed={landslidesSurveyed}
-                    landslidesRisk={landslidesRisk}
+                    landslidesRisk={landslidesRiskRating}
                     landPurchased={landPurchased}
                     geohazardAffectedHouseholds={geohazardAffected}
                     landlessHouseholds={landless}

@@ -5,13 +5,16 @@
     z-index: 1111;
     box-shadow: 0 $spacing-small $radius-blur-medium, $radius-spread-medium $color-shadow-medium;
     background-color: $color-foreground;
-    padding: 10px;
+    padding: $spacing-medium;
     pointer-events: none;
 
     .district-info {
+        min-width: 280px;
+
         .heading {
             margin: 0;
             border-bottom: $width-separator-thin solid $color-separator;
+            text-transform: capitalize;
         }
 
         .label {

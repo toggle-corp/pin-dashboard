@@ -39,15 +39,15 @@ $color-info-light: #41a1f0;
 $color-info-dark: #41a1f0;
 $color-info: get-color($color-info-light, $color-info-dark);
 
-$color-success-light: #41cf76;
+$color-success-light: #4CAF50;
 $color-success-dark: #41cf76;
 $color-success: get-color($color-success-light, $color-success-dark);
 
-$color-warning-light: #ef8c00;
+$color-warning-light: #FF9800;
 $color-warning-dark: #e0b652;
 $color-warning: get-color($color-warning-light, $color-warning-dark);
 
-$color-danger-light: #f44336;
+$color-danger-light: #F44336;
 $color-danger-dark: #d3575e;
 $color-danger: get-color($color-danger-light, $color-danger-dark);
 

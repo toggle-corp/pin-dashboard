@@ -4,7 +4,10 @@
     .title {
         margin: 0;
         padding: $spacing-small;
+        overflow: hidden;
         text-transform: uppercase;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         font-size: $font-size-super-large;
     }
 

@@ -9,9 +9,12 @@
     pointer-events: none;
 
     .district-info {
+        min-width: 280px;
+
         .heading {
             margin: 0;
             border-bottom: $width-separator-thin solid $color-separator;
+            text-transform: capitalize;
         }
 
         .label {

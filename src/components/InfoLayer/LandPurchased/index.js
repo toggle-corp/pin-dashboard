@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Numeral from '../../../vendor/react-store/components/View/Numeral';
+
 import styles from './styles.scss';
 
 const propTypes = {
@@ -36,9 +38,11 @@ export default class LandPurchased extends React.PureComponent {
 
         return (
             <div className={styles.detail}>
-                <div className={styles.value}>
-                    { value }
-                </div>
+                <Numeral
+                    className={styles.value}
+                    value={+value}
+                    precision={2}
+                />
                 <div className={styles.description}>
                     { description }
                 </div>
@@ -51,6 +55,7 @@ export default class LandPurchased extends React.PureComponent {
         const className = this.getClassName();
 
         const Detail = this.renderDetail;
+        const areaInHectares = (+data) * 0.0001;
 
         return (
             <div className={className}>
@@ -59,8 +64,8 @@ export default class LandPurchased extends React.PureComponent {
                 </h4>
                 <div className={styles.content}>
                     <Detail
-                        value={data || '--'}
-                        description="m2"
+                        value={areaInHectares}
+                        description="hectares"
                     />
                 </div>
             </div>

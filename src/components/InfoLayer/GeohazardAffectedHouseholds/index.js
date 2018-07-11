@@ -17,6 +17,8 @@ const defaultProps = {
     className: '',
 };
 
+const colorScheme = ['#4CAF50', '#FF9800', '#F44336'];
+
 export default class GeohazardAffectedHouseholds extends React.PureComponent {
     static propTypes = propTypes;
     static defaultProps = defaultProps;
@@ -48,6 +50,7 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
                 </h4>
                 <div className={styles.content}>
                     <DonutChart
+                        colorScheme={colorScheme}
                         className={styles.chart}
                         data={chartData}
                         valueAccessor={d => d.value}

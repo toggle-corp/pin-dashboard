@@ -36,23 +36,23 @@ export default class LandslidesRisk extends React.PureComponent {
         return (
             <div className={className}>
                 <h4 className={styles.heading}>
-                    Landslides risk
+                    Landslides risk rating
                 </h4>
                 <div className={styles.content}>
                     <Label
                         type="low"
-                        title="Cat 1"
-                        value={data.CAT1}
+                        title="Critical"
+                        value={data.Critical}
                     />
                     <Label
                         type="medium"
-                        title="Cat 2"
-                        value={data.CAT2}
+                        title="Highly critical"
+                        value={data['Highly Critical']}
                     />
                     <Label
                         type="high"
-                        title="Cat 3"
-                        value={data.CAT3}
+                        title="Severe"
+                        value={data.Severe}
                     />
                 </div>
             </div>
