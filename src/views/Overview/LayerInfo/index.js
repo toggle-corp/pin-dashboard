@@ -52,7 +52,7 @@ export default class LayerInfo extends React.PureComponent {
         const {
             feature: {
                 properties: {
-                    district: districtName,
+                    DISTRICT: districtName,
                 },
             },
         } = layer;

@@ -99,13 +99,13 @@ export default class DistrictOverview extends React.PureComponent {
     handleMapFeature = (feature, layer) => {
         const {
             properties: {
-                DISTRICT: districtName,
+                FIRST_DIST: districtName,
             },
         } = feature;
 
         const { districtName: districtNameFromProps } = this.props;
 
-        if (districtName.toLowerCase() === districtNameFromProps) {
+        if (districtName.toLowerCase() === districtNameFromProps.toLowerCase()) {
             layer.setStyle({
                 weight: 1,
                 color: '#000',
@@ -149,7 +149,7 @@ export default class DistrictOverview extends React.PureComponent {
         const {
             feature: {
                 properties: {
-                    NAME: gaunpalikaName,
+                    FIRST_GaPa: gaunpalikaName,
                 },
             },
         } = layer;

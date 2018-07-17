@@ -18,7 +18,7 @@ export default class NepalDistrictsGeoJsonRequest extends Request {
     handleSuccess = (response) => {
         const geoJson = topojson.feature(
             response.json,
-            response.json.objects[response.defaultObject],
+            Object.values(response.json.objects)[0],
         );
 
         this.parent.setState({

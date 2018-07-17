@@ -121,7 +121,7 @@ export default class Overview extends React.PureComponent {
         const {
             feature: {
                 properties: {
-                    district,
+                    DISTRICT: district,
                 },
             },
         } = layer;
@@ -150,7 +150,7 @@ export default class Overview extends React.PureComponent {
         const {
             feature: {
                 properties: {
-                    district,
+                    DISTRICT: district,
                 },
             },
         } = layer;
