@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Label from '../../../components/Label';
-import Float from '../../../vendor/react-store/components/View/Float';
 
 import styles from './styles.scss';
 
@@ -101,48 +100,25 @@ export default class LayerInfo extends React.PureComponent {
         const {
             className: classNameFromProps,
             layer,
-            offset,
         } = this.props;
 
 
-        const className = `
-            ${classNameFromProps}
-            layer-info
-            ${styles.layerInfo}
-        `;
+        const classNames = [
+            classNameFromProps,
+            'layer-info',
+            styles.layerInfo,
+        ];
 
         if (!layer) {
-            return null;
+            classNames.push(styles.hidden);
+            classNames.push('hidden');
         }
 
         const GaunpalikaInfo = this.renderGaunpalikaInfo;
         return (
-            <div className={className}>
-                <GaunpalikaInfo />
+            <div className={classNames.join(' ')}>
+                { layer && <GaunpalikaInfo /> }
             </div>
         );
-
-        // eslint-disable-next-line no-underscore-dangle
-        // const map = layer._map;
-        // const bounds = layer.getBounds();
-        // const centerLatLng = bounds.getCenter();
-
-        // const center = map.latLngToLayerPoint([centerLatLng.lat, centerLatLng.lng]);
-
-        // const style = {
-        //     left: `${center.x + offset.left}px`,
-        //     top: `${center.y + offset.top}px`,
-        // };
-
-        // return (
-        //     <Float>
-        //         <div
-        //             style={style}
-        //             className={className}
-        //         >
-        //             <GaunpalikaInfo />
-        //         </div>
-        //     </Float>
-        // );
     }
 }

@@ -264,7 +264,6 @@ export default class DistrictOverview extends React.PureComponent {
                     <AccentButton
                         className={styles.backButton}
                         onClick={this.handleBackButtonClick}
-                        transparent
                     >
                         Go back
                     </AccentButton>

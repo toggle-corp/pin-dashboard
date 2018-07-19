@@ -6,13 +6,14 @@ const CircularDependencyPlugin = require('circular-dependency-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const getEnvVariables = require('./env.js');
 
 const appBase = process.cwd();
 const appSrc = path.resolve(appBase, 'src/');
-const appDist = path.resolve(appBase, 'build/');
+// const appDist = path.resolve(appBase, 'build/');
+const appDist = path.resolve(process.env.HOME, 'Public/http/wordpress/wp-content/themes/ultrasimpleRes/dashboard/');
 const appIndexJs = path.resolve(appBase, 'src/index.js');
 const appIndexHtml = path.resolve(appBase, 'public/index.html');
 
@@ -24,9 +25,10 @@ module.exports = (env) => {
         output: {
             path: appDist,
             publicPath: '/',
-            chunkFilename: 'js/[name].[chunkhash].js',
-            filename: 'js/[name].[chunkhash].js',
-            sourceMapFilename: 'sourcemaps/[file].map',
+            // chunkFilename: 'js/[name].[chunkhash].js',
+            // filename: 'js/[name].[chunkhash].js',
+            // sourceMapFilename: 'sourcemaps/[file].map',
+            filename: 'main.js',
         },
         mode: 'production',
         devtool: 'source-map',
@@ -46,6 +48,7 @@ module.exports = (env) => {
                     },
                 }),
             ],
+            /*
             splitChunks: {
                 cacheGroups: {
                     vendors: {
@@ -55,7 +58,8 @@ module.exports = (env) => {
                     },
                 },
             },
-            runtimeChunk: true,
+            */
+            // runtimeChunk: true,
         },
 
         module: {
@@ -120,9 +124,11 @@ module.exports = (env) => {
                 filename: 'css/[name].[hash].css',
                 chunkFilename: 'css/[id].[hash].css',
             }),
+            /*
             new CopyWebpackPlugin([
                 { from: 'assets', to: '.' },
             ]),
+            */
         ],
     };
 };

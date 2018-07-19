@@ -11,10 +11,20 @@
         align-items: flex-end;
 
         .item {
-            padding: $spacing-small;
+            padding: $spacing-medium;
+            text-align: center;
+
+            .image {
+                width: auto;
+                height: 72px;
+            }
 
             .value {
                 text-align: center;
+
+                .number {
+                    font-family: inherit;
+                }
             }
         }
     }

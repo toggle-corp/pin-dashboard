@@ -3,7 +3,7 @@
 .info-layer {
     .title {
         margin: 0;
-        padding: $spacing-small;
+        padding: $spacing-small-alt $spacing-small;
         overflow: hidden;
         text-transform: uppercase;
         text-overflow: ellipsis;
@@ -15,13 +15,13 @@
         display: grid;
         grid-template-areas:
             "landslides-surveyed landslides-risk"
-            "land-purchased landless-households"
             "geohazard-affected-households geohazard-affected-households"
+            "land-purchased land-purchased"
             "number-of-people-relocated number-of-people-relocated";
 
 
         %block {
-            padding: $spacing-small;
+            padding: $spacing-medium;
         }
 
         .landslides-surveyed {

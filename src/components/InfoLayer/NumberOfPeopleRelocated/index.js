@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import webEndPoint from '../../../rest/webEndPoint';
+import staticEndPoint from '../../../rest/staticEndPoint';
+import Numeral from '../../../vendor/react-store/components/View/Numeral';
 import styles from './styles.scss';
 
 const propTypes = {
@@ -29,18 +30,40 @@ export default class NumberOfPeopleRelocated extends React.PureComponent {
         return classNames.join(' ');
     }
 
-    renderItem = p => (
-        <div className={styles.item}>
-            <img
-                alt={p.alt}
-                className={styles.image}
-                src={p.image}
-            />
-            <div className={styles.value}>
-                { p.value || '-' }
+    renderItem = (p) => {
+        const {
+            className: classNameFromProps = '',
+            alt,
+            image,
+            value,
+        } = p;
+
+        const className = `
+            ${classNameFromProps}
+            ${styles.item}
+        `;
+
+        return (
+            <div className={className}>
+                <img
+                    alt={alt}
+                    className={styles.image}
+                    src={image}
+                />
+                <div className={styles.value}>
+                    {
+                        value ? (
+                            <Numeral
+                                className={styles.number}
+                                precision={0}
+                                value={value}
+                            />
+                        ) : '-'
+                    }
+                </div>
             </div>
-        </div>
-    )
+        );
+    }
 
     render() {
         const { data } = this.props;
@@ -55,28 +78,20 @@ export default class NumberOfPeopleRelocated extends React.PureComponent {
                 </h4>
                 <div className={styles.content}>
                     <Item
-                        image={`${webEndPoint}/male-icon.png`}
+                        image={`${staticEndPoint}/male.png`}
                         value={data.male}
                     />
                     <Item
-                        image={`${webEndPoint}/female-icon.png`}
+                        image={`${staticEndPoint}/female.png`}
                         value={data.female}
                     />
                     <Item
-                        image={`${webEndPoint}/male-child-icon.png`}
-                        value={data.maleChild}
+                        image={`${staticEndPoint}/children.png`}
+                        value={data.children}
                     />
                     <Item
-                        image={`${webEndPoint}/female-child-icon.png`}
-                        value={data.femaleChild}
-                    />
-                    <Item
-                        image={`${webEndPoint}/male-old-icon.png`}
-                        value={data.maleOld}
-                    />
-                    <Item
-                        image={`${webEndPoint}/female-old-icon.png`}
-                        value={data.femaleOld}
+                        image={`${staticEndPoint}/elderly.png`}
+                        value={data.elderly}
                     />
                 </div>
             </div>

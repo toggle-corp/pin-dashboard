@@ -1,8 +1,12 @@
 @import '../../stylesheets/base';
 
+$height-map-container: 540px;
+
 .overview {
     display: flex;
     position: relative;
+    border-top: $width-separator-thin solid $color-separator;
+    border-bottom: $width-separator-thin solid $color-separator;
     background-color: transparent;
 
     .loading-animation {
@@ -12,6 +16,8 @@
     .map-container {
         position: relative;
         flex-grow: 1;
+        background-color: $color-foreground-alt;
+        height: $height-map-container;
         user-select: none;
 
         .layer-info {
@@ -19,14 +25,14 @@
             top: $spacing-medium;
             right: $spacing-medium;
             z-index: 1111;
+            border: 1px solid $color-separator;
         }
     }
 
     .info {
         flex-shrink: 0;
-        border: $width-separator-thin solid $color-accent;
-        background-color: rgba(255, 255, 255, .9);
-        padding: $spacing-small;
-        min-width: 400px;
+        border-right: $width-separator-thin solid $color-separator;
+        background-color: $color-foreground;
+        padding: $spacing-large;
     }
 }

@@ -2,17 +2,19 @@
 
 .layer-info {
     position: absolute;
+    transition: $duration-transition-medium opacity ease-in;
+    opacity: 1;
     z-index: 1111;
     box-shadow: 0 $spacing-small $radius-blur-medium, $radius-spread-medium $color-shadow-medium;
     background-color: $color-foreground;
     padding: $spacing-medium;
+    min-width: 280px;
+    min-height: 96px;
     pointer-events: none;
 
     .district-info {
-        min-width: 280px;
-
         .heading {
-            margin: 0;
+            margin: 0 0 $spacing-small 0;
             border-bottom: $width-separator-thin solid $color-separator;
             text-transform: capitalize;
         }
@@ -24,7 +26,11 @@
         .no-data-available {
             margin: 0;
             padding: $spacing-extra-small 0;
-            color: $color-text-placeholder
+            color: $color-text-placeholder;
         }
+    }
+
+    &.hidden {
+        opacity: 0;
     }
 }
