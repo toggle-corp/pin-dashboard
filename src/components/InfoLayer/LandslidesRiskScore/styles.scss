@@ -4,5 +4,11 @@
 .landslides-risk {
     .heading {
         @extend %heading;
+
+        .help-icon {
+            display: inline-block;
+            margin-left: $spacing-extra-small-alt;
+            color: $color-text-label;
+        }
     }
 }
