@@ -35,6 +35,14 @@ $height-map-container: 540px;
             z-index: 1111;
             border: 1px solid $color-separator;
         }
+
+        .geo-point-info {
+            position: absolute;
+            top: 48px;
+            right: $spacing-medium;
+            z-index: 1111;
+            border: 1px solid $color-separator;
+        }
     }
 
     .info {

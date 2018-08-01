@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
-
 import LoadingAnimation from '../../vendor/react-store/components/View/LoadingAnimation';
 
 import MapLayer from '../../components/MapLayer';
@@ -183,8 +182,10 @@ export default class Overview extends React.PureComponent {
 
         const {
             landslidesSurveyed = emptyObject,
-            landslidesRiskRating = emptyObject,
-            landPurchased,
+            // landslidesRiskRating = emptyObject,
+            landslidesRiskScore = emptyObject,
+            landPurchased = 0,
+            totalHouseholds = 0,
             geohazardAffected = emptyObject,
             landless = emptyObject,
             peopleRelocated = emptyObject,
@@ -202,8 +203,9 @@ export default class Overview extends React.PureComponent {
                 )}
                 <InfoLayer
                     landslidesSurveyed={landslidesSurveyed}
-                    landslidesRisk={landslidesRiskRating}
+                    landslidesRiskScore={landslidesRiskScore}
                     landPurchased={landPurchased}
+                    totalHouseholds={totalHouseholds}
                     geohazardAffectedHouseholds={geohazardAffected}
                     landlessHouseholds={landless}
                     numberOfPeopleRelocated={peopleRelocated}
@@ -231,3 +233,4 @@ export default class Overview extends React.PureComponent {
         );
     }
 }
+

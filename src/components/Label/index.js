@@ -6,7 +6,7 @@ import styles from './styles.scss';
 const propTypes = {
     className: PropTypes.string,
     title: PropTypes.string,
-    value: PropTypes.string,
+    value: PropTypes.node,
     type: PropTypes.oneOf([
         'low',
         'medium',
@@ -16,7 +16,6 @@ const propTypes = {
 
 const defaultProps = {
     className: '',
-    children: undefined,
     type: undefined,
     title: '',
     value: '',

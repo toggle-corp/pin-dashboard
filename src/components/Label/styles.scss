@@ -9,6 +9,10 @@
         padding-right: $spacing-small;
     }
 
+    .value {
+        font-weight: bold;
+    }
+
     .separator {
         flex-shrink: 0;
         padding-right: $spacing-small;

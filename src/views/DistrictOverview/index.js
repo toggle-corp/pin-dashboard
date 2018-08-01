@@ -10,6 +10,7 @@ import MapLayer from '../../components/MapLayer';
 import InfoLayer from '../../components/InfoLayer';
 
 import LayerInfo from './LayerInfo';
+import GeoPointInfo from './GeoPointInfo';
 import DistrictMetadataRequest from './requests/DistrictMetadataRequest.js';
 // import LayerInfo from './LayerInfo';
 
@@ -25,14 +26,14 @@ const defaultProps = {
 
 const emptyObject = {};
 const cat2CircleOptions = {
-    radius: 5,
+    radius: 6,
     fillColor: '#FF9801',
     stroke: false,
     fillOpacity: 1,
 };
 
 const cat3CircleOptions = {
-    radius: 5,
+    radius: 6,
     fillColor: '#F44336',
     stroke: false,
     fillOpacity: 1,
@@ -138,6 +139,14 @@ export default class DistrictOverview extends React.PureComponent {
         this.setState({ hoverOverLayer: undefined });
     }
 
+    handleGeoPointMouseOver = (p) => {
+        this.setState({ activeGeoPoint: p });
+    }
+
+    handleGeoPointMouseOut = () => {
+        this.setState({ activeGeoPoint: undefined });
+    }
+
     handleLayerClick = (e) => {
         const { target: layer } = e;
         const {
@@ -170,12 +179,16 @@ export default class DistrictOverview extends React.PureComponent {
             if (gaunpalikaData) {
                 gaunpalikaData.cat2_points.forEach((p) => {
                     const circle = L.circleMarker([p.latitude, p.longitude], cat2CircleOptions);
+                    circle.on('mouseover', () => { this.handleGeoPointMouseOver(p); });
+                    circle.on('mouseout', this.handleGeoPointMouseOut);
                     circle.addTo(this.map);
                     this.circles.push(circle);
                 });
 
                 gaunpalikaData.cat3_points.forEach((p) => {
                     const circle = L.circleMarker([p.latitude, p.longitude], cat3CircleOptions);
+                    circle.on('mouseover', () => { this.handleGeoPointMouseOver(p); });
+                    circle.on('mouseout', this.handleGeoPointMouseOut);
                     circle.addTo(this.map);
                     this.circles.push(circle);
                 });
@@ -216,6 +229,7 @@ export default class DistrictOverview extends React.PureComponent {
             activeGaunpalikaName,
             hoverOverLayer,
             pendingMetadata,
+            activeGeoPoint,
         } = this.state;
 
         let infoLayerSource;
@@ -232,12 +246,16 @@ export default class DistrictOverview extends React.PureComponent {
 
         const {
             landslidesSurveyed = emptyObject,
-            landslidesRiskRating = emptyObject,
-            landPurchased,
+            // landslidesRiskRating = emptyObject,
+            landslidesRiskScore = emptyObject,
+            landPurchased = 0,
+            totalHouseholds = 0,
             geohazardAffected = emptyObject,
             landless = emptyObject,
             peopleRelocated = emptyObject,
         } = infoLayerSource;
+
+        // console.warn(infoLayerSource);
 
         return (
             <div className={className}>
@@ -249,8 +267,9 @@ export default class DistrictOverview extends React.PureComponent {
                 )}
                 <InfoLayer
                     landslidesSurveyed={landslidesSurveyed}
-                    landslidesRisk={landslidesRiskRating}
+                    landslidesRiskScore={landslidesRiskScore}
                     landPurchased={landPurchased}
+                    totalHouseholds={totalHouseholds}
                     geohazardAffectedHouseholds={geohazardAffected}
                     landlessHouseholds={landless}
                     numberOfPeopleRelocated={peopleRelocated}
@@ -273,13 +292,16 @@ export default class DistrictOverview extends React.PureComponent {
                         options={this.mapLayerOptions}
                         onLoad={this.handleMapLoad}
                         zoomOnLoad
-
                     />
                     <LayerInfo
                         className={styles.layerInfo}
                         layer={hoverOverLayer}
                         layerData={gaunpalikas}
                         offset={this.mapContainerOffset}
+                    />
+                    <GeoPointInfo
+                        className={styles.geoPointInfo}
+                        geoPoint={activeGeoPoint}
                     />
                 </div>
             </div>

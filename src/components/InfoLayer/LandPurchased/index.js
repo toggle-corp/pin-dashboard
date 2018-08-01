@@ -8,12 +8,13 @@ import styles from './styles.scss';
 const propTypes = {
     className: PropTypes.string,
 
-    data: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
+    data: PropTypes.object,
 };
 
 const defaultProps = {
     className: '',
-    data: undefined,
+    data: {},
 };
 
 export default class LandPurchased extends React.PureComponent {
@@ -51,11 +52,17 @@ export default class LandPurchased extends React.PureComponent {
     }
 
     render() {
-        const { data } = this.props;
+        const {
+            data: {
+                landPurchased,
+                totalHouseholds,
+            },
+        } = this.props;
         const className = this.getClassName();
 
         const Detail = this.renderDetail;
-        const areaInHectares = (+data) * 0.0001;
+        const areaInHectares = (+landPurchased) * 0.0001;
+        const average = (+landPurchased) / (+totalHouseholds);
 
         return (
             <div className={className}>
@@ -65,7 +72,11 @@ export default class LandPurchased extends React.PureComponent {
                 <div className={styles.content}>
                     <Detail
                         value={areaInHectares}
-                        description="hectares"
+                        description="Hectares purchased"
+                    />
+                    <Detail
+                        value={average}
+                        description="m2 per household average"
                     />
                 </div>
             </div>

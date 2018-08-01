@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import LandslidesSurveyed from './LandslidesSurveyed';
-import LandslidesRisk from './LandslidesRisk';
+import LandslidesRiskScore from './LandslidesRiskScore';
 import LandPurchased from './LandPurchased';
 import GeohazardAffectedHouseholds from './GeohazardAffectedHouseholds';
-import LandlessHouseholds from './LandlessHouseholds';
+// import LandlessHouseholds from './LandlessHouseholds';
 import NumberOfPeopleRelocated from './NumberOfPeopleRelocated';
 
 import styles from './styles.scss';
@@ -17,16 +17,17 @@ const propTypes = {
     landslidesSurveyed: PropTypes.object.isRequired,
 
     // eslint-disable-next-line react/forbid-prop-types
-    landslidesRisk: PropTypes.object.isRequired,
+    landslidesRiskScore: PropTypes.object.isRequired,
 
-    // eslint-disable-next-line react/forbid-prop-types
-    landPurchased: PropTypes.object.isRequired,
+    landPurchased: PropTypes.number.isRequired,
+
+    totalHouseholds: PropTypes.number.isRequired,
 
     // eslint-disable-next-line react/forbid-prop-types
     geohazardAffectedHouseholds: PropTypes.object.isRequired,
 
     // eslint-disable-next-line react/forbid-prop-types
-    landlessHouseholds: PropTypes.object.isRequired,
+    // landlessHouseholds: PropTypes.object.isRequired,
 
     // eslint-disable-next-line react/forbid-prop-types
     numberOfPeopleRelocated: PropTypes.object.isRequired,
@@ -56,12 +57,18 @@ export default class InfoLayer extends React.PureComponent {
         const {
             title,
             landslidesSurveyed,
-            landslidesRisk,
+            landslidesRiskScore,
             landPurchased,
+            totalHouseholds,
             geohazardAffectedHouseholds,
-            landlessHouseholds,
+            // landlessHouseholds,
             numberOfPeopleRelocated,
         } = this.props;
+
+        const landPurchasedData = {
+            landPurchased,
+            totalHouseholds,
+        };
 
         return (
             <div className={className}>
@@ -73,13 +80,13 @@ export default class InfoLayer extends React.PureComponent {
                         className={styles.landslidesSurveyed}
                         data={landslidesSurveyed}
                     />
-                    <LandslidesRisk
-                        className={styles.landslidesRisk}
-                        data={landslidesRisk}
+                    <LandslidesRiskScore
+                        className={styles.landslidesRiskScore}
+                        data={landslidesRiskScore}
                     />
                     <LandPurchased
                         className={styles.landPurchased}
-                        data={landPurchased}
+                        data={landPurchasedData}
                     />
                     <GeohazardAffectedHouseholds
                         className={styles.geohazardAffectedHouseholds}

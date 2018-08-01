@@ -14,7 +14,7 @@
     .content {
         display: grid;
         grid-template-areas:
-            "landslides-surveyed landslides-risk"
+            "landslides-surveyed landslides-risk-score"
             "geohazard-affected-households geohazard-affected-households"
             "land-purchased land-purchased"
             "number-of-people-relocated number-of-people-relocated";
@@ -29,9 +29,9 @@
             grid-area: landslides-surveyed;
         }
 
-        .landslides-risk {
+        .landslides-risk-score {
             @extend %block;
-            grid-area: landslides-risk;
+            grid-area: landslides-risk-score;
         }
 
         .land-purchased {

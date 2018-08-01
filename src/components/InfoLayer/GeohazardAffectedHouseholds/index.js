@@ -39,7 +39,7 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
 
         const chartData = [
             { label: 'Eligible', value: data.Eligible },
-            { label: 'Applied', value: data.Applied },
+            // { label: 'Applied', value: data.Applied },
             { label: 'Relocated', value: data.Relocated },
         ];
 
@@ -62,11 +62,13 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
                             title="Eligible"
                             value={data.Eligible}
                         />
+                        {/*
                         <Label
                             type="medium"
                             title="Applied"
                             value={data.Applied}
                         />
+                        */}
                         <Label
                             type="high"
                             title="Relocated"

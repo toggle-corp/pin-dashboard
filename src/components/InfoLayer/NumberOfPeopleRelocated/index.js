@@ -79,12 +79,18 @@ export default class NumberOfPeopleRelocated extends React.PureComponent {
                 <div className={styles.content}>
                     <Item
                         image={`${staticEndPoint}/male.png`}
+                        value={data.total}
+                    />
+                    {/*
+                    <Item
+                        image={`${staticEndPoint}/male.png`}
                         value={data.male}
                     />
                     <Item
                         image={`${staticEndPoint}/female.png`}
                         value={data.female}
                     />
+                    */}
                     <Item
                         image={`${staticEndPoint}/children.png`}
                         value={data.children}
