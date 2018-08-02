@@ -15,4 +15,10 @@
             height: 96px;
         }
     }
+
+    :global {
+        .value {
+            font-family: $font-family-monospace;
+        }
+    }
 }

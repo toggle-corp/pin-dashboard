@@ -11,4 +11,10 @@
             color: $color-text-label;
         }
     }
+
+    :global {
+        .value {
+            font-family: $font-family-monospace;
+        }
+    }
 }
