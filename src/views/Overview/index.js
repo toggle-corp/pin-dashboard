@@ -59,15 +59,17 @@ export default class Overview extends React.PureComponent {
         const { current: mapContainer } = this.mapContainer;
 
         this.map = L.map(mapContainer, {
-            zoomControl: false,
+            zoomControl: true,
         }).setView([51.505, -0.09], 13);
 
+        /*
         this.map.dragging.disable();
         this.map.touchZoom.disable();
         this.map.doubleClickZoom.disable();
         this.map.scrollWheelZoom.disable();
         this.map.boxZoom.disable();
         this.map.keyboard.disable();
+        */
 
         this.mapContainerOffset = mapContainer.getBoundingClientRect();
     }

@@ -44,14 +44,14 @@ export default class LandslidesRiskScore extends React.PureComponent {
                 </h4>
                 <div className={styles.content}>
                     <Label
-                        type="low"
-                        title="200 or below"
-                        value={data['200 - below']}
+                        type="high"
+                        title="625 - 501"
+                        value={data['625-501']}
                     />
                     <Label
-                        type="medium"
-                        title="300 - 201"
-                        value={data['300-201']}
+                        type="high"
+                        title="500 - 401"
+                        value={data['500-401']}
                     />
                     <Label
                         type="medium"
@@ -60,13 +60,13 @@ export default class LandslidesRiskScore extends React.PureComponent {
                     />
                     <Label
                         type="medium"
-                        title="500 - 401"
-                        value={data['500-401']}
+                        title="300 - 201"
+                        value={data['300-201']}
                     />
                     <Label
-                        type="high"
-                        title="625 - 501"
-                        value={data['625-501']}
+                        type="low"
+                        title="200 or below"
+                        value={data['200 - below']}
                     />
                 </div>
             </div>

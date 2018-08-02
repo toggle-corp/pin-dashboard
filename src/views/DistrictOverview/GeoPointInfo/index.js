@@ -41,6 +41,7 @@ export default class GeoPointInfo extends React.PureComponent {
     renderGeoPointDetail = () => {
         const {
             geoPoint,
+            cat,
         } = this.props;
 
         if (!geoPoint) {
@@ -48,8 +49,8 @@ export default class GeoPointInfo extends React.PureComponent {
         }
 
         const cats = {
-            CAT2: 'Category-2',
-            CAT3: 'Category-3',
+            CAT2: 'Category 2',
+            CAT3: 'Category 3',
         };
 
         const {
@@ -70,8 +71,13 @@ export default class GeoPointInfo extends React.PureComponent {
 
         const ConditionalLabel = this.renderConditionalLabel;
 
+        const className = `
+            ${styles.geoPointDetail}
+            ${styles[cat]}
+        `;
+
         return (
-            <div className={styles.geoPointDetail}>
+            <div className={className}>
                 <h3 className={styles.heading}>
                     { landslideCode } { cats[landslideCat] }
                 </h3>

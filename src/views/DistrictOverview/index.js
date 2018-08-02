@@ -74,15 +74,17 @@ export default class DistrictOverview extends React.PureComponent {
         const { current: mapContainer } = this.mapContainer;
 
         this.map = L.map(mapContainer, {
-            zoomControl: false,
+            zoomControl: true,
         }).setView([51.505, -0.09], 13);
 
+        /*
         this.map.dragging.disable();
         this.map.touchZoom.disable();
         this.map.doubleClickZoom.disable();
         this.map.scrollWheelZoom.disable();
         this.map.boxZoom.disable();
         this.map.keyboard.disable();
+        */
 
         this.mapContainerOffset = mapContainer.getBoundingClientRect();
     }
@@ -139,12 +141,25 @@ export default class DistrictOverview extends React.PureComponent {
         this.setState({ hoverOverLayer: undefined });
     }
 
-    handleGeoPointMouseOver = (p) => {
-        this.setState({ activeGeoPoint: p });
+    handleCat2PointMouseOver = (p) => {
+        this.setState({
+            activeGeoPoint: p,
+            activeGeoPointCat: 'cat2',
+        });
+    }
+
+    handleCat3PointMouseOver = (p) => {
+        this.setState({
+            activeGeoPoint: p,
+            activeGeoPointCat: 'cat3',
+        });
     }
 
     handleGeoPointMouseOut = () => {
-        this.setState({ activeGeoPoint: undefined });
+        this.setState({
+            activeGeoPoint: undefined,
+            activeGeoPointCat: undefined,
+        });
     }
 
     handleLayerClick = (e) => {
@@ -179,7 +194,7 @@ export default class DistrictOverview extends React.PureComponent {
             if (gaunpalikaData) {
                 gaunpalikaData.cat2_points.forEach((p) => {
                     const circle = L.circleMarker([p.latitude, p.longitude], cat2CircleOptions);
-                    circle.on('mouseover', () => { this.handleGeoPointMouseOver(p); });
+                    circle.on('mouseover', () => { this.handleCat2PointMouseOver(p); });
                     circle.on('mouseout', this.handleGeoPointMouseOut);
                     circle.addTo(this.map);
                     this.circles.push(circle);
@@ -187,7 +202,7 @@ export default class DistrictOverview extends React.PureComponent {
 
                 gaunpalikaData.cat3_points.forEach((p) => {
                     const circle = L.circleMarker([p.latitude, p.longitude], cat3CircleOptions);
-                    circle.on('mouseover', () => { this.handleGeoPointMouseOver(p); });
+                    circle.on('mouseover', () => { this.handleCat3PointMouseOver(p); });
                     circle.on('mouseout', this.handleGeoPointMouseOut);
                     circle.addTo(this.map);
                     this.circles.push(circle);
@@ -230,6 +245,7 @@ export default class DistrictOverview extends React.PureComponent {
             hoverOverLayer,
             pendingMetadata,
             activeGeoPoint,
+            activeGeoPointCat,
         } = this.state;
 
         let infoLayerSource;
@@ -302,6 +318,7 @@ export default class DistrictOverview extends React.PureComponent {
                     <GeoPointInfo
                         className={styles.geoPointInfo}
                         geoPoint={activeGeoPoint}
+                        cat={activeGeoPointCat}
                     />
                 </div>
             </div>

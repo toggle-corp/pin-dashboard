@@ -57,6 +57,8 @@ export default class NumberOfPeopleRelocated extends React.PureComponent {
                                 className={styles.number}
                                 precision={0}
                                 value={value}
+                                normal
+                                lang="en"
                             />
                         ) : '-'
                     }
@@ -79,25 +81,27 @@ export default class NumberOfPeopleRelocated extends React.PureComponent {
                 <div className={styles.content}>
                     <Item
                         image={`${staticEndPoint}/male.png`}
-                        value={data.total}
-                    />
-                    {/*
-                    <Item
-                        image={`${staticEndPoint}/male.png`}
                         value={data.male}
                     />
                     <Item
                         image={`${staticEndPoint}/female.png`}
                         value={data.female}
                     />
-                    */}
                     <Item
-                        image={`${staticEndPoint}/children.png`}
-                        value={data.children}
+                        image={`${staticEndPoint}/children-male.png`}
+                        value={data.childrenMale}
                     />
                     <Item
-                        image={`${staticEndPoint}/elderly.png`}
-                        value={data.elderly}
+                        image={`${staticEndPoint}/children-female.png`}
+                        value={data.childrenFemale}
+                    />
+                    <Item
+                        image={`${staticEndPoint}/elderly-male.png`}
+                        value={data.elderlyMale}
+                    />
+                    <Item
+                        image={`${staticEndPoint}/elderly-female.png`}
+                        value={data.elderlyFemale}
                     />
                 </div>
             </div>

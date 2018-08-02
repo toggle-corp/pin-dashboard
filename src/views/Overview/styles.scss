@@ -1,6 +1,7 @@
 @import '../../stylesheets/base';
 
 $height-map-container: 540px;
+$width-info-container: 410px;
 
 .overview {
     display: flex;
@@ -34,5 +35,6 @@ $height-map-container: 540px;
         border-right: $width-separator-thin solid $color-separator;
         background-color: $color-foreground;
         padding: $spacing-large;
+        width: $width-info-container;
     }
 }

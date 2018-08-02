@@ -20,6 +20,18 @@
             text-transform: capitalize;
         }
 
+        &.cat2 {
+            .heading {
+                color: $color-warning;
+            }
+        }
+
+        &.cat3 {
+            .heading {
+                color: $color-danger;
+            }
+        }
+
         .label {
             padding: $spacing-extra-small 0;
         }

@@ -1,6 +1,7 @@
 @import '../../stylesheets/base';
 
 $height-map-container: 540px;
+$width-info-container: 410px;
 
 .district-overview {
     display: flex;
@@ -47,6 +48,7 @@ $height-map-container: 540px;
 
     .info {
         flex-shrink: 0;
+        width: $width-info-container;
         border-right: $width-separator-thin solid $color-separator;
         background-color: $color-foreground;
         padding: $spacing-large;

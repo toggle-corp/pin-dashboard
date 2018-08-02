@@ -41,9 +41,9 @@ export default class LandslidesSurveyed extends React.PureComponent {
                 </h4>
                 <div className={styles.content}>
                     <Label
-                        type="low"
-                        title="Cat 1"
-                        value={data.CAT1 || 0}
+                        type="high"
+                        title="Cat 3"
+                        value={data.CAT3 || 0}
                     />
                     <Label
                         type="medium"
@@ -51,9 +51,9 @@ export default class LandslidesSurveyed extends React.PureComponent {
                         value={data.CAT2 || 0}
                     />
                     <Label
-                        type="high"
-                        title="Cat 3"
-                        value={data.CAT3 || 0}
+                        type="low"
+                        title="Cat 1"
+                        value={data.CAT1 || 0}
                     />
                 </div>
             </div>

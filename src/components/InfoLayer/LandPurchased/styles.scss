@@ -9,6 +9,7 @@
     .content {
         .detail {
             display: flex;
+            align-items: baseline;
 
             .value {
                 flex-shrink: 0;

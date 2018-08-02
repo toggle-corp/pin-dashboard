@@ -76,7 +76,7 @@ export default class LandPurchased extends React.PureComponent {
                     />
                     <Detail
                         value={average}
-                        description="m2 per household average"
+                        description={<div>m<sup>2</sup> purchased per household</div>}
                     />
                 </div>
             </div>

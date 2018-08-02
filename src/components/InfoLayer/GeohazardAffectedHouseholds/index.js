@@ -17,7 +17,7 @@ const defaultProps = {
     className: '',
 };
 
-const colorScheme = ['#4CAF50', '#FF9800', '#F44336'];
+const colorScheme = ['#FF9800', '#4CAF50'];
 
 export default class GeohazardAffectedHouseholds extends React.PureComponent {
     static propTypes = propTypes;
@@ -43,6 +43,8 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
             { label: 'Relocated', value: data.Relocated },
         ];
 
+        const total = data.Eligible + data.Relocated;
+
         return (
             <div className={className}>
                 <h4 className={styles.heading}>
@@ -58,19 +60,16 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
                     />
                     <div className={styles.details}>
                         <Label
-                            type="low"
+                            title="Total"
+                            value={total}
+                        />
+                        <Label
+                            type="medium"
                             title="Eligible"
                             value={data.Eligible}
                         />
-                        {/*
                         <Label
-                            type="medium"
-                            title="Applied"
-                            value={data.Applied}
-                        />
-                        */}
-                        <Label
-                            type="high"
+                            type="low"
                             title="Relocated"
                             value={data.Relocated}
                         />
