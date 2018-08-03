@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Label from '../../../components/Label';
-
 import styles from './styles.scss';
 
 const propTypes = {
@@ -54,6 +53,7 @@ export default class GeoPointInfo extends React.PureComponent {
         };
 
         const {
+            place,
             landslideCode,
             landslideCat,
             gpName,
@@ -76,11 +76,18 @@ export default class GeoPointInfo extends React.PureComponent {
             ${styles[cat]}
         `;
 
+        console.warn(geoPoint);
+
         return (
             <div className={className}>
                 <h3 className={styles.heading}>
-                    { landslideCode } { cats[landslideCat] }
+                    { place } - { landslideCat }
                 </h3>
+                <Label
+                    className={styles.label}
+                    title="Code"
+                    value={landslideCode}
+                />
                 <Label
                     className={styles.label}
                     title="Gaunpalika"

@@ -7,6 +7,7 @@ const propTypes = {
     className: PropTypes.string,
     title: PropTypes.string,
     value: PropTypes.node,
+    separator: PropTypes.string,
     type: PropTypes.oneOf([
         'low',
         'medium',
@@ -18,6 +19,7 @@ const defaultProps = {
     className: '',
     type: undefined,
     title: '',
+    separator: '-',
     value: '',
 };
 
@@ -47,16 +49,17 @@ export default class Label extends React.PureComponent {
         const {
             title,
             value,
+            separator,
         } = this.props;
         const className = this.getClassName();
 
         return (
             <div className={className}>
-                <div className={styles.title}>
+                <div className={`${styles.title} title`}>
                     { title }
                 </div>
-                <div className={styles.separator}>
-                    -
+                <div className={`${styles.separator} separator`}>
+                    { separator }
                 </div>
                 <div className={`${styles.value} value`}>
                     { value }

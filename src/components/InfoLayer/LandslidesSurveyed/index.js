@@ -41,16 +41,22 @@ export default class LandslidesSurveyed extends React.PureComponent {
                 </h4>
                 <div className={styles.content}>
                     <Label
+                        className={styles.label}
+                        separator=":"
                         type="high"
                         title="Cat 3"
                         value={data.CAT3 || 0}
                     />
                     <Label
+                        className={styles.label}
+                        separator=":"
                         type="medium"
                         title="Cat 2"
                         value={data.CAT2 || 0}
                     />
                     <Label
+                        className={styles.label}
+                        separator=":"
                         type="low"
                         title="Cat 1"
                         value={data.CAT1 || 0}

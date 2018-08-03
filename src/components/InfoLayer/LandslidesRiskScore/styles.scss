@@ -12,9 +12,18 @@
         }
     }
 
-    :global {
-        .value {
-            font-family: $font-family-monospace;
+    .label {
+        display: table-row;
+
+        :global {
+            .title {
+                display: table-cell,
+            }
+
+            .value {
+                display: table-cell;
+                font-family: $font-family-monospace;
+            }
         }
     }
 }
