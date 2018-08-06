@@ -76,12 +76,10 @@ export default class GeoPointInfo extends React.PureComponent {
             ${styles[cat]}
         `;
 
-        console.warn(geoPoint);
-
         return (
             <div className={className}>
                 <h3 className={styles.heading}>
-                    { place } - { landslideCat }
+                    { place } | { cats[landslideCat] }
                 </h3>
                 <Label
                     className={styles.label}
