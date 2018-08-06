@@ -34,6 +34,8 @@ export default class LandslidesSurveyed extends React.PureComponent {
         const { data } = this.props;
         const className = this.getClassName();
 
+        const total = (data.CAT3 || 0) + (data.CAT2 || 0) + (data.CAT1 || 0);
+
         return (
             <div className={className}>
                 <h4 className={styles.heading}>
@@ -60,6 +62,12 @@ export default class LandslidesSurveyed extends React.PureComponent {
                         type="low"
                         title="Cat 1"
                         value={data.CAT1 || 0}
+                    />
+                    <Label
+                        className={styles.label}
+                        separator=":"
+                        title="Total"
+                        value={total}
                     />
                 </div>
             </div>

@@ -43,7 +43,7 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
             { label: 'Relocated', value: data.Relocated },
         ];
 
-        const total = (data.Eligible || 0) + (data.Relocated || 0);
+        const total = data.Total;
 
         return (
             <div className={className}>

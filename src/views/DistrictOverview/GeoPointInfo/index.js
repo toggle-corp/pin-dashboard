@@ -79,7 +79,7 @@ export default class GeoPointInfo extends React.PureComponent {
         return (
             <div className={className}>
                 <h3 className={styles.heading}>
-                    { place } | { cats[landslideCat] }
+                    { place } <span className={styles.separator}>|</span> { cats[landslideCat] }
                 </h3>
                 <Label
                     className={styles.label}
