@@ -55,10 +55,8 @@ export default class NumberOfPeopleRelocated extends React.PureComponent {
                         value ? (
                             <Numeral
                                 className={styles.number}
-                                precision={2}
+                                precision={0}
                                 value={value}
-                                normal
-                                lang="en"
                             />
                         ) : '-'
                     }
