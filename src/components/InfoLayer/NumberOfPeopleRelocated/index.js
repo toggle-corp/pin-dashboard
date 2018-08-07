@@ -65,11 +65,39 @@ export default class NumberOfPeopleRelocated extends React.PureComponent {
         );
     }
 
+    renderDetail = (p) => {
+        const {
+            value,
+            description,
+        } = p;
+
+        return (
+            <div className={styles.detail}>
+                <Numeral
+                    className={styles.value}
+                    value={+value}
+                    precision={0}
+                />
+                <div className={styles.description}>
+                    { description }
+                </div>
+            </div>
+        );
+    }
+
     render() {
         const { data } = this.props;
         const className = this.getClassName();
 
         const Item = this.renderItem;
+        const Detail = this.renderDetail;
+
+        const total = (+data.male || 0)
+            + (+data.female || 0)
+            + (+data.childrenMale || 0)
+            + (+data.childrenFemale || 0)
+            + (+data.elderlyMale || 0)
+            + (+data.elderlyFemale);
 
         return (
             <div className={className}>
@@ -79,29 +107,33 @@ export default class NumberOfPeopleRelocated extends React.PureComponent {
                 <div className={styles.content}>
                     <Item
                         image={`${staticEndPoint}/male.png`}
-                        value={data.male}
+                        value={data.male || 0}
                     />
                     <Item
                         image={`${staticEndPoint}/female.png`}
-                        value={data.female}
+                        value={data.female || 0}
                     />
                     <Item
                         image={`${staticEndPoint}/children-male.png`}
-                        value={data.childrenMale}
+                        value={data.childrenMale || 0}
                     />
                     <Item
                         image={`${staticEndPoint}/children-female.png`}
-                        value={data.childrenFemale}
+                        value={data.childrenFemale || 0}
                     />
                     <Item
                         image={`${staticEndPoint}/elderly-male.png`}
-                        value={data.elderlyMale}
+                        value={data.elderlyMale || 0}
                     />
                     <Item
                         image={`${staticEndPoint}/elderly-female.png`}
-                        value={data.elderlyFemale}
+                        value={data.elderlyFemale || 0}
                     />
                 </div>
+                <Detail
+                    value={total}
+                    description="People relocated"
+                />
             </div>
         );
     }

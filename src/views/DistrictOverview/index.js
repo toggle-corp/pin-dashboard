@@ -77,26 +77,22 @@ export default class DistrictOverview extends React.PureComponent {
             zoomControl: true,
         }).setView([51.505, -0.09], 13);
 
-        /*
-        this.map.dragging.disable();
-        this.map.touchZoom.disable();
-        this.map.doubleClickZoom.disable();
-        this.map.scrollWheelZoom.disable();
-        this.map.boxZoom.disable();
-        this.map.keyboard.disable();
-        */
-
         this.mapContainerOffset = mapContainer.getBoundingClientRect();
     }
 
     componentWillUnmount() {
         this.districtMetadataRequest.stop();
+        clearTimeout(this.zoomTimeout);
     }
 
     handleMapLoad = () => {
         const featureGroup = L.featureGroup(this.currentDistrictLayers);
         const bounds = featureGroup.getBounds();
         this.map.fitBounds(bounds);
+
+        this.zoomTimeout = setTimeout(() => {
+            this.map.options.minZoom = this.map.getZoom();
+        }, 300);
     }
 
     handleMapFeature = (feature, layer) => {
@@ -133,7 +129,6 @@ export default class DistrictOverview extends React.PureComponent {
     handleLayerMouseOver = (e) => {
         const { target: layer } = e;
 
-        // layer.setStyle({ fillColor: '#aaa' });
         this.setState({ hoverOverLayer: layer });
     }
 

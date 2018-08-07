@@ -38,12 +38,12 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
         const className = this.getClassName();
 
         const chartData = [
-            { label: 'Eligible', value: data.Eligible },
+            { label: 'In process', value: data.Eligible },
             // { label: 'Applied', value: data.Applied },
             { label: 'Relocated', value: data.Relocated },
         ];
 
-        const total = data.Total;
+        const eligible = (+data.Eligible || 0) + (+data.Relocated || 0);
 
         return (
             <div className={className}>
@@ -60,18 +60,18 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
                     />
                     <div className={styles.details}>
                         <Label
-                            title="Total"
-                            value={total}
+                            title="Eligible"
+                            value={eligible}
                         />
                         <Label
                             type="medium"
-                            title="Eligible"
-                            value={data.Eligible}
+                            title="In process"
+                            value={data.Eligible || 0}
                         />
                         <Label
                             type="low"
                             title="Relocated"
-                            value={data.Relocated}
+                            value={data.Relocated || 0}
                         />
                     </div>
                 </div>

@@ -24,4 +24,19 @@
             }
         }
     }
+
+    .detail {
+        display: flex;
+        align-items: baseline;
+
+        .value {
+            flex-shrink: 0;
+            padding-right: $spacing-small;
+            font-weight: $font-weight-bold;
+        }
+
+        .description {
+            padding: 0;
+        }
+    }
 }
