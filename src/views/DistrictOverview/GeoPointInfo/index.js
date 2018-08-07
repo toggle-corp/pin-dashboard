@@ -127,7 +127,7 @@ export default class GeoPointInfo extends React.PureComponent {
                 />
                 <ConditionalLabel
                     title="Mitigation work by"
-                    value={mitigationWorkBy}
+                    value={mitigationWorkBy || 'N/A'}
                 />
                 <ConditionalLabel
                     title="Eligible households"
