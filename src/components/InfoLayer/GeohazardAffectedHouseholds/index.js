@@ -37,13 +37,14 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
         const { data } = this.props;
         const className = this.getClassName();
 
+        const inProcess = (+data.Eligible || 0) - (+data.Relocated || 0);
+
         const chartData = [
-            { label: 'In process', value: data.Eligible },
+            { label: 'In process', value: inProcess },
             // { label: 'Applied', value: data.Applied },
             { label: 'Relocated', value: data.Relocated },
         ];
 
-        const eligible = (+data.Eligible || 0) + (+data.Relocated || 0);
 
         return (
             <div className={className}>
@@ -61,12 +62,12 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
                     <div className={styles.details}>
                         <Label
                             title="Eligible"
-                            value={eligible}
+                            value={data.Eligible || 0}
                         />
                         <Label
                             type="medium"
                             title="In process"
-                            value={data.Eligible || 0}
+                            value={inProcess}
                         />
                         <Label
                             type="low"
