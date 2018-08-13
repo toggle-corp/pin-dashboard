@@ -1,7 +1,7 @@
 {
-    "name": "deep",
+    "name": "pin",
     "version": "1.0.0",
-    "description": "Deep",
+    "description": "PIN Dashboard",
     "main": "index.js",
     "keywords": [],
     "author": "",

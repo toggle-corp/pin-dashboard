@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import DonutChart from '../../../vendor/react-store/components/Visualization/DonutChart';
+import Numeral from '../../../vendor/react-store/components/View/Numeral';
 
 import Label from '../../Label';
 import styles from './styles.scss';
@@ -62,17 +63,32 @@ export default class GeohazardAffectedHouseholds extends React.PureComponent {
                     <div className={styles.details}>
                         <Label
                             title="Eligible"
-                            value={data.Eligible || 0}
+                            value={
+                                <Numeral
+                                    value={data.Eligible || 0}
+                                    precision={0}
+                                />
+                            }
                         />
                         <Label
                             type="medium"
                             title="In process"
-                            value={inProcess}
+                            value={
+                                <Numeral
+                                    value={inProcess}
+                                    precision={0}
+                                />
+                            }
                         />
                         <Label
                             type="low"
                             title="Relocated"
-                            value={data.Relocated || 0}
+                            value={
+                                <Numeral
+                                    value={data.Relocated || 0}
+                                    precision={0}
+                                />
+                            }
                         />
                     </div>
                 </div>

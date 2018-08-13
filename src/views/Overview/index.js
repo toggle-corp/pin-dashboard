@@ -225,6 +225,12 @@ export default class Overview extends React.PureComponent {
                         layerData={districts}
                         offset={this.mapContainerOffset}
                     />
+                    <div className={styles.helpText}>
+                        <span className={`${styles.icon} ion-information`} />
+                        <div className={styles.message}>
+                            Double click on the district to see its Gaunpalikas.
+                        </div>
+                    </div>
                 </div>
             </div>
         );

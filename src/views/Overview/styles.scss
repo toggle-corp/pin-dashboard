@@ -1,6 +1,6 @@
 @import '../../stylesheets/base';
 
-$height-map-container: 540px;
+$height-map-container: 622px;
 $width-info-container: 410px;
 
 .overview {
@@ -27,6 +27,27 @@ $width-info-container: 410px;
             right: $spacing-medium;
             z-index: 1111;
             border: 1px solid $color-separator;
+        }
+
+        .help-text {
+            display: flex;
+            position: absolute;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, .8);
+            padding: $spacing-small;
+
+            .icon {
+                display: flex;
+                align-items: center;
+                flex-shrink: 0;
+                justify-content: center;
+                margin-right: $spacing-small;
+                border-radius: 50%;
+                background-color: $color-info;
+                width: 18px;
+                height: 18px;
+                color: $color-foreground;
+            }
         }
     }
 

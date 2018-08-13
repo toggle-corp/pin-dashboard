@@ -25,19 +25,6 @@ const defaultProps = {
 };
 
 const emptyObject = {};
-const cat2CircleOptions = {
-    radius: 6,
-    fillColor: '#FF9801',
-    stroke: false,
-    fillOpacity: 1,
-};
-
-const cat3CircleOptions = {
-    radius: 6,
-    fillColor: '#F44336',
-    stroke: false,
-    fillOpacity: 1,
-};
 
 export default class DistrictOverview extends React.PureComponent {
     static propTypes = propTypes;
@@ -52,7 +39,13 @@ export default class DistrictOverview extends React.PureComponent {
         };
 
         const setState = d => this.setState(d);
-        this.districtMetadataRequest = new DistrictMetadataRequest({ setState });
+        this.districtMetadataRequest = new DistrictMetadataRequest({
+            setState,
+            getMap: () => this.map,
+            handleGeoPointMouseOut: this.handleGeoPointMouseOut,
+            handleCat2PointMouseOver: this.handleCat2PointMouseOver,
+            handleCat3PointMouseOver: this.handleCat3PointMouseOver,
+        });
 
         this.mapContainer = React.createRef();
 
@@ -177,33 +170,7 @@ export default class DistrictOverview extends React.PureComponent {
             activeLayer.setStyle({ fillColor: '#fff' });
         }
 
-        this.circles.forEach((c) => {
-            c.remove();
-        });
-        this.circles.length = 0;
-
         if (gaunpalikaName && activeGaunpalikaName !== gaunpalikaName) {
-            const { gaupalikas } = metadata;
-            const gaunpalikaData = gaupalikas[gaunpalikaName];
-
-            if (gaunpalikaData) {
-                gaunpalikaData.cat2_points.forEach((p) => {
-                    const circle = L.circleMarker([p.latitude, p.longitude], cat2CircleOptions);
-                    circle.on('mouseover', () => { this.handleCat2PointMouseOver(p); });
-                    circle.on('mouseout', this.handleGeoPointMouseOut);
-                    circle.addTo(this.map);
-                    this.circles.push(circle);
-                });
-
-                gaunpalikaData.cat3_points.forEach((p) => {
-                    const circle = L.circleMarker([p.latitude, p.longitude], cat3CircleOptions);
-                    circle.on('mouseover', () => { this.handleCat3PointMouseOver(p); });
-                    circle.on('mouseout', this.handleGeoPointMouseOut);
-                    circle.addTo(this.map);
-                    this.circles.push(circle);
-                });
-            }
-
             layer.setStyle({ fillColor: '#ccc' });
             this.setState({
                 activeGaunpalikaName: gaunpalikaName,

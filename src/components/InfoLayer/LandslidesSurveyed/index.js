@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import Numeral from '../../../vendor/react-store/components/View/Numeral';
+
 import Label from '../../Label';
 
 import styles from './styles.scss';
@@ -47,27 +49,47 @@ export default class LandslidesSurveyed extends React.PureComponent {
                         separator=":"
                         type="high"
                         title="Cat 3"
-                        value={data.CAT3 || 0}
+                        value={
+                            <Numeral
+                                value={data.CAT3 || 0}
+                                precision={0}
+                            />
+                        }
                     />
                     <Label
                         className={styles.label}
                         separator=":"
                         type="medium"
                         title="Cat 2"
-                        value={data.CAT2 || 0}
+                        value={
+                            <Numeral
+                                value={data.CAT2 || 0}
+                                precision={0}
+                            />
+                        }
                     />
                     <Label
                         className={styles.label}
                         separator=":"
                         type="low"
                         title="Cat 1"
-                        value={data.CAT1 || 0}
+                        value={
+                            <Numeral
+                                value={data.CAT1 || 0}
+                                precision={0}
+                            />
+                        }
                     />
                     <Label
                         className={styles.label}
                         separator=":"
                         title="Total"
-                        value={total}
+                        value={
+                            <Numeral
+                                value={total || 0}
+                                precision={0}
+                            />
+                        }
                     />
                 </div>
             </div>

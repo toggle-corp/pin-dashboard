@@ -12,6 +12,10 @@ const defaultProps = {
     className: '',
 };
 
+const getStupidVal = v => (
+    (!v || v === '0') ? '' : v
+);
+
 export default class GeoPointInfo extends React.PureComponent {
     static propTypes = propTypes;
     static defaultProps = defaultProps;
@@ -94,49 +98,57 @@ export default class GeoPointInfo extends React.PureComponent {
                 <Label
                     className={styles.label}
                     title="Affected households"
-                    value={hhAffected}
+                    value={getStupidVal(hhAffected)}
                 />
                 <Label
                     className={styles.label}
                     title="Risk score"
-                    value={riskScore}
+                    value={getStupidVal(riskScore)}
                 />
                 <Label
                     className={styles.label}
                     title="High risk of"
-                    value={highRiskOf}
+                    value={getStupidVal(highRiskOf)}
                 />
                 <Label
                     className={styles.label}
                     title="Direct risk for"
-                    value={directRiskFor}
+                    value={getStupidVal(directRiskFor)}
                 />
                 <Label
                     className={styles.label}
                     title="Potential impact"
-                    value={potentialImpact}
+                    value={getStupidVal(potentialImpact)}
                 />
                 <Label
                     className={styles.label}
                     title="Risk probability"
-                    value={riskProbability}
+                    value={getStupidVal(riskProbability)}
                 />
-                <ConditionalLabel
-                    title="Mitigation work status"
-                    value={mitigationWorkStatus}
-                />
-                <ConditionalLabel
-                    title="Mitigation work by"
-                    value={mitigationWorkBy || 'N/A'}
-                />
-                <ConditionalLabel
-                    title="Eligible households"
-                    value={eligibleHouseholds}
-                />
-                <ConditionalLabel
-                    title="Households relocated"
-                    value={householdsRelocated}
-                />
+                {cat === 'cat2' && (
+                    <React.Fragment>
+                        <Label
+                            title="Mitigation work status"
+                            value={getStupidVal(mitigationWorkStatus)}
+                        />
+                        <Label
+                            title="Mitigation work by"
+                            value={getStupidVal(mitigationWorkBy)}
+                        />
+                    </React.Fragment>
+                )}
+                {cat === 'cat3' && (
+                    <React.Fragment>
+                        <Label
+                            title="Eligible households"
+                            value={getStupidVal(eligibleHouseholds)}
+                        />
+                        <Label
+                            title="Households relocated"
+                            value={getStupidVal(householdsRelocated)}
+                        />
+                    </React.Fragment>
+                )}
             </div>
         );
     }

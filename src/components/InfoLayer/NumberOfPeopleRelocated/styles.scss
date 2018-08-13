@@ -9,6 +9,7 @@
     .content {
         display: flex;
         align-items: flex-end;
+        justify-content: space-between;
 
         .item {
             padding: $spacing-medium;
@@ -20,6 +21,7 @@
             }
 
             .value {
+                min-width: 5ch;
                 text-align: center;
             }
         }
