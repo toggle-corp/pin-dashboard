@@ -93,11 +93,7 @@ export default class NumberOfPeopleRelocated extends React.PureComponent {
         const Detail = this.renderDetail;
 
         const total = (+data.male || 0)
-            + (+data.female || 0)
-            + (+data.childrenMale || 0)
-            + (+data.childrenFemale || 0)
-            + (+data.elderlyMale || 0)
-            + (+data.elderlyFemale);
+            + (+data.female || 0);
 
         return (
             <div className={className}>

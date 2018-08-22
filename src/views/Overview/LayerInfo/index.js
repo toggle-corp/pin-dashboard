@@ -65,7 +65,7 @@ export default class LayerInfo extends React.PureComponent {
             CAT3,
         } = landslidesSurveyed;
 
-        const noDataAvailable = !(CAT1 || CAT2 || CAT3);
+        // const noDataAvailable = !(CAT1 || CAT2 || CAT3);
 
         return (
             <div className={styles.districtInfo}>
@@ -87,11 +87,11 @@ export default class LayerInfo extends React.PureComponent {
                     value={CAT3}
                     type="high"
                 />
-                { noDataAvailable && (
+                {/* noDataAvailable && (
                     <p className={styles.noDataAvailable}>
                         No data available
                     </p>
-                )}
+                ) */}
             </div>
         );
     }
