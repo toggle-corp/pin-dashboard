@@ -7,21 +7,20 @@
     z-index: 1111;
     box-shadow: 0 $spacing-small $radius-blur-medium, $radius-spread-medium $color-shadow-medium;
     background-color: $color-foreground;
-    padding: $spacing-medium;
     min-width: 280px;
-    min-height: 32px;
+    min-height: 44px;
     pointer-events: none;
 
     .district-info {
-
         .heading {
-            margin: 0 0 $spacing-medium 0;
+            margin: 0;
             border-bottom: $width-separator-thin solid $color-separator;
+            padding: $spacing-small-alt $spacing-medium;
             text-transform: capitalize;
         }
 
         .label {
-            padding: $spacing-extra-small 0;
+            padding: $spacing-extra-small $spacing-medium;
         }
 
         .no-data-available {

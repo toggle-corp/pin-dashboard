@@ -41,7 +41,7 @@ export default class LandslidesRiskScore extends React.PureComponent {
                     Landslides risk score
                     <i
                         className={`${styles.helpIcon} ion-help-circled`}
-                        title="See Geohazard Categorization section for more information"
+                        title="See Geohazard Unit section for more information"
                     />
                 </h4>
                 <div className={styles.content}>

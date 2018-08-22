@@ -60,7 +60,8 @@ export default class Overview extends React.PureComponent {
 
         this.map = L.map(mapContainer, {
             zoomControl: true,
-        }).setView([51.505, -0.09], 13);
+        }).setView([28.395, 84.124], 13);
+        L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap, © CartoDB' }).addTo(this.map);
         this.mapContainerOffset = mapContainer.getBoundingClientRect();
     }
 
@@ -79,15 +80,32 @@ export default class Overview extends React.PureComponent {
         return classNames.join(' ');
     }
 
+    getDistrictColor = (district) => {
+        const { metadata: { districts = {} } = {} } = this.state;
+        const { landslidesSurveyed: { CAT1, CAT2, CAT3 } = {} } = districts[district];
+        if (CAT1 || CAT2 || CAT3) {
+            return '#f00';
+        }
+        return '#fff';
+    }
+
     handleMapLoad = () => {
         this.map.options.minZoom = this.map.getZoom();
     }
 
     handleMapFeature = (feature, layer) => {
+        const {
+            feature: {
+                properties: {
+                    DISTRICT: district,
+                },
+            },
+        } = layer;
+
         layer.setStyle({
             weight: 1,
             color: '#000',
-            fillColor: '#fff',
+            fillColor: this.getDistrictColor(district),
             fillOpacity: '0.6',
         });
 
@@ -122,7 +140,7 @@ export default class Overview extends React.PureComponent {
         } = layer;
 
         if (activeLayer) {
-            activeLayer.setStyle({ fillColor: '#fff' });
+            activeLayer.setStyle({ fillColor: this.getDistrictColor(activeDistrictName) });
         }
 
         if (district && activeDistrictName !== district) {
@@ -141,7 +159,6 @@ export default class Overview extends React.PureComponent {
 
     handleLayerDoubleClick = (e) => {
         const { target: layer } = e;
-
         const {
             feature: {
                 properties: {
@@ -212,13 +229,15 @@ export default class Overview extends React.PureComponent {
                     className={styles.mapContainer}
                     ref={this.mapContainer}
                 >
-                    <MapLayer
-                        map={this.map}
-                        geoJson={geoJson}
-                        options={this.mapLayerOptions}
-                        onLoad={this.handleMapLoad}
-                        zoomOnLoad
-                    />
+                    {!pendingMetadata && (
+                        <MapLayer
+                            map={this.map}
+                            geoJson={geoJson}
+                            options={this.mapLayerOptions}
+                            onLoad={this.handleMapLoad}
+                            zoomOnLoad
+                        />
+                    )}
                     <LayerInfo
                         className={styles.layerInfo}
                         layer={hoverOverLayer}
@@ -228,7 +247,7 @@ export default class Overview extends React.PureComponent {
                     <div className={styles.helpText}>
                         <span className={`${styles.icon} ion-information`} />
                         <div className={styles.message}>
-                            Double click on the district to see its Gaunpalikas.
+                            Double-click on any district for more information
                         </div>
                     </div>
                 </div>

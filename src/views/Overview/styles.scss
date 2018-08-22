@@ -23,7 +23,7 @@ $width-info-container: 410px;
 
         .layer-info {
             position: absolute;
-            top: $spacing-medium;
+            top: 40px;
             right: $spacing-medium;
             z-index: 1111;
             border: 1px solid $color-separator;
@@ -32,7 +32,8 @@ $width-info-container: 410px;
         .help-text {
             display: flex;
             position: absolute;
-            bottom: 0;
+            top: 0;
+            right: 0;
             background-color: rgba(255, 255, 255, .8);
             padding: $spacing-small;
 

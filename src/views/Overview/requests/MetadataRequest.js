@@ -10,7 +10,7 @@ export default class MetadataRequest extends Request {
         this.parent.setState({ pendingMetadata: true });
     }
 
-    handlePostLoad = () => {
+    afterLoad = () => {
         this.parent.setState({ pendingMetadata: false });
     }
 
