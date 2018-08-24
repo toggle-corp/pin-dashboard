@@ -128,10 +128,12 @@ export default class GeoPointInfo extends React.PureComponent {
                 {cat === 'cat2' && (
                     <React.Fragment>
                         <Label
+                            className={styles.label}
                             title="Mitigation work status"
                             value={getStupidVal(mitigationWorkStatus)}
                         />
                         <Label
+                            className={styles.label}
                             title="Mitigation work by"
                             value={getStupidVal(mitigationWorkBy)}
                         />
@@ -140,10 +142,12 @@ export default class GeoPointInfo extends React.PureComponent {
                 {cat === 'cat3' && (
                     <React.Fragment>
                         <Label
+                            className={styles.label}
                             title="Eligible households"
                             value={getStupidVal(eligibleHouseholds)}
                         />
                         <Label
+                            className={styles.label}
                             title="Households relocated"
                             value={getStupidVal(householdsRelocated)}
                         />

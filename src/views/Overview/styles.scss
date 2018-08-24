@@ -53,6 +53,31 @@ $width-info-container: 410px;
         }
     }
 
+    .legend {
+        position: absolute;
+        bottom: $spacing-small;
+        left: $spacing-small;
+        z-index: 1111;
+        background-color: rgba(255, 255, 255, .8);
+        padding: $spacing-small;
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+
+            .color {
+                flex-shrink: 0;
+                width: 12px;
+                height: 12px;
+            }
+
+            .text {
+                flex-grow: 1;
+                padding: $spacing-extra-small $spacing-small;
+            }
+        }
+    }
+
     .info {
         flex-shrink: 0;
         border-right: $width-separator-thin solid $color-separator;

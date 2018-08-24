@@ -25,6 +25,10 @@ const defaultProps = {
 // const emptyList = [];
 const emptyObject = {};
 
+
+const mostAffectedColor = '#0010a1';
+const affectedColor = '#3656f6';
+
 export default class Overview extends React.PureComponent {
     static propTypes = propTypes;
     static defaultProps = defaultProps;
@@ -84,11 +88,11 @@ export default class Overview extends React.PureComponent {
 
     getDistrictColor = (district) => {
         if (mostAffectedDistricts.indexOf(district) >= 0) {
-            return '#0018b0';
+            return mostAffectedColor;
         }
 
         if (affectedDistricts.indexOf(district) >= 0) {
-            return '#2045f0';
+            return affectedColor;
         }
 
         return '#fff';
@@ -253,6 +257,26 @@ export default class Overview extends React.PureComponent {
                         <span className={`${styles.icon} ion-information`} />
                         <div className={styles.message}>
                             Double-click on any district for more information
+                        </div>
+                    </div>
+                    <div className={styles.legend}>
+                        <div className={styles.legendItem}>
+                            <div
+                                style={{ backgroundColor: mostAffectedColor }}
+                                className={styles.color}
+                            />
+                            <div className={styles.text}>
+                                Most affected by earthquake
+                            </div>
+                        </div>
+                        <div className={styles.legendItem}>
+                            <div
+                                style={{ backgroundColor: affectedColor }}
+                                className={styles.color}
+                            />
+                            <div className={styles.text}>
+                                Affected by earthquake
+                            </div>
                         </div>
                     </div>
                 </div>
