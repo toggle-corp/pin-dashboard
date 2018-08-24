@@ -10,6 +10,8 @@ import styles from './styles.scss';
 import LayerInfo from './LayerInfo';
 import MetadataRequest from './requests/MetadataRequest';
 
+import { affectedDistricts, mostAffectedDistricts } from './affectedDistricts';
+
 const propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     geoJson: PropTypes.object.isRequired,
@@ -81,11 +83,14 @@ export default class Overview extends React.PureComponent {
     }
 
     getDistrictColor = (district) => {
-        const { metadata: { districts = {} } = {} } = this.state;
-        const { landslidesSurveyed: { CAT1, CAT2, CAT3 } = {} } = districts[district];
-        if (CAT1 || CAT2 || CAT3) {
+        if (mostAffectedDistricts.indexOf(district) >= 0) {
             return '#f00';
         }
+
+        if (affectedDistricts.indexOf(district) >= 0) {
+            return '#f77';
+        }
+
         return '#fff';
     }
 
