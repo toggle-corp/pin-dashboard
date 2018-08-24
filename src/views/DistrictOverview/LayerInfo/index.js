@@ -69,9 +69,9 @@ export default class LayerInfo extends React.PureComponent {
 
         return (
             <div className={styles.districtInfo}>
-                <h3 className={styles.heading}>
+                <h2 className={styles.heading}>
                     { gaunpalikaName }
-                </h3>
+                </h2>
                 <ConditionalLabel
                     title="Cat 1"
                     value={CAT1}
