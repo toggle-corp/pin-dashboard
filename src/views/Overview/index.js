@@ -84,11 +84,11 @@ export default class Overview extends React.PureComponent {
 
     getDistrictColor = (district) => {
         if (mostAffectedDistricts.indexOf(district) >= 0) {
-            return '#f00';
+            return '#0018b0';
         }
 
         if (affectedDistricts.indexOf(district) >= 0) {
-            return '#f77';
+            return '#2045f0';
         }
 
         return '#fff';
