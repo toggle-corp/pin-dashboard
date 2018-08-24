@@ -34,6 +34,7 @@ $width-info-container: 410px;
             position: absolute;
             top: 0;
             right: 0;
+            z-index: 1111;
             background-color: rgba(255, 255, 255, .8);
             padding: $spacing-small;
 
