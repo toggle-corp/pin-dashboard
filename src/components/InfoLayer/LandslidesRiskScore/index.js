@@ -48,7 +48,6 @@ export default class LandslidesRiskScore extends React.PureComponent {
                     <Label
                         separator=":"
                         className={styles.label}
-                        type="high"
                         title="625 - 501"
                         value={
                             <Numeral
@@ -60,7 +59,6 @@ export default class LandslidesRiskScore extends React.PureComponent {
                     <Label
                         separator=":"
                         className={styles.label}
-                        type="high"
                         title="500 - 401"
                         value={
                             <Numeral
@@ -72,7 +70,6 @@ export default class LandslidesRiskScore extends React.PureComponent {
                     <Label
                         separator=":"
                         className={styles.label}
-                        type="medium"
                         title="400 - 301"
                         value={
                             <Numeral
@@ -84,7 +81,6 @@ export default class LandslidesRiskScore extends React.PureComponent {
                     <Label
                         separator=":"
                         className={styles.label}
-                        type="medium"
                         title="300 - 201"
                         value={
                             <Numeral
@@ -96,7 +92,6 @@ export default class LandslidesRiskScore extends React.PureComponent {
                     <Label
                         separator=":"
                         className={styles.label}
-                        type="low"
                         title="200 -"
                         value={
                             <Numeral
