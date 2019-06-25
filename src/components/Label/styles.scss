@@ -18,6 +18,10 @@
         padding-right: $spacing-small;
     }
 
+    .extra {
+        padding-left: $spacing-small;
+    }
+
     &.low {
         color: $color-success;
     }

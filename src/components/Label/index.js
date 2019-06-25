@@ -13,6 +13,7 @@ const propTypes = {
         'medium',
         'high',
     ]),
+    extra: PropTypes.string,
 };
 
 const defaultProps = {
@@ -21,6 +22,7 @@ const defaultProps = {
     title: '',
     separator: '-',
     value: '',
+    extra: undefined,
 };
 
 export default class Label extends React.PureComponent {
@@ -50,6 +52,7 @@ export default class Label extends React.PureComponent {
             title,
             value,
             separator,
+            extra,
         } = this.props;
         const className = this.getClassName();
 
@@ -64,6 +67,11 @@ export default class Label extends React.PureComponent {
                 <div className={`${styles.value} value`}>
                     { value }
                 </div>
+                { extra && (
+                    <div className={`${styles.extra} extra`}>
+                        { extra }
+                    </div>
+                ) }
             </div>
         );
     }
