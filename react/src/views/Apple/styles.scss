@@ -1,0 +1,13 @@
+.apple {
+    background-color: var(--color-background-alt);
+    height: var(--height-content);
+
+    .message {
+        display: flex;
+        flex-direction: column;
+
+        .icon {
+            font-size: var(--width-icon-extra-large);
+        }
+    }
+}
