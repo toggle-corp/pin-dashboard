@@ -17,7 +17,8 @@ export const sanitizeResponse = (data: unknown): any => {
     }
     if (isList(data)) {
         return data.map(sanitizeResponse).filter(isDefined);
-    } else if (isObject(data)) {
+    }
+    if (isObject(data)) {
         let newData = {};
         forEach(data, (k, val) => {
             const newEntry = sanitizeResponse(val);

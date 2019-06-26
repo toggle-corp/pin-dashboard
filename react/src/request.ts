@@ -9,7 +9,7 @@ import {
 import schema from '#schema';
 import { sanitizeResponse } from '#utils/common';
 
-const wsEndpoint = process.env.REACT_APP_API_SERVER_URL;
+const wsEndpoint = process.env.REACT_APP_API_SERVER_URL || 'http://pin-api.togglecorp.com:8000/api/v1';
 
 // FIXME: don't know why eslint disable is required right now
 // eslint-disable-next-line arrow-parens
@@ -32,13 +32,6 @@ export const createConnectedRequestCoordinator = <OwnProps>() => {
             };
         },
         transformProps: (props: Props) => props,
-        /*
-        transformProps: (props: Props) => {
-            const mapStyle = mapStyleSelector(store.getState() as AppState);
-            // console.warn('Map style is', mapStyle);
-            return props;
-        },
-        */
 
         transformUrl: (url: string) => {
             if (/^https?:\/\//i.test(url)) {
