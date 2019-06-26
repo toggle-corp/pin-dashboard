@@ -27,8 +27,41 @@ const requests: { [key: string]: ClientAttributes<Props, Params> } = {
 
 type MyProps = NewProps<Props, Params>;
 
-interface Metadata {
-    totalHouseholds: number;
+interface Base {
+    totalHouseholds?: number;
+    landPurchased?: number;
+    geohazardAffected: {
+        Eligible?: number;
+        Relocated?: number;
+        Total?: number;
+    };
+    landslidesRiskScore: {
+        '0'?: number;
+        '200-Below'?: number;
+        '300-201'?: number;
+        '400-301'?: number;
+        '500-401'?: number;
+        '625-501'?: number;
+    };
+    landslidesSurveyed: {
+        CAT1?: number;
+        CAT2?: number;
+        CAT3?: number;
+    };
+    peopleRelocated: {
+        male?: number;
+        female?: number;
+        childrenMale?: number;
+        childrenFemale?: number;
+        elderlyMale?: number;
+        elderlyFemale?: number;
+    };
+}
+
+interface Metadata extends Base {
+    districts: {
+        [key: string]: Base;
+    };
 }
 
 /* Loads required info from server */
