@@ -1,0 +1,15 @@
+.text-output {
+    display: flex;
+
+    .label {
+        padding: var(--spacing-small) var(--spacing-medium);
+    }
+
+    .separator {
+        padding: var(--spacing-small) 0;
+    }
+
+    .value {
+        padding: var(--spacing-small) var(--spacing-medium);
+    }
+}

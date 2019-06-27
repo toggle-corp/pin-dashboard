@@ -1,0 +1,39 @@
+.text-output {
+    .label {
+        color: var(--color-text-label);
+    }
+
+    .value {
+        color: var(--color-text);
+    }
+
+    &.high {
+        .label {
+            color: var(--color-danger);
+        }
+
+        .value {
+            color: var(--color-danger);
+        }
+    }
+
+    &.medium {
+        .label {
+            color: var(--color-warning);
+        }
+
+        .value {
+            color: var(--color-warning);
+        }
+    }
+
+    &.low {
+        .label {
+            color: var(--color-success);
+        }
+
+        .value {
+            color: var(--color-success);
+        }
+    }
+}

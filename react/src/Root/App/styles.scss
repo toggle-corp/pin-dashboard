@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: var(--font-weight-bold);
+}
+
+.loading-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: var(--root-preload-text-color);
+    font-family: var(--font-family-sans-serif);
+    font-size: var(--root-text-font-size);
+}
+
+.app {
+    height: 800px;
+    font-family: sans-serif;
+
+    .national-overview {
+        border: 1px solid red;
+        height: 100%;
+    }
+}

@@ -7,8 +7,23 @@ import {
     ClientAttributes,
     methods,
 } from '#request';
+import { Metadata } from '#constants';
 
-interface State {}
+import MultiViewContainer from '#rscv/MultiViewContainer';
+
+import NationalOverview from './NationalOverview';
+
+import styles from './styles.scss';
+
+enum ViewLevel {
+    National,
+    District,
+    Ward
+}
+
+interface State {
+    currentViewLevel: ViewLevel;
+}
 interface Params {}
 interface Props {}
 
@@ -27,46 +42,55 @@ const requests: { [key: string]: ClientAttributes<Props, Params> } = {
 
 type MyProps = NewProps<Props, Params>;
 
-interface Base {
-    totalHouseholds?: number;
-    landPurchased?: number;
-    geohazardAffected: {
-        Eligible?: number;
-        Relocated?: number;
-        Total?: number;
-    };
-    landslidesRiskScore: {
-        '0'?: number;
-        '200-Below'?: number;
-        '300-201'?: number;
-        '400-301'?: number;
-        '500-401'?: number;
-        '625-501'?: number;
-    };
-    landslidesSurveyed: {
-        CAT1?: number;
-        CAT2?: number;
-        CAT3?: number;
-    };
-    peopleRelocated: {
-        male?: number;
-        female?: number;
-        childrenMale?: number;
-        childrenFemale?: number;
-        elderlyMale?: number;
-        elderlyFemale?: number;
-    };
-}
-
-interface Metadata extends Base {
-    districts: {
-        [key: string]: Base;
-    };
-}
-
 /* Loads required info from server */
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends React.Component<MyProps, State> {
+    private views: {
+        [key: string]: {
+            component: React.ComponentType;
+            rendererParams?: () => object;
+            wrapContainer?: boolean;
+            mount?: boolean;
+            lazyMount?: boolean;
+        };
+    }
+
+    public constructor(props: MyProps) {
+        super(props);
+
+        this.state = {
+            currentViewLevel: ViewLevel.National,
+        };
+
+        this.views = {
+            [ViewLevel.National]: {
+                component: NationalOverview,
+                rendererParams: () => {
+                    const {
+                        requests: {
+                            alertsRequest: { response },
+                        },
+                    } = this.props;
+
+                    const {
+                        landslidesSurveyed,
+                        landslidesRiskScore,
+                        landPurchased,
+                        totalHouseholds,
+                        geohazardAffected,
+                        peopleRelocated,
+                    } = response as Metadata;
+
+                    return {
+                        metadata: response,
+                        className: styles.nationalOverview,
+                        title: 'National',
+                    };
+                },
+            },
+        };
+    }
+
     public render() {
         const {
             requests: {
@@ -74,12 +98,16 @@ class App extends React.Component<MyProps, State> {
             },
         } = this.props;
 
+        const {
+            currentViewLevel,
+        } = this.state;
+
         console.warn(alertsRequest);
 
         if (alertsRequest.pending) {
             return (
-                <div>
-                    Loading Metadata
+                <div className={styles.loadingMessage}>
+                    Loading Metadata ...
                 </div>
             );
         }
@@ -89,9 +117,11 @@ class App extends React.Component<MyProps, State> {
         } = alertsRequest.response as Metadata;
 
         return (
-            <div>
-                Total Households:
-                {totalHouseholds}
+            <div className={styles.app}>
+                <MultiViewContainer
+                    views={this.views}
+                    active={currentViewLevel}
+                />
             </div>
         );
     }
