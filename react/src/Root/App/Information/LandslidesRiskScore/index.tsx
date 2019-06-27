@@ -6,6 +6,8 @@ import ListView from '#rscv/List/ListView';
 import { LandslidesRiskScore } from '#constants';
 
 import TextOutput from '../../TextOutput';
+import Header from '../Header';
+import Heading from '../Heading';
 
 import styles from './styles.scss';
 
@@ -39,11 +41,12 @@ class LandslidesRiskScoreView extends React.PureComponent<Props> {
 
         return (
             <div className={_cs(className, styles.landslidesSurveyed)}>
-                <header className={styles.header}>
-                    <h4 className={styles.heading}>
-                        Landslides risk score
-                    </h4>
-                </header>
+                <Header className={styles.header}>
+                    <Heading
+                        className={styles.heading}
+                        text="Landslides risk score"
+                    />
+                </Header>
                 <ListView
                     className={styles.content}
                     data={riskScoreKeys}

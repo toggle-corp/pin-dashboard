@@ -1,0 +1,17 @@
+.geohazard-affected-households {
+    .content {
+        display: flex;
+        align-items: center;
+
+        .chart {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-background);
+
+            // FIXME: use variables
+            width: 140px;
+            height: 140px;
+        }
+    }
+}

@@ -4,7 +4,7 @@
 
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-normal);
 }
 
 .loading-message {
@@ -18,11 +18,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .app {
+    // TODO: use variable
     height: 800px;
     font-family: sans-serif;
 
     .national-overview {
-        border: 1px solid red;
         height: 100%;
     }
 }

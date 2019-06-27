@@ -1,5 +1,6 @@
 .text-output {
     display: flex;
+    align-items: baseline;
 
     .label {
         padding: var(--spacing-small) var(--spacing-medium);
@@ -11,5 +12,15 @@
 
     .value {
         padding: var(--spacing-small) var(--spacing-medium);
+    }
+
+    &.invert-order {
+        .label {
+            order: 1;
+        }
+
+        .value {
+            order: 0;
+        }
     }
 }

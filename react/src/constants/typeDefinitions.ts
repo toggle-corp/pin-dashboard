@@ -18,20 +18,27 @@ export interface LandslidesSurveyed {
     CAT3?: number;
 }
 
+export interface LandPurchased {
+    landPurchased?: number;
+    totalHouseholds?: number;
+}
+
+export interface PeopleRelocated {
+    male?: number;
+    female?: number;
+    childrenMale?: number;
+    childrenFemale?: number;
+    elderlyMale?: number;
+    elderlyFemale?: number;
+}
+
 export interface Base {
     totalHouseholds?: number;
     landPurchased?: number;
     geohazardAffected: GeohazardAffected;
     landslidesRiskScore: LandslidesRiskScore;
     landslidesSurveyed: LandslidesSurveyed;
-    peopleRelocated: {
-        male?: number;
-        female?: number;
-        childrenMale?: number;
-        childrenFemale?: number;
-        elderlyMale?: number;
-        elderlyFemale?: number;
-    };
+    peopleRelocated: PeopleRelocated;
 }
 
 export interface Metadata extends Base {
