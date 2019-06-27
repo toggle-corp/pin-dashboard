@@ -10,6 +10,8 @@ interface Props {
     riskCategory?: string;
     labelClassName?: string;
     valueClassName?: string;
+    label?: React.Component | string | number;
+    value?: React.Component | string | number;
 }
 
 const riskCategoryStyleMap: { [key: string]: string } = {
