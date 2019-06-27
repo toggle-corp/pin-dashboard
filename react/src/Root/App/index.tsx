@@ -84,7 +84,7 @@ class App extends React.Component<MyProps, State> {
                     return {
                         metadata: response,
                         className: styles.nationalOverview,
-                        title: 'National',
+                        title: 'Nepal',
                     };
                 },
             },
@@ -101,8 +101,6 @@ class App extends React.Component<MyProps, State> {
         const {
             currentViewLevel,
         } = this.state;
-
-        console.warn(alertsRequest);
 
         if (alertsRequest.pending) {
             return (

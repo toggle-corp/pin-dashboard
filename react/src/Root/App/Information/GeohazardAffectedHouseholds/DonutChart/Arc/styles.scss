@@ -1,0 +1,8 @@
+.path {
+    // TODO: use variables
+    stroke-width: 10;
+
+    &:hover {
+        stroke-width: 12;
+    }
+}

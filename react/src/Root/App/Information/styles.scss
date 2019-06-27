@@ -21,12 +21,14 @@
             flex-basis: 50%;
             flex-grow: 0;
             flex-shrink: 0;
+            padding: var(--spacing-medium) 0;
         }
 
         %full-section {
             flex-basis: 100%;
             flex-grow: 0;
             flex-shrink: 0;
+            padding: var(--spacing-medium) 0;
         }
 
         .landslides-surveyed {

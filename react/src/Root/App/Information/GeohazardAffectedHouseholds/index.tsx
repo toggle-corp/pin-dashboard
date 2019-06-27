@@ -3,7 +3,7 @@ import { _cs } from '@togglecorp/fujs';
 import memoize from 'memoize-one';
 
 import { currentStyle } from '#rsu/styles';
-import DonutChart from '#rscz/DonutChart';
+import DonutChart from './DonutChart';
 
 import { GeohazardAffected } from '#constants';
 
@@ -19,20 +19,26 @@ interface Props {
     data?: GeohazardAffected;
 }
 
-// FIXME: write typings for currentStyle ?
-const colorScheme = [
-    currentStyle.colorWarning,
-    currentStyle.colorSuccess,
-];
-
-const chartValueSelector = (d: { value: string }) => d.value;
-const chartLabelSelector = (d: { label: string }) => d.label;
+const chartValueSelector = (d: { value: number }) => d.value;
+const chartLabelSelector = (d: { label: string; value: number }) => `${d.label}: ${d.value}`;
+const chartKeySelector = (d: { key: string }) => d.key;
+const chartColorSelector = (d: { color: string }) => d.color;
 
 class GeohazardAffectedHouseholdsView extends React.PureComponent<Props> {
     private getChartData = memoize((relocated, inProcess) => {
         const chartData = [
-            { label: 'In process', value: inProcess },
-            { label: 'Relocated', value: relocated },
+            {
+                key: 'inProcess',
+                label: 'In process',
+                value: inProcess,
+                color: currentStyle.colorWarning,
+            },
+            {
+                key: 'relocated',
+                label: 'Relocated',
+                value: relocated,
+                color: currentStyle.colorSuccess,
+            },
         ];
 
         return chartData;
@@ -65,17 +71,15 @@ class GeohazardAffectedHouseholdsView extends React.PureComponent<Props> {
                     />
                 </Header>
                 <div className={styles.content}>
-                    <div className={styles.chart}>
-                        chart
-                        {/*
+                    <div className={styles.chartContainer}>
                         <DonutChart
-                            colorScheme={colorScheme}
                             className={styles.chart}
                             data={chartData}
-                            valueAccessor={chartValueSelector}
-                            labelAccessor={chartLabelSelector}
+                            labelSelector={chartLabelSelector}
+                            valueSelector={chartValueSelector}
+                            colorSelector={chartColorSelector}
+                            keySelector={chartKeySelector}
                         />
-                        */}
                     </div>
                     <div className={styles.details}>
                         <TextOutput

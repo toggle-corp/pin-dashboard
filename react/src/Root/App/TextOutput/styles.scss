@@ -12,6 +12,8 @@
 
     .value {
         padding: var(--spacing-small) var(--spacing-medium);
+        font-family: var(--font-family-monospace);
+        font-weight: var(--font-weight-bold);
     }
 
     &.invert-order {
