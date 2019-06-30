@@ -1,6 +1,7 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
+import Numeral from '#rscv/Numeral';
 import ListView from '#rscv/List/ListView';
 
 import { LandslidesRiskScore } from '#constants';
@@ -23,6 +24,19 @@ const riskScoreKeys: (keyof LandslidesRiskScore)[] = [
     '300-201',
     '200-Below',
 ];
+
+const NumberOutput = ({ label, value }: { label: string; value?: number }) => (
+    <TextOutput
+        label={label}
+        value={(
+            <Numeral
+                value={value}
+                precision={null}
+                showSeparator
+            />
+        )}
+    />
+);
 
 class LandslidesRiskScoreView extends React.PureComponent<Props> {
     public getRendererParams = (_: string, riskScoreKey: keyof LandslidesRiskScore) => {
@@ -50,7 +64,7 @@ class LandslidesRiskScoreView extends React.PureComponent<Props> {
                 <ListView
                     className={styles.content}
                     data={riskScoreKeys}
-                    renderer={TextOutput}
+                    renderer={NumberOutput}
                     rendererParams={this.getRendererParams}
                 />
             </div>

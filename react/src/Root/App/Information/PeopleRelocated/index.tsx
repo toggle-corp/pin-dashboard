@@ -1,8 +1,8 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
+import Numeral from '#rscv/Numeral';
 import ListView from '#rscv/List/ListView';
-import People from './People';
 
 import childrenFemaleIcon from '#resources/img/children-female.png';
 import childrenMaleIcon from '#resources/img/children-male.png';
@@ -14,6 +14,7 @@ import maleIcon from '#resources/img/male.png';
 import TextOutput from '../../TextOutput';
 import Header from '../Header';
 import Heading from '../Heading';
+import People from './People';
 
 import { PeopleRelocated } from '#constants';
 
@@ -79,7 +80,13 @@ class PeopleRelocatedView extends React.PureComponent<Props> {
                 />
                 <TextOutput
                     label="People relocated"
-                    value={total}
+                    value={(
+                        <Numeral
+                            value={total}
+                            precision={null}
+                            showSeparator
+                        />
+                    )}
                     invertOrder
                     hideSeparator
                 />

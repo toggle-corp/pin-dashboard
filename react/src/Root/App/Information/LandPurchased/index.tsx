@@ -2,7 +2,10 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import memoize from 'memoize-one';
 
+import Numeral from '#rscv/Numeral';
+
 import { LandPurchased } from '#constants';
+
 import TextOutput from '../../TextOutput';
 import Header from '../Header';
 import Heading from '../Heading';
@@ -16,8 +19,8 @@ interface Props {
 
 class LandPurchasedView extends React.PureComponent<Props> {
     private getRenderData = memoize((landPurchased: number, totalHouseholds: number) => {
-        const landPurchasedInHecters = (landPurchased * 0.0001).toFixed(2);
-        const averageLandPurchased = (landPurchased / totalHouseholds).toFixed(2);
+        const landPurchasedInHecters = (landPurchased * 0.0001);
+        const averageLandPurchased = (landPurchased / totalHouseholds);
 
         return {
             landPurchasedInHecters,
@@ -56,7 +59,13 @@ class LandPurchasedView extends React.PureComponent<Props> {
                 <div className={styles.content}>
                     <TextOutput
                         label="Total hectares purchased for relocation"
-                        value={landPurchasedInHecters}
+                        value={(
+                            <Numeral
+                                value={landPurchasedInHecters}
+                                precision={2}
+                                showSeparator
+                            />
+                        )}
                         invertOrder
                         hideSeparator
                     />
@@ -68,7 +77,13 @@ class LandPurchasedView extends React.PureComponent<Props> {
                                 &nbsp;purchased per household (average)
                             </div>
                         )}
-                        value={averageLandPurchased}
+                        value={(
+                            <Numeral
+                                value={averageLandPurchased}
+                                precision={2}
+                                showSeparator
+                            />
+                        )}
                         invertOrder
                         hideSeparator
                     />

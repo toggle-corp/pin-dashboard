@@ -10,7 +10,7 @@ interface Props {
     radius: number;
     startAngle: number;
     endAngle: number;
-    label?: string;
+    label?: string | number;
     color: string;
 }
 

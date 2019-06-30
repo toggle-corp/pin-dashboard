@@ -7,7 +7,6 @@ import {
     ClientAttributes,
     methods,
 } from '#request';
-import { Metadata } from '#constants';
 
 import MultiViewContainer from '#rscv/MultiViewContainer';
 
@@ -72,15 +71,6 @@ class App extends React.Component<MyProps, State> {
                         },
                     } = this.props;
 
-                    const {
-                        landslidesSurveyed,
-                        landslidesRiskScore,
-                        landPurchased,
-                        totalHouseholds,
-                        geohazardAffected,
-                        peopleRelocated,
-                    } = response as Metadata;
-
                     return {
                         metadata: response,
                         className: styles.nationalOverview,
@@ -109,10 +99,6 @@ class App extends React.Component<MyProps, State> {
                 </div>
             );
         }
-
-        const {
-            totalHouseholds,
-        } = alertsRequest.response as Metadata;
 
         return (
             <div className={styles.app}>

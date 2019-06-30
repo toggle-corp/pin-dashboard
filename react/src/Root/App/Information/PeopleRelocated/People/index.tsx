@@ -1,12 +1,14 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
+import Numeral from '#rscv/Numeral';
+
 import styles from './styles.scss';
 
 interface Props {
     className?: string;
     icon?: string;
-    value?: string | number;
+    value?: number;
     alt?: string;
 }
 
@@ -27,7 +29,11 @@ class People extends React.PureComponent<Props> {
                     src={icon}
                 />
                 <div className={styles.value}>
-                    { value }
+                    <Numeral
+                        value={value}
+                        showSeparator
+                        precision={null}
+                    />
                 </div>
             </div>
         );

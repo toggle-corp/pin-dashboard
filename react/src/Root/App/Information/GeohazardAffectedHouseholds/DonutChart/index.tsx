@@ -3,6 +3,7 @@ import { _cs } from '@togglecorp/fujs';
 import memoize from 'memoize-one';
 
 import List from '#rscv/List';
+import connectWithStyles from '#rsu/styles/connectWithStyles';
 import Responsive from '#rscg/Responsive';
 
 import Arc from './Arc';
@@ -23,10 +24,8 @@ interface Props<T> {
     valueSelector: SelectorFunction<T, number>;
     labelSelector: SelectorFunction<T, string | number>;
     colorSelector: SelectorFunction<T, string>;
+    currentStyles: object;
 }
-
-const STROKE_WIDTH = 10;
-const HOVER_STROKE_WIDTH = 12;
 
 interface RenderDatum {
     key: string | number;
@@ -37,9 +36,13 @@ interface RenderDatum {
     endAngle: number;
 }
 
+const arcRenderKeySelector = (datum: RenderDatum) => (
+    datum.key
+);
+
 class DonutChart<T> extends React.PureComponent<Props<T>> {
     private getRenderData = memoize((
-        data: T[],
+        data: T[] = [],
         keySelector: Props<T>['keySelector'],
         valueSelector: Props<T>['valueSelector'],
         labelSelector: Props<T>['labelSelector'],
@@ -73,11 +76,11 @@ class DonutChart<T> extends React.PureComponent<Props<T>> {
         return renderData;
     })
 
-    private getArcPosition = memoize((width, height) => {
+    private getArcPosition = memoize((width, height, currentStyles) => {
         const x = width / 2;
         const y = height / 2;
 
-        const radius = Math.min(width, height) / 2 - HOVER_STROKE_WIDTH;
+        const radius = Math.min(width, height) / 2 - currentStyles.widthDonutChartStrokeOnHover;
 
         return {
             x,
@@ -88,11 +91,11 @@ class DonutChart<T> extends React.PureComponent<Props<T>> {
 
     private getArcRendererParams = (_: string, datum: RenderDatum) => {
         const {
-            className,
             boundingClientRect: {
                 width = 0,
                 height = 0,
             },
+            currentStyles,
         } = this.props;
 
         const {
@@ -107,7 +110,7 @@ class DonutChart<T> extends React.PureComponent<Props<T>> {
             endAngle,
             label,
             color,
-            ...this.getArcPosition(width, height),
+            ...this.getArcPosition(width, height, currentStyles),
         };
     }
 
@@ -118,7 +121,7 @@ class DonutChart<T> extends React.PureComponent<Props<T>> {
                 width = 0,
                 height = 0,
             },
-            data = [],
+            data,
             labelSelector,
             keySelector,
             valueSelector,
@@ -148,12 +151,13 @@ class DonutChart<T> extends React.PureComponent<Props<T>> {
                 <List
                     data={renderData}
                     renderer={Arc}
+
                     rendererParams={this.getArcRendererParams}
-                    keySelector={keySelector}
+                    keySelector={arcRenderKeySelector}
                 />
             </svg>
         );
     }
 }
 
-export default Responsive(DonutChart);
+export default connectWithStyles(Responsive(DonutChart));

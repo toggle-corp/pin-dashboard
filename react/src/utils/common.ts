@@ -4,7 +4,7 @@ import {
     isList,
 } from '@togglecorp/fujs';
 
-export const forEach = (obj: object, func: (key: string, val: any) => void) => {
+export const forEach = (obj: object, func: (key: string, val: unknown) => void) => {
     Object.keys(obj).forEach((key) => {
         const val = (obj as any)[key];
         func(key, val);

@@ -1,8 +1,7 @@
 .path {
-    // TODO: use variables
-    stroke-width: 10;
+    stroke-width: var(--width-donut-chart-stroke);
 
     &:hover {
-        stroke-width: 12;
+        stroke-width: var(--width-donut-chart-stroke-on-hover);
     }
 }

@@ -2,10 +2,7 @@ import React from 'react';
 import { Store } from 'redux';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
-import {
-    initializeStyles,
-    setStyleProperties,
-} from '#rsu/styles';
+import { initializeStyles } from '#rsu/styles';
 
 import store from '#store';
 import { addIcon } from '#rscg/Icon';
@@ -39,8 +36,7 @@ export default class Root extends React.Component<Props, State> {
         // FIXME: later
         this.store = store as Store<AppState>;
 
-        initializeStyles();
-        setStyleProperties(styleProperties);
+        initializeStyles(styleProperties);
 
         console.info('React version:', React.version);
     }

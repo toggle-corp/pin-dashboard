@@ -1,6 +1,8 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
+import Numeral from '#rscv/Numeral';
+
 import { LandslidesSurveyed } from '#constants';
 
 import CategoricalTextOutput from '../../CategoricalTextOutput';
@@ -46,21 +48,45 @@ class LandslidesSurveyedView extends React.PureComponent<Props> {
                     <CategoricalTextOutput
                         riskCategory="high"
                         label="Cat 3"
-                        value={cat3}
+                        value={(
+                            <Numeral
+                                value={cat3}
+                                precision={null}
+                                showSeparator
+                            />
+                        )}
                     />
                     <CategoricalTextOutput
                         riskCategory="medium"
                         label="Cat 2"
-                        value={cat2}
+                        value={(
+                            <Numeral
+                                value={cat2}
+                                precision={null}
+                                showSeparator
+                            />
+                        )}
                     />
                     <CategoricalTextOutput
                         riskCategory="low"
                         label="Cat 1"
-                        value={cat1}
+                        value={(
+                            <Numeral
+                                value={cat1}
+                                precision={null}
+                                showSeparator
+                            />
+                        )}
                     />
                     <TextOutput
                         label="Total"
-                        value={total}
+                        value={(
+                            <Numeral
+                                value={total}
+                                precision={null}
+                                showSeparator
+                            />
+                        )}
                     />
                 </div>
             </div>

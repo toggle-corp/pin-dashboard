@@ -2,8 +2,9 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import memoize from 'memoize-one';
 
-import { currentStyle } from '#rsu/styles';
-import DonutChart from './DonutChart';
+import Numeral from '#rscv/Numeral';
+import connectWithStyles from '#rsu/styles/connectWithStyles';
+
 
 import { GeohazardAffected } from '#constants';
 
@@ -11,12 +12,14 @@ import CategoricalTextOutput from '../../CategoricalTextOutput';
 import TextOutput from '../../TextOutput';
 import Header from '../Header';
 import Heading from '../Heading';
+import DonutChart from './DonutChart';
 
 import styles from './styles.scss';
 
 interface Props {
     className?: string;
     data?: GeohazardAffected;
+    currentStyles: object;
 }
 
 const chartValueSelector = (d: { value: number }) => d.value;
@@ -25,7 +28,7 @@ const chartKeySelector = (d: { key: string }) => d.key;
 const chartColorSelector = (d: { color: string }) => d.color;
 
 class GeohazardAffectedHouseholdsView extends React.PureComponent<Props> {
-    private getChartData = memoize((relocated, inProcess) => {
+    private getChartData = memoize((relocated, inProcess, currentStyle) => {
         const chartData = [
             {
                 key: 'inProcess',
@@ -48,6 +51,7 @@ class GeohazardAffectedHouseholdsView extends React.PureComponent<Props> {
         const {
             className,
             data,
+            currentStyles,
         } = this.props;
 
         if (!data) {
@@ -60,7 +64,7 @@ class GeohazardAffectedHouseholdsView extends React.PureComponent<Props> {
         } = data;
 
         const inProcess = eligible - relocated;
-        const chartData = this.getChartData(relocated, inProcess);
+        const chartData = this.getChartData(relocated, inProcess, currentStyles);
 
         return (
             <div className={_cs(className, styles.geohazardAffectedHouseholds)}>
@@ -84,17 +88,35 @@ class GeohazardAffectedHouseholdsView extends React.PureComponent<Props> {
                     <div className={styles.details}>
                         <TextOutput
                             label="Eligible"
-                            value={eligible}
+                            value={(
+                                <Numeral
+                                    value={eligible}
+                                    precision={null}
+                                    showSeparator
+                                />
+                            )}
                         />
                         <CategoricalTextOutput
                             riskCategory="medium"
                             label="In process"
-                            value={inProcess}
+                            value={(
+                                <Numeral
+                                    value={inProcess}
+                                    precision={null}
+                                    showSeparator
+                                />
+                            )}
                         />
                         <CategoricalTextOutput
                             riskCategory="low"
                             label="Relocated"
-                            value={relocated}
+                            value={(
+                                <Numeral
+                                    value={relocated}
+                                    precision={null}
+                                    showSeparator
+                                />
+                            )}
                         />
                     </div>
                 </div>
@@ -103,4 +125,4 @@ class GeohazardAffectedHouseholdsView extends React.PureComponent<Props> {
     }
 }
 
-export default GeohazardAffectedHouseholdsView;
+export default connectWithStyles(GeohazardAffectedHouseholdsView);

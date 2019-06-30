@@ -58,6 +58,7 @@ function setRouteParams(state: Type.RouteState, action: Type.SetRouteAction) {
     return newState;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 function clearRouteState(state: Type.RouteState, action: Type.ClearRouteAction) {
     return {
         ...state,
