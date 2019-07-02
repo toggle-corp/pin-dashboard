@@ -8,7 +8,21 @@ import {
     methods,
 } from '#request';
 
-interface State {}
+import MultiViewContainer from '#rscv/MultiViewContainer';
+
+import NationalOverview from './NationalOverview';
+
+import styles from './styles.scss';
+
+enum ViewLevel {
+    National,
+    District,
+    Ward
+}
+
+interface State {
+    currentViewLevel: ViewLevel;
+}
 interface Params {}
 interface Props {}
 
@@ -27,13 +41,46 @@ const requests: { [key: string]: ClientAttributes<Props, Params> } = {
 
 type MyProps = NewProps<Props, Params>;
 
-interface Metadata {
-    totalHouseholds: number;
-}
-
 /* Loads required info from server */
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends React.Component<MyProps, State> {
+    private views: {
+        [key: string]: {
+            component: React.ComponentType;
+            rendererParams?: () => object;
+            wrapContainer?: boolean;
+            mount?: boolean;
+            lazyMount?: boolean;
+        };
+    }
+
+    public constructor(props: MyProps) {
+        super(props);
+
+        this.state = {
+            currentViewLevel: ViewLevel.National,
+        };
+
+        this.views = {
+            [ViewLevel.National]: {
+                component: NationalOverview,
+                rendererParams: () => {
+                    const {
+                        requests: {
+                            alertsRequest: { response },
+                        },
+                    } = this.props;
+
+                    return {
+                        metadata: response,
+                        className: styles.nationalOverview,
+                        title: 'Nepal',
+                    };
+                },
+            },
+        };
+    }
+
     public render() {
         const {
             requests: {
@@ -41,24 +88,24 @@ class App extends React.Component<MyProps, State> {
             },
         } = this.props;
 
-        console.warn(alertsRequest);
+        const {
+            currentViewLevel,
+        } = this.state;
 
         if (alertsRequest.pending) {
             return (
-                <div>
-                    Loading Metadata
+                <div className={styles.loadingMessage}>
+                    Loading Metadata ...
                 </div>
             );
         }
 
-        const {
-            totalHouseholds,
-        } = alertsRequest.response as Metadata;
-
         return (
-            <div>
-                Total Households:
-                {totalHouseholds}
+            <div className={styles.app}>
+                <MultiViewContainer
+                    views={this.views}
+                    active={currentViewLevel}
+                />
             </div>
         );
     }

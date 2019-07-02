@@ -1,0 +1,16 @@
+.people {
+    padding: var(--spacing-medium);
+
+    .icon {
+        width: 100%;
+        height: 72px;
+        object-fit: contain;
+        object-position: center center;
+    }
+
+    .value {
+        text-align: center;
+        font-family: var(--font-family-monospace);
+        font-weight: var(--font-weight-bold);
+    }
+}

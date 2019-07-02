@@ -1,0 +1,54 @@
+.information {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        flex-shrink: 0;
+
+        .heading {
+            padding: var(--spacing-medium);
+        }
+    }
+
+    .content {
+        display: flex;
+        align-content: flex-start;
+        flex-grow: 1;
+        flex-wrap: wrap;
+        overflow: auto;
+
+        %half-section {
+            flex-basis: 50%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            padding: var(--spacing-medium) 0;
+        }
+
+        %full-section {
+            flex-basis: 100%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            padding: var(--spacing-medium) 0;
+        }
+
+        .landslides-surveyed {
+            @extend %half-section;
+        }
+
+        .landslides-risk-score {
+            @extend %half-section;
+        }
+
+        .geohazard-affected-households {
+            @extend %full-section;
+        }
+
+        .land-purchased {
+            @extend %full-section;
+        }
+
+        .people-relocated {
+            @extend %full-section;
+        }
+    }
+}

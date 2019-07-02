@@ -1,0 +1,28 @@
+.text-output {
+    display: flex;
+    align-items: baseline;
+
+    .label {
+        padding: var(--spacing-small) var(--spacing-medium);
+    }
+
+    .separator {
+        padding: var(--spacing-small) 0;
+    }
+
+    .value {
+        padding: var(--spacing-small) var(--spacing-medium);
+        font-family: var(--font-family-monospace);
+        font-weight: var(--font-weight-bold);
+    }
+
+    &.invert-order {
+        .label {
+            order: 1;
+        }
+
+        .value {
+            order: 0;
+        }
+    }
+}

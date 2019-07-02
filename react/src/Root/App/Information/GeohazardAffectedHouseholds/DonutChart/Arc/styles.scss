@@ -1,0 +1,7 @@
+.path {
+    stroke-width: var(--width-donut-chart-stroke);
+
+    &:hover {
+        stroke-width: var(--width-donut-chart-stroke-on-hover);
+    }
+}
