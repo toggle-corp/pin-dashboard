@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const StylishPlugin = require('eslint/lib/cli-engine/formatters/stylish');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const dotenv = require('dotenv').config({
     path: '.env',
 });
@@ -25,9 +27,10 @@ module.exports = (env) => {
         output: {
             path: appDist,
             publicPath: '/',
-            chunkFilename: 'js/[name].[chunkhash].js',
-            filename: 'js/[name].[chunkhash].js',
+            chunkFilename: 'js/[name].[hash].js',
+            filename: 'js/[name].[hash].js',
             sourceMapFilename: 'sourcemaps/[file].map',
+            pathinfo: false,
         },
 
         resolve: {
@@ -65,6 +68,9 @@ module.exports = (env) => {
             },
             // Don't show warnings in browser console
             clientLogLevel: 'none',
+
+            hot: true,
+            liveReload: false,
         },
 
         module: {
@@ -73,23 +79,29 @@ module.exports = (env) => {
                     test: /\.(js|jsx|ts|tsx)$/,
                     include: appSrc,
                     use: [
+                        'cache-loader',
                         'babel-loader',
                         {
                             loader: 'eslint-loader',
                             options: {
                                 configFile: eslintFile,
+                                // NOTE: adding this because eslint 6 cannot find this
+                                // https://github.com/webpack-contrib/eslint-loader/issues/271
+                                formatter: StylishPlugin,
                             },
                         },
                     ],
                 },
                 {
                     test: /\.(html)$/,
-                    use: {
-                        loader: 'html-loader',
-                        options: {
-                            attrs: [':data-src'],
+                    use: [
+                        {
+                            loader: 'html-loader',
+                            options: {
+                                attrs: [':data-src'],
+                            },
                         },
-                    },
+                    ],
                 },
                 {
                     test: /\.scss$/,
@@ -138,6 +150,7 @@ module.exports = (env) => {
                 allowAsyncCycles: false,
                 cwd: appBase,
             }),
+            // Remove build folder anyway
             new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
                 template: appIndexHtml,
@@ -150,6 +163,10 @@ module.exports = (env) => {
                 filename: 'css/[name].css',
                 chunkFilename: 'css/[id].css',
             }),
+            new webpack.HotModuleReplacementPlugin(),
+            // new BundleAnalyzerPlugin(),
+            // NOTE: could try using react-hot-loader
+            // https://github.com/gaearon/react-hot-loader
         ],
     };
 };

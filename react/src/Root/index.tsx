@@ -27,8 +27,6 @@ Object.keys(iconNames).forEach((key) => {
 /* Loads redux into memory */
 /* Create redux context */
 export default class Root extends React.Component<Props, State> {
-    private store: Store<AppState>;
-
     public constructor(props: Props) {
         super(props);
 
@@ -45,6 +43,8 @@ export default class Root extends React.Component<Props, State> {
         // NOTE: We can also use PersistGate instead of callback to wait for rehydration
         persistStore(this.store, undefined, this.setRehydrated);
     }
+
+    private store: Store<AppState>;
 
     private setRehydrated = () => {
         this.setState({ rehydrated: true });
