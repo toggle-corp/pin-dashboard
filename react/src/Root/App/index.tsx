@@ -44,16 +44,6 @@ type MyProps = NewProps<Props, Params>;
 /* Loads required info from server */
 // eslint-disable-next-line react/prefer-stateless-function
 class App extends React.Component<MyProps, State> {
-    private views: {
-        [key: string]: {
-            component: React.ComponentType;
-            rendererParams?: () => object;
-            wrapContainer?: boolean;
-            mount?: boolean;
-            lazyMount?: boolean;
-        };
-    }
-
     public constructor(props: MyProps) {
         super(props);
 
@@ -78,6 +68,16 @@ class App extends React.Component<MyProps, State> {
                     };
                 },
             },
+        };
+    }
+
+    private views: {
+        [key: string]: {
+            component: React.ComponentType;
+            rendererParams?: () => object;
+            wrapContainer?: boolean;
+            mount?: boolean;
+            lazyMount?: boolean;
         };
     }
 

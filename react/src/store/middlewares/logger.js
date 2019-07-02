@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 const createLogger = skipList => store => next => (action) => {
     if (action && !skipList.includes(action.type)) {
         if (action.senderId === undefined) {

@@ -11,9 +11,7 @@ import { sanitizeResponse } from '#utils/common';
 
 const wsEndpoint = process.env.REACT_APP_API_SERVER_URL || 'http://pin-api.togglecorp.com:8000/api/v1';
 
-// FIXME: don't know why eslint disable is required right now
-// eslint-disable-next-line arrow-parens
-export const createConnectedRequestCoordinator = <OwnProps>() => {
+export function createConnectedRequestCoordinator<OwnProps>() {
     type Props = OwnProps;
 
     const requestor = createRequestCoordinator({
@@ -77,6 +75,6 @@ export const createConnectedRequestCoordinator = <OwnProps>() => {
     });
 
     return requestor;
-};
+}
 
 export * from '@togglecorp/react-rest-request';
