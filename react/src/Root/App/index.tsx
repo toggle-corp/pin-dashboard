@@ -8,6 +8,7 @@ import {
     methods,
 } from '#request';
 
+import Map from '#rscz/Map/index';
 import MultiViewContainer from '#rscv/MultiViewContainer';
 
 import NationalOverview from './NationalOverview';
@@ -25,6 +26,13 @@ interface State {
 }
 interface Params {}
 interface Props {}
+
+const mapStyle = {
+    name: 'none',
+    style: 'mapbox://styles/adityakhatri/cjuck3jrk1gyt1fprrcz8z4f0',
+    color: '#dddddd',
+};
+
 
 const requests: { [key: string]: ClientAttributes<Props, Params> } = {
     alertsRequest: {
@@ -101,12 +109,24 @@ class App extends React.Component<MyProps, State> {
         }
 
         return (
-            <div className={styles.app}>
+            <Map
+                className={styles.app}
+                mapStyle={mapStyle}
+                fitBoundsDuration={200}
+                minZoom={5}
+                logoPosition="bottom-left"
+
+                showScaleControl
+                scaleControlPosition="bottom-right"
+
+                showNavControl
+                navControlPosition="bottom-right"
+            >
                 <MultiViewContainer
                     views={this.views}
                     active={currentViewLevel}
                 />
-            </div>
+            </Map>
         );
     }
 }
