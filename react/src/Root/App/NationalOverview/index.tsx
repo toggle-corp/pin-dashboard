@@ -27,9 +27,9 @@ class NationalOverview extends React.PureComponent<Props> {
                     data={metadata}
                     title={title}
                 />
-                <div className={styles.map}>
-                    Map
-                </div>
+                {/*
+                    <MapSource />
+                */}
             </div>
         );
     }

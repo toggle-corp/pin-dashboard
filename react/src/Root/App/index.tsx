@@ -122,10 +122,18 @@ class App extends React.Component<MyProps, State> {
                 showNavControl
                 navControlPosition="bottom-right"
             >
-                <MultiViewContainer
-                    views={this.views}
-                    active={currentViewLevel}
-                />
+                <div className={styles.left}>
+                    <MultiViewContainer
+                        views={this.views}
+                        active={currentViewLevel}
+                    />
+                </div>
+                <div className={styles.right}>
+                    Map container
+                    {/*
+                        <MapContainer />
+                    */}
+                </div>
             </Map>
         );
     }
