@@ -8,7 +8,9 @@ import {
     methods,
 } from '#request';
 
-import Map from '#rscz/Map/index';
+import Map from '#rscz/Map';
+import MapContainer from '#rscz/Map/MapContainer';
+
 import MultiViewContainer from '#rscv/MultiViewContainer';
 
 import NationalOverview from './NationalOverview';
@@ -109,32 +111,30 @@ class App extends React.Component<MyProps, State> {
         }
 
         return (
-            <Map
-                className={styles.app}
-                mapStyle={mapStyle}
-                fitBoundsDuration={200}
-                minZoom={5}
-                logoPosition="bottom-left"
+            <div className={styles.app}>
+                <Map
+                    mapStyle={mapStyle.style}
+                    fitBoundsDuration={200}
+                    minZoom={5}
+                    logoPosition="bottom-left"
 
-                showScaleControl
-                scaleControlPosition="bottom-right"
+                    showScaleControl
+                    scaleControlPosition="bottom-right"
 
-                showNavControl
-                navControlPosition="bottom-right"
-            >
-                <div className={styles.left}>
-                    <MultiViewContainer
-                        views={this.views}
-                        active={currentViewLevel}
+                    showNavControl
+                    navControlPosition="bottom-right"
+                >
+                    <div className={styles.left}>
+                        <MultiViewContainer
+                            views={this.views}
+                            active={currentViewLevel}
+                        />
+                    </div>
+                    <MapContainer
+                        className={styles.right}
                     />
-                </div>
-                <div className={styles.right}>
-                    Map container
-                    {/*
-                        <MapContainer />
-                    */}
-                </div>
-            </Map>
+                </Map>
+            </div>
         );
     }
 }

@@ -32,7 +32,27 @@ export interface PeopleRelocated {
     elderlyFemale?: number;
 }
 
+export interface RelocationPoint {
+    directRiskFor: string;
+    gpName: string; // TODO: should be name
+    hhAffected: number;
+    highRiskOf: string;
+    landslideCat: keyof LandslidesSurveyed;
+    landslideCode: string;
+    latitude: number;
+    longitude: number;
+    mitigationWorkBy: string;
+    mitigationWorkStatus: string;
+    place: string;
+    potentialImpact: string;
+    riskProbability: string;
+    riskScore: keyof LandslidesRiskScore;
+}
+
 export interface Base {
+    cat2_points?: RelocationPoint[];
+    cat3_points?: RelocationPoint[];
+
     totalHouseholds?: number;
     landPurchased?: number;
     geohazardAffected: GeohazardAffected;
