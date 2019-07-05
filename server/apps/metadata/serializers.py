@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dashboard.serializers import ListToDictField
+from pin.serializers import ListToDictField
 
 
 class BaseMetadataSerializer(serializers.Serializer):

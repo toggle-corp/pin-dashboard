@@ -103,7 +103,8 @@ target/
 __pycache__/
 local_settings.py
 
-.env
-db.sqlite3
+.env*
+!.env-sample
+db.sqlite3*
 media/
 .ropeproject/
