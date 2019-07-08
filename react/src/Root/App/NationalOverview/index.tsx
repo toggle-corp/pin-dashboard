@@ -39,6 +39,14 @@ class NationalOverview extends React.PureComponent<Props> {
                     // boundsPadding={boundsPadding}
                 >
                     <MapLayer
+                        layerKey="district-fill"
+                        type="fill"
+                        sourceLayer={mapSources.nepal.layers.district}
+                        paint={mapStyles.district.fill}
+                        // layout={showDistrict ? visibleLayout : noneLayout}
+                        // filter={districtFilter}
+                    />
+                    <MapLayer
                         layerKey="district-outline"
                         type="line"
                         sourceLayer={mapSources.nepal.layers.district}
