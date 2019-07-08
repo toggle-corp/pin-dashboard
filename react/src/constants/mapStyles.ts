@@ -5,8 +5,13 @@ export default {
             'line-width': 1,
         },
         fill: {
-            'fill-color': '#ffffff',
-            'fill-opacity': 0.8,
+            'fill-color': [
+                'case',
+                ['==', ['feature-state', 'type'], 'most-affected-district'], '#0010A1',
+                ['==', ['feature-state', 'type'], 'affected-district'], '#3656F6',
+                '#ffffff',
+            ],
+            'fill-opacity': 0.7,
         },
     },
 };
