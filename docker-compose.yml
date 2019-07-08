@@ -7,10 +7,10 @@ services:
       - db_data:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root 
-      MYSQL_DATABASE: wordpress 
-      MYSQL_USER: root 
-      MYSQL_PASSWORD: root 
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
 
   wordpress:
     depends_on:
@@ -19,21 +19,36 @@ services:
     volumes:
       - ./wp-theme:/var/www/html/wp-content/themes/ultrasimpleRes
     ports:
-      - '8000:80'
+      - '8051:80'
     restart: always
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: root 
-      WORDPRESS_DB_PASSWORD: root 
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: root
       WORDPRESS_DB_NAME: wordpress
 
   react:
     build: ./react/
     command: sh -c 'yarn install && yarn start'
+    environment:
+      REACT_APP_API_SERVER_URL: http://localhost:8050/api/v1
+    env_file:
+      - .env
     volumes:
       - ./react/:/code
     ports:
       - '3050:3050'
+
+  server:
+    image: devtc/pin-dashboard-server:develop
+    build: ./server/
+    command: bash -c '/code/scripts/run_develop.sh'
+    env_file:
+      - .env
+    volumes:
+      - ./server/:/code
+    ports:
+      - '8050:8050'
 
 volumes:
     db_data: {}
