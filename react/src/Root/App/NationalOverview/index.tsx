@@ -5,8 +5,14 @@ import { _cs, isNotDefined } from '@togglecorp/fujs';
 import MapSource from '#rscz/Map/MapSource';
 import MapLayer from '#rscz/Map/MapLayer';
 
-import { Metadata, mapSources, mapStyles } from '#constants';
+import {
+    Metadata,
+    mapSources,
+    mapStyles,
+} from '#constants';
+
 import Information from '../Information';
+import HoverDetails from '../HoverDetails';
 
 import styles from './styles.scss';
 
@@ -80,6 +86,87 @@ const mostAffectedDistricts: number[] = [
     24,
 ];
 
+// FIXME: this is temporary layer
+const districts: { [key: string]: string } = {
+    1: 'Taplejung',
+    2: 'Panchthar',
+    3: 'Ilam',
+    4: 'Jhapa',
+    5: 'Morang',
+    6: 'Sunsari',
+    7: 'Dhankuta',
+    8: 'Terhathum',
+    9: 'Bhojpur',
+    10: 'Sankhuwasabha',
+    11: 'Solukhumbu',
+    12: 'Khotang',
+    13: 'Okhaldhunga',
+    14: 'Udayapur',
+    15: 'Siraha',
+    16: 'Saptari',
+    17: 'Dhanusa',
+    18: 'Mahottari',
+    19: 'Sarlahi',
+    20: 'Sindhuli',
+    21: 'Ramechhap',
+    22: 'Dolakha',
+    23: 'Rasuwa',
+    24: 'Sindhupalchok',
+    25: 'Nuwakot',
+    26: 'Dhading',
+    27: 'Kathmandu',
+    28: 'Lalitpur',
+    29: 'Bhaktapur',
+    30: 'Kavrepalanchok',
+    31: 'Makwanpur',
+    32: 'Rautahat',
+    33: 'Bara',
+    34: 'Parsa',
+    35: 'Chitwan',
+    37: 'Rupandehi',
+    38: 'Kapilbastu',
+    39: 'Palpa',
+    40: 'Arghakhanchi',
+    41: 'Gulmi',
+    42: 'Syangja',
+    43: 'Tanahu',
+    44: 'Gorkha',
+    45: 'Lamjung',
+    46: 'Kaski',
+    47: 'Manang',
+    48: 'Mustang',
+    49: 'Myagdi',
+    50: 'Baglung',
+    51: 'Parbat',
+    52: 'Dang',
+    53: 'Pyuthan',
+    54: 'Rolpa',
+    55: 'Salyan',
+    57: 'Dolpa',
+    58: 'Mugu',
+    59: 'Humla',
+    60: 'Jumla',
+    61: 'Kalikot',
+    62: 'Jajarkot',
+    63: 'Dailekh',
+    64: 'Surkhet',
+    65: 'Bardiya',
+    66: 'Banke',
+    67: 'Kailali',
+    68: 'Doti',
+    69: 'Achham',
+    70: 'Bajura',
+    71: 'Bajhang',
+    72: 'Darchula',
+    73: 'Baitadi',
+    74: 'Dadeldhura',
+    75: 'Kanchanpur',
+    481: 'Nawalpur',
+    482: 'Parasi',
+    541: 'Rukum East',
+    542: 'Rukum West',
+};
+
 function wrapInArray<T>(item?: T) {
     if (isNotDefined(item)) {
         return [];
@@ -119,11 +206,78 @@ class NationalOverview extends React.PureComponent<Props, State> {
 
     private wrapInArray = memoize(wrapInArray);
 
+    private renderHoverDetail = () => {
+        const {
+            metadata,
+        } = this.props;
+
+        const { hoveredId } = this.state;
+
+        if (!hoveredId) {
+            return null;
+        }
+
+        // FIXME: this is temporary layer
+        const districtName = hoveredId
+            ? districts[hoveredId]
+            : undefined;
+        const districtData = districtName && metadata && metadata.districts
+            ? metadata.districts[districtName]
+            : undefined;
+
+        if (!districtData) {
+            return null;
+        }
+
+        return (
+            <HoverDetails
+                districtName={districtName}
+                landslidesSurveyed={districtData.landslidesSurveyed}
+            />
+        );
+    }
+
+    private getInformationDataForSelectedRegion = () => {
+        const {
+            title,
+            metadata,
+        } = this.props;
+
+        const { selectedId } = this.state;
+
+        if (!selectedId) {
+            return {
+                metadata,
+                title,
+            };
+        }
+
+        const districtName = selectedId
+            ? districts[selectedId]
+            : undefined;
+
+        const districtData = districtName && metadata && metadata.districts
+            ? metadata.districts[districtName]
+            : undefined;
+
+        if (!districtData) {
+            return {
+                title: undefined,
+                metadata: undefined,
+            };
+        }
+
+        return ({
+            title: districtName,
+            metadata: districtData,
+        });
+    }
+
     public render() {
         const {
             className,
-            metadata,
-            title,
+            // metadata,
+            // title,
         } = this.props;
 
         const sourceKey = 'national-overview';
@@ -134,23 +288,17 @@ class NationalOverview extends React.PureComponent<Props, State> {
             hoveredId,
         } = this.state;
 
+        const {
+            title,
+            metadata,
+        } = this.getInformationDataForSelectedRegion();
+
         return (
             <div className={_cs(className, styles.nationalOverview)}>
-                { selectedId && (
-                    <div>
-                        Selected
-                        {selectedId}
-                    </div>
-                )}
-                { !selectedId && hoveredId && (
-                    <div>
-                        Hovered
-                        {hoveredId}
-                    </div>
-                )}
+                {this.renderHoverDetail()}
                 <Information
                     className={styles.information}
-                    data={metadata}
+                    data={metadata as Metadata}
                     title={title}
                 />
                 <MapSource

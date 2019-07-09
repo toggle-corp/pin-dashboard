@@ -37,7 +37,7 @@ const mapStyle = {
 
 
 const requests: { [key: string]: ClientAttributes<Props, Params> } = {
-    alertsRequest: {
+    metadaRequest: {
         url: '/metadata/',
         method: methods.GET,
         onMount: true,
@@ -67,7 +67,7 @@ class App extends React.Component<MyProps, State> {
                 rendererParams: () => {
                     const {
                         requests: {
-                            alertsRequest: { response },
+                            metadaRequest: { response },
                         },
                     } = this.props;
 
@@ -94,7 +94,7 @@ class App extends React.Component<MyProps, State> {
     public render() {
         const {
             requests: {
-                alertsRequest,
+                metadaRequest,
             },
         } = this.props;
 
@@ -102,7 +102,7 @@ class App extends React.Component<MyProps, State> {
             currentViewLevel,
         } = this.state;
 
-        if (alertsRequest.pending) {
+        if (metadaRequest.pending) {
             return (
                 <div className={styles.loadingMessage}>
                     Loading Metadata ...

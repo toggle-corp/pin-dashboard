@@ -17,6 +17,9 @@ const styleProperties = {
 
     // TODO: reaccess following value
     heightApp: getPropertyValue('--height-app'),
+
+    widthHoverDetails: '320px',
+    zIndexHoverDetails: '11',
 };
 
 export default styleProperties;
