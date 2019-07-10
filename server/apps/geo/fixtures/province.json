@@ -1,0 +1,51 @@
+[
+    {
+        "model": "geo.province",
+        "pk": 1,
+        "fields": {
+            "name": "Province 1"
+        }
+    },
+    {
+        "model": "geo.province",
+        "pk": 2,
+        "fields": {
+            "name": "Province 2"
+        }
+    },
+    {
+        "model": "geo.province",
+        "pk": 3,
+        "fields": {
+            "name": "Province 3"
+        }
+    },
+    {
+        "model": "geo.province",
+        "pk": 4,
+        "fields": {
+            "name": "Gandaki"
+        }
+    },
+    {
+        "model": "geo.province",
+        "pk": 5,
+        "fields": {
+            "name": "Province 5"
+        }
+    },
+    {
+        "model": "geo.province",
+        "pk": 6,
+        "fields": {
+            "name": "Karnali"
+        }
+    },
+    {
+        "model": "geo.province",
+        "pk": 7,
+        "fields": {
+            "name": "Sudurpashchim"
+        }
+    }
+]

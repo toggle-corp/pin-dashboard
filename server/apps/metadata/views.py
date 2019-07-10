@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.db import models
 from django.shortcuts import get_object_or_404
 
@@ -8,7 +10,7 @@ from rest_framework import (
 from .serializers import CountrySerializer, DistrictDetailSerializer
 from .models import (
     GeoSite, Household,
-    District, Gaupalika,
+    District, Palika,
 )
 
 from fieldsight.loader import Loader
@@ -31,10 +33,10 @@ class CatPoint:
 
         self.landslide_code = geosite.code
         self.landslide_cat = geosite.category
-        self.gp_name = geosite.gaupalika.name
+        self.gp_name = geosite.palika.name
         self.place = geosite.place
 
-        self.households = geosite.household_set.all()
+        self.households = geosite.household_set
         self.hh_affected = self.households.count()
         self.risk_score = geosite.risk_score
         self.high_risk_of = geosite.high_risk_of
@@ -63,15 +65,15 @@ class Metadata:
     # We have not used get_xxx naming specification below
     # so that these attributes will be directly mapped with the serializer
     # fields.
-    def __init__(self, district=None, gaupalika=None):
+    def __init__(self, district=None, palika=None):
         self.district = district
-        self.gaupalika = gaupalika
+        self.palika = palika
         self.gs = GeoSite.objects
         self.hh = Household.objects
 
-        if self.gaupalika:
-            self.gs = self.gs.filter(gaupalika=gaupalika)
-            self.hh = self.hh.filter(gaupalika=gaupalika)
+        if self.palika:
+            self.gs = self.gs.filter(palika=palika)
+            self.hh = self.hh.filter(palika=palika)
         elif self.district:
             self.gs = self.gs.filter(district=district)
             self.hh = self.hh.filter(district=district)
@@ -128,11 +130,11 @@ class Metadata:
             Metadata(district) for district in District.objects.all()
         ]
 
-    def gaupalikas(self):
+    def palikas(self):
         return [
-            Metadata(None, gaupalika)
-            for gaupalika
-            in Gaupalika.objects.filter(district=self.district)
+            Metadata(None, palika)
+            for palika
+            in Palika.objects.filter(district=self.district).all()
         ]
 
     def total_households(self):
@@ -144,20 +146,26 @@ class Metadata:
         return [
             Cat2Point(gs)
             for gs
-            in GeoSite.objects.filter(gaupalika__district=self.district,
-                                      category__iexact='cat2')
+            in GeoSite.objects.filter(
+                palika__district=self.district,
+                category__iexact='cat2',
+            ).prefetch_related('palika', 'household_set')
         ]
 
     def cat3_points(self):
         return [
             Cat3Point(gs)
             for gs
-            in GeoSite.objects.filter(gaupalika__district=self.district,
-                                      category__iexact='cat3')
+            in GeoSite.objects.filter(
+                palika__district=self.district,
+                category__iexact='cat3',
+            ).prefetch_related('palika', 'household_set')
         ]
 
 
 class MetadataView(views.APIView):
+
+    @method_decorator(cache_page(60 * 60 * 1))
     def get(self, request, district=None):
         loader = Loader()
 

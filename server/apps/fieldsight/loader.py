@@ -1,15 +1,20 @@
+import logging
 import requests
 import os
 import re
 
 from django.conf import settings
 from fieldsight.models import Project
-from metadata.models import (
-    Gaupalika,
+from geo.models import (
+    Palika,
     District,
+)
+from metadata.models import (
     GeoSite,
     Household,
 )
+
+logger = logging.getLogger(__name__)
 
 
 try:
@@ -134,7 +139,7 @@ class Loader:
             try:
                 self.load_geosite(datum)
             except Exception:
-                pass
+                logger.error('Fetch Geosites Failed!!', exc_info=True)
 
     def fetch_households(self, force=False):
         data = self.fetch_data('hh_registry', force)
@@ -142,7 +147,7 @@ class Loader:
             try:
                 self.load_household(datum)
             except Exception:
-                pass
+                logger.error('Fetch Households Failed!!', exc_info=True)
 
     def load_geosite(self, datum):
         code = get_attr(datum, 'Geohazard_code')
@@ -156,13 +161,14 @@ class Loader:
         defaults['longitude'] = get_attr(datum, 'longitude') or \
             datum['location'][0]
 
-        defaults['district'], _ = District.objects.get_or_create(
-            name=get_attr(datum, 'District')
-        )
-        defaults['gaupalika'], _ = Gaupalika.objects.get_or_create(
-            name=get_attr(datum, 'Gaupalika'),
-            defaults={'district': defaults['district']}
-        )
+        defaults['district'] = District.objects.filter(
+            name__trigram_similar=get_attr(datum, 'District')
+        ).first()
+        defaults['palika'] = Palika.objects.filter(
+            name__trigram_similar=get_attr(datum, 'Gaupalika'),
+            district__in=[defaults['district']],
+        ).first()
+        defaults['ward'] = str(get_attr(datum, 'Ward')) if get_attr(datum, 'Ward') else None
 
         geosite, _ = GeoSite.objects.update_or_create(
             code=code,
@@ -174,6 +180,12 @@ class Loader:
         geosite = GeoSite.objects.filter(
             code=get_attr(datum, 'Geohazard_Code')
         ).first()
+
+        if code is None:
+            logger.error(
+                f"Code isn't present in household id:{datum.get('id')}",
+            )
+            return
 
         defaults = {}
         for key, value in self.household_map.items():
@@ -188,15 +200,16 @@ class Loader:
         defaults['geosite'] = geosite
 
         try:
-            defaults['district'], _ = District.objects.get_or_create(
-                name=get_attr(datum, 'District_of_origin')
-            )
-            defaults['gaupalika'], _ = Gaupalika.objects.get_or_create(
-                name=get_attr(datum, 'Gaupalika_Municipality'),
-                defaults={'district': defaults['district']}
-            )
+            defaults['district'] = District.objects.filter(
+                name__trigram_similar=get_attr(datum, 'District_of_origin')
+            ).first()
+            defaults['palika'] = Palika.objects.filter(
+                name__trigram_similar=get_attr(datum, 'Gaupalika_Municipality'),
+                district__in=[defaults['district']],
+            ).first()
+            defaults['ward'] = str(get_attr(datum, 'Ward')) if get_attr(datum, 'Ward') else None
         except Exception:
-            pass
+            logger.error(f'Load Household({code}) Failed!!', exc_info=True)
 
         household, _ = Household.objects.update_or_create(
             code=code,

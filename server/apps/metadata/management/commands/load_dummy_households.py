@@ -1,7 +1,9 @@
 from django.core.management.base import BaseCommand
-from metadata.models import (
+from geo.models import (
     District,
-    Gaupalika,
+    Palika,
+)
+from metadata.models import (
     GeoSite,
     Household,
 )
@@ -21,7 +23,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.district = District.objects.all()
-        self.gaupalika = Gaupalika.objects.all()
+        self.palika = Palika.objects.all()
         self.geosite = GeoSite.objects.all()
 
         households = Household.objects.all()
@@ -46,7 +48,7 @@ class Command(BaseCommand):
     def load_household(self, household):
         attrs = [
             'district',
-            'gaupalika',
+            'palika',
             'geosite',
             'eligibility_source',
             'eligibility',

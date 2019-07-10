@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
 
     'corsheaders',
     'djangorestframework_camel_case',
@@ -75,7 +76,7 @@ ROOT_URLCONF = 'pin.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(APPS_DIR, 'templates')],
+        'DIRS': [os.path.join('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -96,8 +97,12 @@ WSGI_APPLICATION = 'pin.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DATABASE_NAME', 'postgres'),
+        'USER': os.environ.get('DATABASE_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', 'postgres'),
+        'PORT': os.environ.get('DATABASE_PORT', '5432'),
+        'HOST': os.environ.get('DATABASE_HOST', 'db'),
     }
 }
 
@@ -176,5 +181,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 if DEBUG:
     INSTALLED_APPS += ['silk']
+    MIDDLEWARE += ['silk.middleware.SilkyMiddleware']
     SILKY_META = True
     SILKY_PYTHON_PROFILER = True
