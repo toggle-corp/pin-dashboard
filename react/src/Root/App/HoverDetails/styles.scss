@@ -1,0 +1,24 @@
+.hover-details {
+    position: absolute;
+    top: var(--spacing-medium);
+    right: var(--spacing-medium);
+    z-index: var(--z-index-hover-details);
+    border: var(--width-separator-thin) solid var(--color-accent);
+    padding: var(--spacing-small);
+    width: var(--width-hover-details);
+
+    .district-name {
+        padding: var(--spacing-medium);
+        font-size: var(--font-size-large);
+        font-weight: var(--font-weight-bold);
+    }
+
+    .details {
+        .extra {
+            display: inline-block;
+            padding: 0 var(--spacing-medium);
+            font-family: var(--font-family-sans-serif);
+            font-weight: var(--font-weight-medium);
+        }
+    }
+}

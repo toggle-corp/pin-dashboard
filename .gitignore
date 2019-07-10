@@ -1,4 +1,5 @@
 # dependencies
+react/.env
 node_modules/
 vendor/
 src/public/

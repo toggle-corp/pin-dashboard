@@ -1,19 +1,7 @@
 .national-overview {
-    display: flex;
     background-color: var(--color-background-alt);
 
     .information {
-        flex-shrink: 0;
         background-color: var(--color-foreground);
-
-        // TODO: move to variables
-        width: 480px;
-    }
-
-    .map {
-        display: flex;
-        align-items: center;
-        flex-grow: 1;
-        justify-content: center;
     }
 }
