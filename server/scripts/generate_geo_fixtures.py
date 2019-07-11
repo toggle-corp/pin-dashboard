@@ -31,8 +31,8 @@ def parse_geo_data(division_type, geodata):
                 **DATA_EXTRACTOR[division_type](prop),
                 'name': prop['title'],
                 'meta': {
-                    'centroid': '',
-                    'bbox': '',
+                    'centroid': prop['centroid'],
+                    'bbox': prop['bbox'],
                 },
             },
         })
