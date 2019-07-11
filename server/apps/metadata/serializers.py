@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from pin.serializers import ListToDictField
 
 
 class BaseMetadataSerializer(serializers.Serializer):
@@ -43,6 +42,8 @@ class Cat3PointSerializer(CatPointSerializer):
 class GeoAttributeSerializer(serializers.Serializer):
     id = serializers.IntegerField(source='pk')
     name = serializers.CharField()
+    centroid = serializers.ListField(serializers.IntegerField, source='meta.centroid')
+    bbox = serializers.ListField(serializers.IntegerField, source='meta.bbox')
 
 
 class PalikaSerializer(BaseMetadataSerializer):
