@@ -14,8 +14,8 @@ class Command(BaseCommand):
             'key': 'districts',
             'filename': 'districts.json',
         }, {
-            'key': 'gaupalikas',
-            'filename': 'gaupalikas.json',
+            'key': 'palikas',
+            'filename': 'palikas.json',
         }]
 
         for info in map_data:

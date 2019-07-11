@@ -1,7 +1,9 @@
 from django.core.management.base import BaseCommand
-from metadata.models import (
+from geo.models import (
     District,
-    Gaupalika,
+    Palika,
+)
+from metadata.models import (
     GeoSite,
 )
 from utils.geo import get_random_point
@@ -59,7 +61,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.district = District.objects.all()
-        self.gaupalika = Gaupalika.objects.all()
+        self.palika = Palika.objects.all()
 
         geo_sites = GeoSite.objects.all()
         i = 0
@@ -83,7 +85,7 @@ class Command(BaseCommand):
     def load_geo_site(self, geo_site):
         attrs = [
             'district',
-            'gaupalika',
+            'palika',
             'category',
             'risk_score',
             'high_risk_of',
@@ -100,8 +102,8 @@ class Command(BaseCommand):
         geo_site.place = 'Place {}'.format(uuid.uuid4().hex[:2].upper())
 
         try:
-            gaupalika = geo_site.gaupalika
-            pt = get_random_point(json.loads(gaupalika.geojson))
+            palika = geo_site.palika
+            pt = get_random_point(json.loads(palika.geojson))
             geo_site.longitude = pt.x
             geo_site.latitude = pt.y
         except Exception:

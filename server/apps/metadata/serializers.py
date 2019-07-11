@@ -40,26 +40,33 @@ class Cat3PointSerializer(CatPointSerializer):
     households_relocated = serializers.IntegerField()
 
 
-class GaupalikaSerializer(BaseMetadataSerializer):
-    gaupalika = serializers.CharField(source='gaupalika.name')
+class GeoAttributeSerializer(serializers.Serializer):
+    id = serializers.IntegerField(source='pk')
+    name = serializers.CharField()
+
+
+class PalikaSerializer(BaseMetadataSerializer):
+    geo_attribute = GeoAttributeSerializer(source='palika')
 
 
 class DistrictDetailSerializer(BaseMetadataSerializer):
-    district = serializers.CharField()
+    geo_attribute = GeoAttributeSerializer(source='district')
     cat2_points = Cat2PointSerializer(many=True)
     cat3_points = Cat3PointSerializer(many=True)
-    gaupalikas = ListToDictField(
-        child=GaupalikaSerializer(many=True),
-        key='gaupalika',
-    )
+    regions = PalikaSerializer(source='palikas', many=True)
 
 
 class DistrictSerializer(BaseMetadataSerializer):
-    district = serializers.CharField(source='district.name')
+    geo_attribute = GeoAttributeSerializer(source='district')
 
 
 class CountrySerializer(BaseMetadataSerializer):
-    districts = ListToDictField(
-        child=DistrictSerializer(many=True),
-        key='district',
-    )
+    regions = DistrictSerializer(source='districts', many=True)
+    geo_attribute = serializers.SerializerMethodField(read_only=True)
+
+    def get_geo_attribute(self, obj):
+        # NOTE: This represents County Geo Attribute (Nepal)
+        return GeoAttributeSerializer({
+            'pk': 0,
+            'name': 'Nepal',
+        }).data

@@ -1,0 +1,6194 @@
+[
+    {
+        "model": "geo.palika",
+        "pk": 1001,
+        "fields": {
+            "name": "Aathrai Tribeni",
+            "district": 1
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 1002,
+        "fields": {
+            "name": "Maiwakhola",
+            "district": 1
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 1003,
+        "fields": {
+            "name": "Meringden",
+            "district": 1
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 1004,
+        "fields": {
+            "name": "Mikwakhola",
+            "district": 1
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 1005,
+        "fields": {
+            "name": "Phaktanglung",
+            "district": 1
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 1006,
+        "fields": {
+            "name": "Phungling",
+            "district": 1
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 1007,
+        "fields": {
+            "name": "Sidingba",
+            "district": 1
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 1008,
+        "fields": {
+            "name": "Sirijangha",
+            "district": 1
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 1009,
+        "fields": {
+            "name": "Yangwarak",
+            "district": 1
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 2001,
+        "fields": {
+            "name": "Falelung",
+            "district": 2
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 2002,
+        "fields": {
+            "name": "Falgunanda",
+            "district": 2
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 2003,
+        "fields": {
+            "name": "Hilihang",
+            "district": 2
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 2004,
+        "fields": {
+            "name": "Kummayak",
+            "district": 2
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 2005,
+        "fields": {
+            "name": "Miklajung",
+            "district": 2
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 2006,
+        "fields": {
+            "name": "Phidim",
+            "district": 2
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 2007,
+        "fields": {
+            "name": "Tumbewa",
+            "district": 2
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 2008,
+        "fields": {
+            "name": "Yangwarak",
+            "district": 2
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 3001,
+        "fields": {
+            "name": "Chulachuli",
+            "district": 3
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 3002,
+        "fields": {
+            "name": "Deumai",
+            "district": 3
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 3003,
+        "fields": {
+            "name": "Fakphokthum",
+            "district": 3
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 3004,
+        "fields": {
+            "name": "Illam",
+            "district": 3
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 3005,
+        "fields": {
+            "name": "Mai",
+            "district": 3
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 3006,
+        "fields": {
+            "name": "Maijogmai",
+            "district": 3
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 3007,
+        "fields": {
+            "name": "Mangsebung",
+            "district": 3
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 3008,
+        "fields": {
+            "name": "Rong",
+            "district": 3
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 3009,
+        "fields": {
+            "name": "Sandakpur",
+            "district": 3
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 3010,
+        "fields": {
+            "name": "Suryodaya",
+            "district": 3
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4001,
+        "fields": {
+            "name": "Arjundhara",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4002,
+        "fields": {
+            "name": "Barhadashi",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4003,
+        "fields": {
+            "name": "Bhadrapur",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4004,
+        "fields": {
+            "name": "Birtamod",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4005,
+        "fields": {
+            "name": "Buddhashanti",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4006,
+        "fields": {
+            "name": "Damak",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4007,
+        "fields": {
+            "name": "Gauradhaha",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4008,
+        "fields": {
+            "name": "Gauriganj",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4009,
+        "fields": {
+            "name": "Haldibari",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4010,
+        "fields": {
+            "name": "Jhapa",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4011,
+        "fields": {
+            "name": "Kachankawal",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4012,
+        "fields": {
+            "name": "Kamal",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4013,
+        "fields": {
+            "name": "Kankai",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4014,
+        "fields": {
+            "name": "Mechinagar",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 4015,
+        "fields": {
+            "name": "Shivasataxi",
+            "district": 4
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5001,
+        "fields": {
+            "name": "Belbari",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5002,
+        "fields": {
+            "name": "Biratnagar",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5003,
+        "fields": {
+            "name": "Budhiganga",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5004,
+        "fields": {
+            "name": "Dhanpalthan",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5005,
+        "fields": {
+            "name": "Gramthan",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5006,
+        "fields": {
+            "name": "Jahada",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5007,
+        "fields": {
+            "name": "Kanepokhari",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5008,
+        "fields": {
+            "name": "Katahari",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5009,
+        "fields": {
+            "name": "Kerabari",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5010,
+        "fields": {
+            "name": "Letang",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5011,
+        "fields": {
+            "name": "Miklajung",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5012,
+        "fields": {
+            "name": "Patahrishanishchare",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5013,
+        "fields": {
+            "name": "Rangeli",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5014,
+        "fields": {
+            "name": "Ratuwamai",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5015,
+        "fields": {
+            "name": "Sundarharaicha",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5016,
+        "fields": {
+            "name": "Sunwarshi",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 5017,
+        "fields": {
+            "name": "Uralabari",
+            "district": 5
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6001,
+        "fields": {
+            "name": "Barah",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6002,
+        "fields": {
+            "name": "Barju",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6003,
+        "fields": {
+            "name": "Bhokraha",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6004,
+        "fields": {
+            "name": "Dewanganj",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6005,
+        "fields": {
+            "name": "Dharan",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6006,
+        "fields": {
+            "name": "Duhabi",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6007,
+        "fields": {
+            "name": "Gadhi",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6008,
+        "fields": {
+            "name": "Harinagara",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6009,
+        "fields": {
+            "name": "Inaruwa",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6010,
+        "fields": {
+            "name": "Itahari",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6011,
+        "fields": {
+            "name": "Koshi",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6012,
+        "fields": {
+            "name": "Ramdhuni",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 6099,
+        "fields": {
+            "name": "Koshi Tappu Wildlife Reserve",
+            "district": 6
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 7001,
+        "fields": {
+            "name": "Chaubise",
+            "district": 7
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 7002,
+        "fields": {
+            "name": "Chhathar Jorpati",
+            "district": 7
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 7003,
+        "fields": {
+            "name": "Dhankuta",
+            "district": 7
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 7004,
+        "fields": {
+            "name": "Khalsa Chhintang Shahidbhumi",
+            "district": 7
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 7005,
+        "fields": {
+            "name": "Mahalaxmi",
+            "district": 7
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 7006,
+        "fields": {
+            "name": "Pakhribas",
+            "district": 7
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 7007,
+        "fields": {
+            "name": "Sangurigadhi",
+            "district": 7
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 8001,
+        "fields": {
+            "name": "Aathrai",
+            "district": 8
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 8002,
+        "fields": {
+            "name": "Chhathar",
+            "district": 8
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 8003,
+        "fields": {
+            "name": "Laligurans",
+            "district": 8
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 8004,
+        "fields": {
+            "name": "Menchayam",
+            "district": 8
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 8005,
+        "fields": {
+            "name": "Myanglung",
+            "district": 8
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 8006,
+        "fields": {
+            "name": "Phedap",
+            "district": 8
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 9001,
+        "fields": {
+            "name": "Bhotkhola",
+            "district": 10
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 9002,
+        "fields": {
+            "name": "Chainpur",
+            "district": 10
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 9003,
+        "fields": {
+            "name": "Chichila",
+            "district": 10
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 9004,
+        "fields": {
+            "name": "Dharmadevi",
+            "district": 10
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 9005,
+        "fields": {
+            "name": "Khandbari",
+            "district": 10
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 9006,
+        "fields": {
+            "name": "Madi",
+            "district": 10
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 9007,
+        "fields": {
+            "name": "Makalu",
+            "district": 10
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 9008,
+        "fields": {
+            "name": "Panchakhapan",
+            "district": 10
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 9009,
+        "fields": {
+            "name": "Sabhapokhari",
+            "district": 10
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 9010,
+        "fields": {
+            "name": "Silichong",
+            "district": 10
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 10001,
+        "fields": {
+            "name": "Aamchowk",
+            "district": 9
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 10002,
+        "fields": {
+            "name": "Arun",
+            "district": 9
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 10003,
+        "fields": {
+            "name": "Bhojpur",
+            "district": 9
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 10004,
+        "fields": {
+            "name": "Hatuwagadhi",
+            "district": 9
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 10005,
+        "fields": {
+            "name": "Pauwadungma",
+            "district": 9
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 10006,
+        "fields": {
+            "name": "Ramprasad Rai",
+            "district": 9
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 10007,
+        "fields": {
+            "name": "Salpasilichho",
+            "district": 9
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 10008,
+        "fields": {
+            "name": "Shadananda",
+            "district": 9
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 10009,
+        "fields": {
+            "name": "Tyamkemaiyung",
+            "district": 9
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 11001,
+        "fields": {
+            "name": "Dudhkaushika",
+            "district": 11
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 11002,
+        "fields": {
+            "name": "Dudhkoshi",
+            "district": 11
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 11003,
+        "fields": {
+            "name": "Khumbupasanglahmu",
+            "district": 11
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 11004,
+        "fields": {
+            "name": "Likhupike",
+            "district": 11
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 11005,
+        "fields": {
+            "name": "Mahakulung",
+            "district": 11
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 11006,
+        "fields": {
+            "name": "Nechasalyan",
+            "district": 11
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 11007,
+        "fields": {
+            "name": "Solududhakunda",
+            "district": 11
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 11008,
+        "fields": {
+            "name": "Sotang",
+            "district": 11
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 12001,
+        "fields": {
+            "name": "Champadevi",
+            "district": 13
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 12002,
+        "fields": {
+            "name": "Chisankhugadhi",
+            "district": 13
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 12003,
+        "fields": {
+            "name": "Khijidemba",
+            "district": 13
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 12004,
+        "fields": {
+            "name": "Likhu",
+            "district": 13
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 12005,
+        "fields": {
+            "name": "Manebhanjyang",
+            "district": 13
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 12006,
+        "fields": {
+            "name": "Molung",
+            "district": 13
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 12007,
+        "fields": {
+            "name": "Siddhicharan",
+            "district": 13
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 12008,
+        "fields": {
+            "name": "Sunkoshi",
+            "district": 13
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 13001,
+        "fields": {
+            "name": "Ainselukhark",
+            "district": 12
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 13002,
+        "fields": {
+            "name": "Barahapokhari",
+            "district": 12
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 13003,
+        "fields": {
+            "name": "Diprung",
+            "district": 12
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 13004,
+        "fields": {
+            "name": "Halesi Tuwachung",
+            "district": 12
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 13005,
+        "fields": {
+            "name": "Jantedhunga",
+            "district": 12
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 13006,
+        "fields": {
+            "name": "Kepilasagadhi",
+            "district": 12
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 13007,
+        "fields": {
+            "name": "Khotehang",
+            "district": 12
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 13008,
+        "fields": {
+            "name": "Lamidanda",
+            "district": 12
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 13009,
+        "fields": {
+            "name": "Rupakot Majhuwagadhi",
+            "district": 12
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 13010,
+        "fields": {
+            "name": "Sakela",
+            "district": 12
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 14001,
+        "fields": {
+            "name": "Belaka",
+            "district": 14
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 14002,
+        "fields": {
+            "name": "Chaudandigadhi",
+            "district": 14
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 14003,
+        "fields": {
+            "name": "Katari",
+            "district": 14
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 14004,
+        "fields": {
+            "name": "Rautamai",
+            "district": 14
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 14005,
+        "fields": {
+            "name": "Sunkoshi",
+            "district": 14
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 14006,
+        "fields": {
+            "name": "Tapli",
+            "district": 14
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 14007,
+        "fields": {
+            "name": "Triyuga",
+            "district": 14
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 14008,
+        "fields": {
+            "name": "Udayapurgadhi",
+            "district": 14
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 14099,
+        "fields": {
+            "name": "Koshi Tappu Wildlife Reserve",
+            "district": 14
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15001,
+        "fields": {
+            "name": "Agnisair Krishna Savaran",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15002,
+        "fields": {
+            "name": "Balan Bihul",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15003,
+        "fields": {
+            "name": "Belhi Chapena",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15004,
+        "fields": {
+            "name": "Bishnupur",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15005,
+        "fields": {
+            "name": "Bode Barsain",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15006,
+        "fields": {
+            "name": "Chhinnamasta",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15007,
+        "fields": {
+            "name": "Dakneshwori",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15008,
+        "fields": {
+            "name": "Hanumannagar Kankalini",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15009,
+        "fields": {
+            "name": "Kanchanrup",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15010,
+        "fields": {
+            "name": "Khadak",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15011,
+        "fields": {
+            "name": "Mahadeva",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15012,
+        "fields": {
+            "name": "Rajbiraj",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15013,
+        "fields": {
+            "name": "Rupani",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15014,
+        "fields": {
+            "name": "Saptakoshi",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15015,
+        "fields": {
+            "name": "Shambhunath",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15016,
+        "fields": {
+            "name": "Surunga",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15017,
+        "fields": {
+            "name": "Tilathi Koiladi",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15018,
+        "fields": {
+            "name": "Tirahut",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 15099,
+        "fields": {
+            "name": "Koshi Tappu",
+            "district": 16
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16001,
+        "fields": {
+            "name": "Arnama",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16002,
+        "fields": {
+            "name": "Aurahi",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16003,
+        "fields": {
+            "name": "Bariyarpatti",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16004,
+        "fields": {
+            "name": "Bhagawanpur",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16005,
+        "fields": {
+            "name": "Bishnupur",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16006,
+        "fields": {
+            "name": "Dhangadhimai",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16007,
+        "fields": {
+            "name": "Golbazar",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16008,
+        "fields": {
+            "name": "Kalyanpur",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16009,
+        "fields": {
+            "name": "Karjanha",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16010,
+        "fields": {
+            "name": "Lahan",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16011,
+        "fields": {
+            "name": "Laxmipur Patari",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16012,
+        "fields": {
+            "name": "Mirchaiya",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16013,
+        "fields": {
+            "name": "Naraha",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16014,
+        "fields": {
+            "name": "Nawarajpur",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16015,
+        "fields": {
+            "name": "Sakhuwanankarkatti",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16016,
+        "fields": {
+            "name": "Siraha",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 16017,
+        "fields": {
+            "name": "Sukhipur",
+            "district": 15
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17001,
+        "fields": {
+            "name": "Aaurahi",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17002,
+        "fields": {
+            "name": "Bateshwor",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17003,
+        "fields": {
+            "name": "Bideha",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17004,
+        "fields": {
+            "name": "Chhireshwornath",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17005,
+        "fields": {
+            "name": "Dhanauji",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17006,
+        "fields": {
+            "name": "Dhanusadham",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17007,
+        "fields": {
+            "name": "Ganeshman Charnath",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17008,
+        "fields": {
+            "name": "Hansapur",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17009,
+        "fields": {
+            "name": "Janaknandani",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17010,
+        "fields": {
+            "name": "Janakpur",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17011,
+        "fields": {
+            "name": "Kamala",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17012,
+        "fields": {
+            "name": "Lakshminiya",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17013,
+        "fields": {
+            "name": "Mithila",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17014,
+        "fields": {
+            "name": "Mithila Bihari",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17015,
+        "fields": {
+            "name": "Mukhiyapatti Musarmiya",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17016,
+        "fields": {
+            "name": "Nagarain",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17017,
+        "fields": {
+            "name": "Sabaila",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 17018,
+        "fields": {
+            "name": "Sahidnagar",
+            "district": 17
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18001,
+        "fields": {
+            "name": "Aurahi",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18002,
+        "fields": {
+            "name": "Balwa",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18003,
+        "fields": {
+            "name": "Bardibas",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18004,
+        "fields": {
+            "name": "Bhangaha",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18005,
+        "fields": {
+            "name": "Ekdanra",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18006,
+        "fields": {
+            "name": "Gaushala",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18007,
+        "fields": {
+            "name": "Jaleswor",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18008,
+        "fields": {
+            "name": "Loharpatti",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18009,
+        "fields": {
+            "name": "Mahottari",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18010,
+        "fields": {
+            "name": "Manra Siswa",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18011,
+        "fields": {
+            "name": "Matihani",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18012,
+        "fields": {
+            "name": "Pipra",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18013,
+        "fields": {
+            "name": "Ramgopalpur",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18014,
+        "fields": {
+            "name": "Samsi",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 18015,
+        "fields": {
+            "name": "Sonama",
+            "district": 18
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19001,
+        "fields": {
+            "name": "Bagmati",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19002,
+        "fields": {
+            "name": "Balara",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19003,
+        "fields": {
+            "name": "Barahathawa",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19004,
+        "fields": {
+            "name": "Basbariya",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19005,
+        "fields": {
+            "name": "Bishnu",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19006,
+        "fields": {
+            "name": "Bramhapuri",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19007,
+        "fields": {
+            "name": "Chakraghatta",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19008,
+        "fields": {
+            "name": "Chandranagar",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19009,
+        "fields": {
+            "name": "Dhankaul",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19010,
+        "fields": {
+            "name": "Godaita",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19011,
+        "fields": {
+            "name": "Haripur",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19012,
+        "fields": {
+            "name": "Haripurwa",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19013,
+        "fields": {
+            "name": "Hariwan",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19014,
+        "fields": {
+            "name": "Ishworpur",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19015,
+        "fields": {
+            "name": "Kabilasi",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19016,
+        "fields": {
+            "name": "Kaudena",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19017,
+        "fields": {
+            "name": "Lalbandi",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19018,
+        "fields": {
+            "name": "Malangawa",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19019,
+        "fields": {
+            "name": "Parsa",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 19020,
+        "fields": {
+            "name": "Ramnagar",
+            "district": 19
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 20001,
+        "fields": {
+            "name": "Dudhouli",
+            "district": 20
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 20002,
+        "fields": {
+            "name": "Ghanglekh",
+            "district": 20
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 20003,
+        "fields": {
+            "name": "Golanjor",
+            "district": 20
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 20004,
+        "fields": {
+            "name": "Hariharpurgadhi",
+            "district": 20
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 20005,
+        "fields": {
+            "name": "Kamalamai",
+            "district": 20
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 20006,
+        "fields": {
+            "name": "Marin",
+            "district": 20
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 20007,
+        "fields": {
+            "name": "Phikkal",
+            "district": 20
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 20008,
+        "fields": {
+            "name": "Sunkoshi",
+            "district": 20
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 20009,
+        "fields": {
+            "name": "Tinpatan",
+            "district": 20
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 21001,
+        "fields": {
+            "name": "Doramba",
+            "district": 21
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 21002,
+        "fields": {
+            "name": "Gokulganga",
+            "district": 21
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 21003,
+        "fields": {
+            "name": "Khadadevi",
+            "district": 21
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 21004,
+        "fields": {
+            "name": "Likhu",
+            "district": 21
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 21005,
+        "fields": {
+            "name": "Manthali",
+            "district": 21
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 21006,
+        "fields": {
+            "name": "Ramechhap",
+            "district": 21
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 21007,
+        "fields": {
+            "name": "Sunapati",
+            "district": 21
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 21008,
+        "fields": {
+            "name": "Umakunda",
+            "district": 21
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 22001,
+        "fields": {
+            "name": "Baiteshwor",
+            "district": 22
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 22002,
+        "fields": {
+            "name": "Bhimeshwor",
+            "district": 22
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 22003,
+        "fields": {
+            "name": "Bigu",
+            "district": 22
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 22004,
+        "fields": {
+            "name": "Gaurishankar",
+            "district": 22
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 22005,
+        "fields": {
+            "name": "Jiri",
+            "district": 22
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 22006,
+        "fields": {
+            "name": "Kalinchok",
+            "district": 22
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 22007,
+        "fields": {
+            "name": "Melung",
+            "district": 22
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 22008,
+        "fields": {
+            "name": "Sailung",
+            "district": 22
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 22009,
+        "fields": {
+            "name": "Tamakoshi",
+            "district": 22
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 23001,
+        "fields": {
+            "name": "Balefi",
+            "district": 24
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 23002,
+        "fields": {
+            "name": "Barhabise",
+            "district": 24
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 23003,
+        "fields": {
+            "name": "Bhotekoshi",
+            "district": 24
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 23004,
+        "fields": {
+            "name": "Chautara SangachokGadhi",
+            "district": 24
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 23005,
+        "fields": {
+            "name": "Helambu",
+            "district": 24
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 23006,
+        "fields": {
+            "name": "Indrawati",
+            "district": 24
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 23007,
+        "fields": {
+            "name": "Jugal",
+            "district": 24
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 23008,
+        "fields": {
+            "name": "Lisangkhu Pakhar",
+            "district": 24
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 23009,
+        "fields": {
+            "name": "Melamchi",
+            "district": 24
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 23010,
+        "fields": {
+            "name": "Panchpokhari Thangpal",
+            "district": 24
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 23011,
+        "fields": {
+            "name": "Sunkoshi",
+            "district": 24
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 23012,
+        "fields": {
+            "name": "Tripurasundari",
+            "district": 24
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24001,
+        "fields": {
+            "name": "Banepa",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24002,
+        "fields": {
+            "name": "Bethanchowk",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24003,
+        "fields": {
+            "name": "Bhumlu",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24004,
+        "fields": {
+            "name": "Chaurideurali",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24005,
+        "fields": {
+            "name": "Dhulikhel",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24006,
+        "fields": {
+            "name": "Khanikhola",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24007,
+        "fields": {
+            "name": "Mahabharat",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24008,
+        "fields": {
+            "name": "Mandandeupur",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24009,
+        "fields": {
+            "name": "Namobuddha",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24010,
+        "fields": {
+            "name": "Panauti",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24011,
+        "fields": {
+            "name": "Panchkhal",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24012,
+        "fields": {
+            "name": "Roshi",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 24013,
+        "fields": {
+            "name": "Temal",
+            "district": 30
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 25001,
+        "fields": {
+            "name": "Bagmati",
+            "district": 28
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 25002,
+        "fields": {
+            "name": "Godawari",
+            "district": 28
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 25003,
+        "fields": {
+            "name": "Konjyosom",
+            "district": 28
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 25004,
+        "fields": {
+            "name": "Lalitpur",
+            "district": 28
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 25005,
+        "fields": {
+            "name": "Mahalaxmi",
+            "district": 28
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 25006,
+        "fields": {
+            "name": "Mahankal",
+            "district": 28
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 26001,
+        "fields": {
+            "name": "Bhaktapur",
+            "district": 29
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 26002,
+        "fields": {
+            "name": "Changunarayan",
+            "district": 29
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 26003,
+        "fields": {
+            "name": "Madhyapur Thimi",
+            "district": 29
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 26004,
+        "fields": {
+            "name": "Suryabinayak",
+            "district": 29
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 27001,
+        "fields": {
+            "name": "Budhanilakantha",
+            "district": 27
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 27002,
+        "fields": {
+            "name": "Chandragiri",
+            "district": 27
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 27003,
+        "fields": {
+            "name": "Dakshinkali",
+            "district": 27
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 27004,
+        "fields": {
+            "name": "Gokarneshwor",
+            "district": 27
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 27005,
+        "fields": {
+            "name": "Kageshwori Manahora",
+            "district": 27
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 27006,
+        "fields": {
+            "name": "Kathmandu",
+            "district": 27
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 27007,
+        "fields": {
+            "name": "Kirtipur",
+            "district": 27
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 27008,
+        "fields": {
+            "name": "Nagarjun",
+            "district": 27
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 27009,
+        "fields": {
+            "name": "Shankharapur",
+            "district": 27
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 27010,
+        "fields": {
+            "name": "Tarakeshwor",
+            "district": 27
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 27011,
+        "fields": {
+            "name": "Tokha",
+            "district": 27
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28001,
+        "fields": {
+            "name": "Belkotgadhi",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28002,
+        "fields": {
+            "name": "Bidur",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28003,
+        "fields": {
+            "name": "Dupcheshwar",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28004,
+        "fields": {
+            "name": "Kakani",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28005,
+        "fields": {
+            "name": "Kispang",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28006,
+        "fields": {
+            "name": "Likhu",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28007,
+        "fields": {
+            "name": "Meghang",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28008,
+        "fields": {
+            "name": "Panchakanya",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28009,
+        "fields": {
+            "name": "Shivapuri",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28010,
+        "fields": {
+            "name": "Suryagadhi",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28011,
+        "fields": {
+            "name": "Tadi",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28012,
+        "fields": {
+            "name": "Tarkeshwar",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28088,
+        "fields": {
+            "name": "Shivapuri Watershed and Wildlife Reserve",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 28099,
+        "fields": {
+            "name": "Langtang National Park",
+            "district": 25
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 29001,
+        "fields": {
+            "name": "Gosaikunda",
+            "district": 23
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 29002,
+        "fields": {
+            "name": "Kalika",
+            "district": 23
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 29003,
+        "fields": {
+            "name": "Naukunda",
+            "district": 23
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 29004,
+        "fields": {
+            "name": "Parbati Kunda",
+            "district": 23
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 29005,
+        "fields": {
+            "name": "Uttargaya",
+            "district": 23
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30001,
+        "fields": {
+            "name": "Benighat Rorang",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30002,
+        "fields": {
+            "name": "Dhunibesi",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30003,
+        "fields": {
+            "name": "Gajuri",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30004,
+        "fields": {
+            "name": "Galchi",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30005,
+        "fields": {
+            "name": "Gangajamuna",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30006,
+        "fields": {
+            "name": "Jwalamukhi",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30007,
+        "fields": {
+            "name": "Khaniyabash",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30008,
+        "fields": {
+            "name": "Netrawati",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30009,
+        "fields": {
+            "name": "Nilakantha",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30010,
+        "fields": {
+            "name": "Rubi Valley",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30011,
+        "fields": {
+            "name": "Siddhalek",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30012,
+        "fields": {
+            "name": "Thakre",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 30013,
+        "fields": {
+            "name": "Tripura Sundari",
+            "district": 26
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 31001,
+        "fields": {
+            "name": "Bagmati",
+            "district": 31
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 31002,
+        "fields": {
+            "name": "Bakaiya",
+            "district": 31
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 31003,
+        "fields": {
+            "name": "Bhimphedi",
+            "district": 31
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 31004,
+        "fields": {
+            "name": "Hetauda",
+            "district": 31
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 31005,
+        "fields": {
+            "name": "Indrasarowar",
+            "district": 31
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 31006,
+        "fields": {
+            "name": "Kailash",
+            "district": 31
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 31007,
+        "fields": {
+            "name": "Makawanpurgadhi",
+            "district": 31
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 31008,
+        "fields": {
+            "name": "Manahari",
+            "district": 31
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 31009,
+        "fields": {
+            "name": "Raksirang",
+            "district": 31
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 31010,
+        "fields": {
+            "name": "Thaha",
+            "district": 31
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 31088,
+        "fields": {
+            "name": "Parsa Wildlife Reserve",
+            "district": 31
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 31099,
+        "fields": {
+            "name": "Chitawan National Park",
+            "district": 31
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32001,
+        "fields": {
+            "name": "Baudhimai",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32002,
+        "fields": {
+            "name": "Brindaban",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32003,
+        "fields": {
+            "name": "Chandrapur",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32004,
+        "fields": {
+            "name": "Dewahhi Gonahi",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32005,
+        "fields": {
+            "name": "Durga Bhagwati",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32006,
+        "fields": {
+            "name": "Gadhimai",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32007,
+        "fields": {
+            "name": "Garuda",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32008,
+        "fields": {
+            "name": "Gaur",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32009,
+        "fields": {
+            "name": "Gujara",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32010,
+        "fields": {
+            "name": "Ishanath",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32011,
+        "fields": {
+            "name": "Katahariya",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32012,
+        "fields": {
+            "name": "Madhav Narayan",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32013,
+        "fields": {
+            "name": "Maulapur",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32014,
+        "fields": {
+            "name": "Paroha",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32015,
+        "fields": {
+            "name": "Phatuwa Bijayapur",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32016,
+        "fields": {
+            "name": "Rajdevi",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32017,
+        "fields": {
+            "name": "Rajpur",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 32018,
+        "fields": {
+            "name": "Yemunamai",
+            "district": 32
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33001,
+        "fields": {
+            "name": "Adarshkotwal",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33002,
+        "fields": {
+            "name": "Baragadhi",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33003,
+        "fields": {
+            "name": "Bishrampur",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33004,
+        "fields": {
+            "name": "Devtal",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33005,
+        "fields": {
+            "name": "Jitpur Simara",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33006,
+        "fields": {
+            "name": "Kalaiya",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33007,
+        "fields": {
+            "name": "Karaiyamai",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33008,
+        "fields": {
+            "name": "Kolhabi",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33009,
+        "fields": {
+            "name": "Mahagadhimai",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33010,
+        "fields": {
+            "name": "Nijgadh",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33011,
+        "fields": {
+            "name": "Pacharauta",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33012,
+        "fields": {
+            "name": "Parwanipur",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33013,
+        "fields": {
+            "name": "Pheta",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33014,
+        "fields": {
+            "name": "Prasauni",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33015,
+        "fields": {
+            "name": "Simraungadh",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33016,
+        "fields": {
+            "name": "Suwarna",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 33099,
+        "fields": {
+            "name": "Parsa Wildlife Reserve",
+            "district": 33
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34001,
+        "fields": {
+            "name": "Bahudaramai",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34002,
+        "fields": {
+            "name": "Bindabasini",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34003,
+        "fields": {
+            "name": "Birgunj",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34004,
+        "fields": {
+            "name": "Chhipaharmai",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34005,
+        "fields": {
+            "name": "Dhobini",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34006,
+        "fields": {
+            "name": "Jagarnathpur",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34007,
+        "fields": {
+            "name": "Jirabhawani",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34008,
+        "fields": {
+            "name": "Kalikamai",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34009,
+        "fields": {
+            "name": "Pakahamainpur",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34010,
+        "fields": {
+            "name": "Parsagadhi",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34011,
+        "fields": {
+            "name": "Paterwasugauli",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34012,
+        "fields": {
+            "name": "Pokhariya",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34013,
+        "fields": {
+            "name": "SakhuwaPrasauni",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34014,
+        "fields": {
+            "name": "Thori",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 34099,
+        "fields": {
+            "name": "Chitwan National Park",
+            "district": 34
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 35001,
+        "fields": {
+            "name": "Bharatpur",
+            "district": 35
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 35002,
+        "fields": {
+            "name": "Ichchhyakamana",
+            "district": 35
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 35003,
+        "fields": {
+            "name": "Kalika",
+            "district": 35
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 35004,
+        "fields": {
+            "name": "Khairahani",
+            "district": 35
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 35005,
+        "fields": {
+            "name": "Madi",
+            "district": 35
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 35006,
+        "fields": {
+            "name": "Rapti",
+            "district": 35
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 35007,
+        "fields": {
+            "name": "Ratnanagar",
+            "district": 35
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 35099,
+        "fields": {
+            "name": "Chitawan National Park",
+            "district": 35
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 36001,
+        "fields": {
+            "name": "Aarughat",
+            "district": 44
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 36002,
+        "fields": {
+            "name": "Ajirkot",
+            "district": 44
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 36003,
+        "fields": {
+            "name": "Bhimsen",
+            "district": 44
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 36004,
+        "fields": {
+            "name": "Chum Nubri",
+            "district": 44
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 36005,
+        "fields": {
+            "name": "Dharche",
+            "district": 44
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 36006,
+        "fields": {
+            "name": "Gandaki",
+            "district": 44
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 36007,
+        "fields": {
+            "name": "Gorkha",
+            "district": 44
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 36008,
+        "fields": {
+            "name": "Palungtar",
+            "district": 44
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 36009,
+        "fields": {
+            "name": "Sahid Lakhan",
+            "district": 44
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 36010,
+        "fields": {
+            "name": "Siranchok",
+            "district": 44
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 36011,
+        "fields": {
+            "name": "Sulikot",
+            "district": 44
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 37001,
+        "fields": {
+            "name": "Besishahar",
+            "district": 45
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 37002,
+        "fields": {
+            "name": "Dordi",
+            "district": 45
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 37003,
+        "fields": {
+            "name": "Dudhpokhari",
+            "district": 45
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 37004,
+        "fields": {
+            "name": "Kwholasothar",
+            "district": 45
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 37005,
+        "fields": {
+            "name": "MadhyaNepal",
+            "district": 45
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 37006,
+        "fields": {
+            "name": "Marsyangdi",
+            "district": 45
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 37007,
+        "fields": {
+            "name": "Rainas",
+            "district": 45
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 37008,
+        "fields": {
+            "name": "Sundarbazar",
+            "district": 45
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 38001,
+        "fields": {
+            "name": "Anbukhaireni",
+            "district": 43
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 38002,
+        "fields": {
+            "name": "Bandipur",
+            "district": 43
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 38003,
+        "fields": {
+            "name": "Bhanu",
+            "district": 43
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 38004,
+        "fields": {
+            "name": "Bhimad",
+            "district": 43
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 38005,
+        "fields": {
+            "name": "Byas",
+            "district": 43
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 38006,
+        "fields": {
+            "name": "Devghat",
+            "district": 43
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 38007,
+        "fields": {
+            "name": "Ghiring",
+            "district": 43
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 38008,
+        "fields": {
+            "name": "Myagde",
+            "district": 43
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 38009,
+        "fields": {
+            "name": "Rhishing",
+            "district": 43
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 38010,
+        "fields": {
+            "name": "Shuklagandaki",
+            "district": 43
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 39001,
+        "fields": {
+            "name": "Aandhikhola",
+            "district": 42
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 39002,
+        "fields": {
+            "name": "Arjunchaupari",
+            "district": 42
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 39003,
+        "fields": {
+            "name": "Bhirkot",
+            "district": 42
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 39004,
+        "fields": {
+            "name": "Biruwa",
+            "district": 42
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 39005,
+        "fields": {
+            "name": "Chapakot",
+            "district": 42
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 39006,
+        "fields": {
+            "name": "Galyang",
+            "district": 42
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 39007,
+        "fields": {
+            "name": "Harinas",
+            "district": 42
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 39008,
+        "fields": {
+            "name": "Kaligandagi",
+            "district": 42
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 39009,
+        "fields": {
+            "name": "Phedikhola",
+            "district": 42
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 39010,
+        "fields": {
+            "name": "Putalibazar",
+            "district": 42
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 39011,
+        "fields": {
+            "name": "Waling",
+            "district": 42
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 40001,
+        "fields": {
+            "name": "Annapurna",
+            "district": 46
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 40002,
+        "fields": {
+            "name": "Machhapuchchhre",
+            "district": 46
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 40003,
+        "fields": {
+            "name": "Madi",
+            "district": 46
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 40004,
+        "fields": {
+            "name": "Pokhara Lekhnath",
+            "district": 46
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 40005,
+        "fields": {
+            "name": "Rupa",
+            "district": 46
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 41001,
+        "fields": {
+            "name": "Chame",
+            "district": 47
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 41002,
+        "fields": {
+            "name": "Narphu",
+            "district": 47
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 41003,
+        "fields": {
+            "name": "Nashong",
+            "district": 47
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 41004,
+        "fields": {
+            "name": "Neshyang",
+            "district": 47
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 42001,
+        "fields": {
+            "name": "Barhagaun Muktikhsetra",
+            "district": 48
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 42002,
+        "fields": {
+            "name": "Dalome",
+            "district": 48
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 42003,
+        "fields": {
+            "name": "Gharapjhong",
+            "district": 48
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 42004,
+        "fields": {
+            "name": "Lomanthang",
+            "district": 48
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 42005,
+        "fields": {
+            "name": "Thasang",
+            "district": 48
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 43001,
+        "fields": {
+            "name": "Annapurna",
+            "district": 49
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 43002,
+        "fields": {
+            "name": "Beni",
+            "district": 49
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 43003,
+        "fields": {
+            "name": "Dhaulagiri",
+            "district": 49
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 43004,
+        "fields": {
+            "name": "Malika",
+            "district": 49
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 43005,
+        "fields": {
+            "name": "Mangala",
+            "district": 49
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 43006,
+        "fields": {
+            "name": "Raghuganga",
+            "district": 49
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 43099,
+        "fields": {
+            "name": "Dhorpatan Hunting Reserve",
+            "district": 49
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 44001,
+        "fields": {
+            "name": "Bihadi",
+            "district": 51
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 44002,
+        "fields": {
+            "name": "Jaljala",
+            "district": 51
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 44003,
+        "fields": {
+            "name": "Kushma",
+            "district": 51
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 44004,
+        "fields": {
+            "name": "Mahashila",
+            "district": 51
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 44005,
+        "fields": {
+            "name": "Modi",
+            "district": 51
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 44006,
+        "fields": {
+            "name": "Painyu",
+            "district": 51
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 44007,
+        "fields": {
+            "name": "Phalebas",
+            "district": 51
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 45001,
+        "fields": {
+            "name": "Badigad",
+            "district": 50
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 45002,
+        "fields": {
+            "name": "Baglung",
+            "district": 50
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 45003,
+        "fields": {
+            "name": "Bareng",
+            "district": 50
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 45004,
+        "fields": {
+            "name": "Dhorpatan",
+            "district": 50
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 45005,
+        "fields": {
+            "name": "Galkot",
+            "district": 50
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 45006,
+        "fields": {
+            "name": "Jaimuni",
+            "district": 50
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 45007,
+        "fields": {
+            "name": "Kanthekhola",
+            "district": 50
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 45008,
+        "fields": {
+            "name": "Nisikhola",
+            "district": 50
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 45009,
+        "fields": {
+            "name": "Taman Khola",
+            "district": 50
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 45010,
+        "fields": {
+            "name": "Tara Khola",
+            "district": 50
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 45099,
+        "fields": {
+            "name": "Dhorpatan Hunting Reserve",
+            "district": 50
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 46001,
+        "fields": {
+            "name": "Chandrakot",
+            "district": 41
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 46002,
+        "fields": {
+            "name": "Chatrakot",
+            "district": 41
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 46003,
+        "fields": {
+            "name": "Dhurkot",
+            "district": 41
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 46004,
+        "fields": {
+            "name": "Gulmidarbar",
+            "district": 41
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 46005,
+        "fields": {
+            "name": "Isma",
+            "district": 41
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 46006,
+        "fields": {
+            "name": "Kaligandaki",
+            "district": 41
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 46007,
+        "fields": {
+            "name": "Madane",
+            "district": 41
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 46008,
+        "fields": {
+            "name": "Malika",
+            "district": 41
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 46009,
+        "fields": {
+            "name": "Musikot",
+            "district": 41
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 46010,
+        "fields": {
+            "name": "Resunga",
+            "district": 41
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 46011,
+        "fields": {
+            "name": "Ruru",
+            "district": 41
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 46012,
+        "fields": {
+            "name": "Satyawati",
+            "district": 41
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 47001,
+        "fields": {
+            "name": "Bagnaskali",
+            "district": 39
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 47002,
+        "fields": {
+            "name": "Mathagadhi",
+            "district": 39
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 47003,
+        "fields": {
+            "name": "Nisdi",
+            "district": 39
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 47004,
+        "fields": {
+            "name": "Purbakhola",
+            "district": 39
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 47005,
+        "fields": {
+            "name": "Rainadevi Chhahara",
+            "district": 39
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 47006,
+        "fields": {
+            "name": "Rambha",
+            "district": 39
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 47007,
+        "fields": {
+            "name": "Rampur",
+            "district": 39
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 47008,
+        "fields": {
+            "name": "Ribdikot",
+            "district": 39
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 47009,
+        "fields": {
+            "name": "Tansen",
+            "district": 39
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 47010,
+        "fields": {
+            "name": "Tinau",
+            "district": 39
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 48001,
+        "fields": {
+            "name": "Bardaghat",
+            "district": 482
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 48002,
+        "fields": {
+            "name": "Palhi Nandan",
+            "district": 482
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 48003,
+        "fields": {
+            "name": "Pratappur",
+            "district": 482
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 48004,
+        "fields": {
+            "name": "Ramgram",
+            "district": 482
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 48005,
+        "fields": {
+            "name": "Sarawal",
+            "district": 482
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 48006,
+        "fields": {
+            "name": "Sunwal",
+            "district": 482
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 48007,
+        "fields": {
+            "name": "Susta",
+            "district": 482
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49001,
+        "fields": {
+            "name": "Butwal",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49002,
+        "fields": {
+            "name": "Devdaha",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49003,
+        "fields": {
+            "name": "Gaidahawa",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49004,
+        "fields": {
+            "name": "Kanchan",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49005,
+        "fields": {
+            "name": "Kotahimai",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49006,
+        "fields": {
+            "name": "Lumbini Sanskritik",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49007,
+        "fields": {
+            "name": "Marchawari",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49008,
+        "fields": {
+            "name": "Mayadevi",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49009,
+        "fields": {
+            "name": "Omsatiya",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49010,
+        "fields": {
+            "name": "Rohini",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49011,
+        "fields": {
+            "name": "Sainamaina",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49012,
+        "fields": {
+            "name": "Sammarimai",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49013,
+        "fields": {
+            "name": "Siddharthanagar",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49014,
+        "fields": {
+            "name": "Siyari",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49015,
+        "fields": {
+            "name": "Sudhdhodhan",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49016,
+        "fields": {
+            "name": "Tillotama",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 49099,
+        "fields": {
+            "name": "Lumbini Sanskritik Development Area",
+            "district": 37
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 50001,
+        "fields": {
+            "name": "Banganga",
+            "district": 38
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 50002,
+        "fields": {
+            "name": "Bijayanagar",
+            "district": 38
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 50003,
+        "fields": {
+            "name": "Buddhabhumi",
+            "district": 38
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 50004,
+        "fields": {
+            "name": "Kapilbastu",
+            "district": 38
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 50005,
+        "fields": {
+            "name": "Krishnanagar",
+            "district": 38
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 50006,
+        "fields": {
+            "name": "Maharajgunj",
+            "district": 38
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 50007,
+        "fields": {
+            "name": "Mayadevi",
+            "district": 38
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 50008,
+        "fields": {
+            "name": "Shivaraj",
+            "district": 38
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 50009,
+        "fields": {
+            "name": "Suddhodhan",
+            "district": 38
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 50010,
+        "fields": {
+            "name": "Yashodhara",
+            "district": 38
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 51001,
+        "fields": {
+            "name": "Bhumekasthan",
+            "district": 40
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 51002,
+        "fields": {
+            "name": "Chhatradev",
+            "district": 40
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 51003,
+        "fields": {
+            "name": "Malarani",
+            "district": 40
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 51004,
+        "fields": {
+            "name": "Panini",
+            "district": 40
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 51005,
+        "fields": {
+            "name": "Sandhikharka",
+            "district": 40
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 51006,
+        "fields": {
+            "name": "Sitganga",
+            "district": 40
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 52001,
+        "fields": {
+            "name": "Ayirabati",
+            "district": 53
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 52002,
+        "fields": {
+            "name": "Gaumukhi",
+            "district": 53
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 52003,
+        "fields": {
+            "name": "Jhimruk",
+            "district": 53
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 52004,
+        "fields": {
+            "name": "Mallarani",
+            "district": 53
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 52005,
+        "fields": {
+            "name": "Mandavi",
+            "district": 53
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 52006,
+        "fields": {
+            "name": "Naubahini",
+            "district": 53
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 52007,
+        "fields": {
+            "name": "Pyuthan",
+            "district": 53
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 52008,
+        "fields": {
+            "name": "Sarumarani",
+            "district": 53
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 52009,
+        "fields": {
+            "name": "Sworgadwary",
+            "district": 53
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 53001,
+        "fields": {
+            "name": "Duikholi",
+            "district": 54
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 53002,
+        "fields": {
+            "name": "Lungri",
+            "district": 54
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 53003,
+        "fields": {
+            "name": "Madi",
+            "district": 54
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 53004,
+        "fields": {
+            "name": "Rolpa",
+            "district": 54
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 53005,
+        "fields": {
+            "name": "Runtigadi",
+            "district": 54
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 53006,
+        "fields": {
+            "name": "Sukidaha",
+            "district": 54
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 53007,
+        "fields": {
+            "name": "Sunchhahari",
+            "district": 54
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 53008,
+        "fields": {
+            "name": "Suwarnabati",
+            "district": 54
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 53009,
+        "fields": {
+            "name": "Thawang",
+            "district": 54
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 53010,
+        "fields": {
+            "name": "Tribeni",
+            "district": 54
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 54001,
+        "fields": {
+            "name": "Aathbiskot",
+            "district": 542
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 54002,
+        "fields": {
+            "name": "Banfikot",
+            "district": 542
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 54003,
+        "fields": {
+            "name": "Chaurjahari",
+            "district": 542
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 54004,
+        "fields": {
+            "name": "Musikot",
+            "district": 542
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 54005,
+        "fields": {
+            "name": "Sani Bheri",
+            "district": 542
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 54006,
+        "fields": {
+            "name": "Tribeni",
+            "district": 542
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 55001,
+        "fields": {
+            "name": "Bagchaur",
+            "district": 55
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 55002,
+        "fields": {
+            "name": "Bangad Kupinde",
+            "district": 55
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 55003,
+        "fields": {
+            "name": "Chhatreshwori",
+            "district": 55
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 55004,
+        "fields": {
+            "name": "Darma",
+            "district": 55
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 55005,
+        "fields": {
+            "name": "Dhorchaur",
+            "district": 55
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 55006,
+        "fields": {
+            "name": "Kalimati",
+            "district": 55
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 55007,
+        "fields": {
+            "name": "Kapurkot",
+            "district": 55
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 55008,
+        "fields": {
+            "name": "Kumakhmalika",
+            "district": 55
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 55009,
+        "fields": {
+            "name": "Sharada",
+            "district": 55
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 55010,
+        "fields": {
+            "name": "Tribeni",
+            "district": 55
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 56001,
+        "fields": {
+            "name": "Babai",
+            "district": 52
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 56002,
+        "fields": {
+            "name": "Banglachuli",
+            "district": 52
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 56003,
+        "fields": {
+            "name": "Dangisharan",
+            "district": 52
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 56004,
+        "fields": {
+            "name": "Gadhawa",
+            "district": 52
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 56005,
+        "fields": {
+            "name": "Ghorahi",
+            "district": 52
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 56006,
+        "fields": {
+            "name": "Lamahi",
+            "district": 52
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 56007,
+        "fields": {
+            "name": "Rajpur",
+            "district": 52
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 56008,
+        "fields": {
+            "name": "Rapti",
+            "district": 52
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 56009,
+        "fields": {
+            "name": "Shantinagar",
+            "district": 52
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 56010,
+        "fields": {
+            "name": "Tulsipur",
+            "district": 52
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 57001,
+        "fields": {
+            "name": "Baijanath",
+            "district": 66
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 57002,
+        "fields": {
+            "name": "Duduwa",
+            "district": 66
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 57003,
+        "fields": {
+            "name": "Janki",
+            "district": 66
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 57004,
+        "fields": {
+            "name": "Khajura",
+            "district": 66
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 57005,
+        "fields": {
+            "name": "Kohalpur",
+            "district": 66
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 57006,
+        "fields": {
+            "name": "Narainapur",
+            "district": 66
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 57007,
+        "fields": {
+            "name": "Nepalgunj",
+            "district": 66
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 57008,
+        "fields": {
+            "name": "Rapti Sonari",
+            "district": 66
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 58001,
+        "fields": {
+            "name": "Badhaiyatal",
+            "district": 65
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 58002,
+        "fields": {
+            "name": "Bansagadhi",
+            "district": 65
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 58003,
+        "fields": {
+            "name": "Barbardiya",
+            "district": 65
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 58004,
+        "fields": {
+            "name": "Geruwa",
+            "district": 65
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 58005,
+        "fields": {
+            "name": "Gulariya",
+            "district": 65
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 58006,
+        "fields": {
+            "name": "Madhuwan",
+            "district": 65
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 58007,
+        "fields": {
+            "name": "Rajapur",
+            "district": 65
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 58008,
+        "fields": {
+            "name": "Thakurbaba",
+            "district": 65
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 58099,
+        "fields": {
+            "name": "Bardiya National Park",
+            "district": 65
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 59001,
+        "fields": {
+            "name": "Barahtal",
+            "district": 64
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 59002,
+        "fields": {
+            "name": "Bheriganga",
+            "district": 64
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 59003,
+        "fields": {
+            "name": "Birendranagar",
+            "district": 64
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 59004,
+        "fields": {
+            "name": "Chaukune",
+            "district": 64
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 59005,
+        "fields": {
+            "name": "Chingad",
+            "district": 64
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 59006,
+        "fields": {
+            "name": "Gurbhakot",
+            "district": 64
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 59007,
+        "fields": {
+            "name": "Lekbeshi",
+            "district": 64
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 59008,
+        "fields": {
+            "name": "Panchpuri",
+            "district": 64
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 59009,
+        "fields": {
+            "name": "Simta",
+            "district": 64
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 60001,
+        "fields": {
+            "name": "Aathabis",
+            "district": 63
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 60002,
+        "fields": {
+            "name": "Bhagawatimai",
+            "district": 63
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 60003,
+        "fields": {
+            "name": "Bhairabi",
+            "district": 63
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 60004,
+        "fields": {
+            "name": "Chamunda Bindrasaini",
+            "district": 63
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 60005,
+        "fields": {
+            "name": "Dullu",
+            "district": 63
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 60006,
+        "fields": {
+            "name": "Dungeshwor",
+            "district": 63
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 60007,
+        "fields": {
+            "name": "Gurans",
+            "district": 63
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 60008,
+        "fields": {
+            "name": "Mahabu",
+            "district": 63
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 60009,
+        "fields": {
+            "name": "Narayan",
+            "district": 63
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 60010,
+        "fields": {
+            "name": "Naumule",
+            "district": 63
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 60011,
+        "fields": {
+            "name": "Thantikandh",
+            "district": 63
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 61001,
+        "fields": {
+            "name": "Barekot",
+            "district": 62
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 61002,
+        "fields": {
+            "name": "Bheri",
+            "district": 62
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 61003,
+        "fields": {
+            "name": "Chhedagad",
+            "district": 62
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 61004,
+        "fields": {
+            "name": "Junichande",
+            "district": 62
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 61005,
+        "fields": {
+            "name": "Kuse",
+            "district": 62
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 61006,
+        "fields": {
+            "name": "Shiwalaya",
+            "district": 62
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 61007,
+        "fields": {
+            "name": "Tribeni Nalagad",
+            "district": 62
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 62001,
+        "fields": {
+            "name": "Chharka Tangsong",
+            "district": 57
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 62002,
+        "fields": {
+            "name": "Dolpo Buddha",
+            "district": 57
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 62003,
+        "fields": {
+            "name": "Jagadulla",
+            "district": 57
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 62004,
+        "fields": {
+            "name": "Kaike",
+            "district": 57
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 62005,
+        "fields": {
+            "name": "Mudkechula",
+            "district": 57
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 62006,
+        "fields": {
+            "name": "Shey Phoksundo",
+            "district": 57
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 62007,
+        "fields": {
+            "name": "Thuli Bheri",
+            "district": 57
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 62008,
+        "fields": {
+            "name": "Tripurasundari",
+            "district": 57
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 63001,
+        "fields": {
+            "name": "Chandannath",
+            "district": 60
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 63002,
+        "fields": {
+            "name": "Guthichaur",
+            "district": 60
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 63003,
+        "fields": {
+            "name": "Hima",
+            "district": 60
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 63004,
+        "fields": {
+            "name": "Kanakasundari",
+            "district": 60
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 63005,
+        "fields": {
+            "name": "Patrasi",
+            "district": 60
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 63006,
+        "fields": {
+            "name": "Sinja",
+            "district": 60
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 63007,
+        "fields": {
+            "name": "Tatopani",
+            "district": 60
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 63008,
+        "fields": {
+            "name": "Tila",
+            "district": 60
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 64001,
+        "fields": {
+            "name": "Kalika",
+            "district": 61
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 64002,
+        "fields": {
+            "name": "Khandachakra",
+            "district": 61
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 64003,
+        "fields": {
+            "name": "Mahawai",
+            "district": 61
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 64004,
+        "fields": {
+            "name": "Naraharinath",
+            "district": 61
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 64005,
+        "fields": {
+            "name": "Pachaljharana",
+            "district": 61
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 64006,
+        "fields": {
+            "name": "Palata",
+            "district": 61
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 64007,
+        "fields": {
+            "name": "Raskot",
+            "district": 61
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 64008,
+        "fields": {
+            "name": "Sanni Tribeni",
+            "district": 61
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 64009,
+        "fields": {
+            "name": "Tilagufa",
+            "district": 61
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 65001,
+        "fields": {
+            "name": "Chhayanath Rara",
+            "district": 58
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 65002,
+        "fields": {
+            "name": "Khatyad",
+            "district": 58
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 65003,
+        "fields": {
+            "name": "Mugum Karmarong",
+            "district": 58
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 65004,
+        "fields": {
+            "name": "Soru",
+            "district": 58
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 66001,
+        "fields": {
+            "name": "Adanchuli",
+            "district": 59
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 66002,
+        "fields": {
+            "name": "Chankheli",
+            "district": 59
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 66003,
+        "fields": {
+            "name": "Kharpunath",
+            "district": 59
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 66004,
+        "fields": {
+            "name": "Namkha",
+            "district": 59
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 66005,
+        "fields": {
+            "name": "Sarkegad",
+            "district": 59
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 66006,
+        "fields": {
+            "name": "Simkot",
+            "district": 59
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 66007,
+        "fields": {
+            "name": "Tanjakot",
+            "district": 59
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 67001,
+        "fields": {
+            "name": "Badimalika",
+            "district": 70
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 67002,
+        "fields": {
+            "name": "Budhiganga",
+            "district": 70
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 67003,
+        "fields": {
+            "name": "Budhinanda",
+            "district": 70
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 67004,
+        "fields": {
+            "name": "Chhededaha",
+            "district": 70
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 67005,
+        "fields": {
+            "name": "Gaumul",
+            "district": 70
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 67006,
+        "fields": {
+            "name": "Himali",
+            "district": 70
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 67007,
+        "fields": {
+            "name": "Pandav Gupha",
+            "district": 70
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 67008,
+        "fields": {
+            "name": "Swami Kartik",
+            "district": 70
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 67009,
+        "fields": {
+            "name": "Tribeni",
+            "district": 70
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 67099,
+        "fields": {
+            "name": "Khaptad National Park",
+            "district": 70
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68001,
+        "fields": {
+            "name": "Bithadchir",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68002,
+        "fields": {
+            "name": "Bungal",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68003,
+        "fields": {
+            "name": "Chabispathivera",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68004,
+        "fields": {
+            "name": "Durgathali",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68005,
+        "fields": {
+            "name": "JayaPrithivi",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68006,
+        "fields": {
+            "name": "Kanda",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68007,
+        "fields": {
+            "name": "Kedarseu",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68008,
+        "fields": {
+            "name": "Khaptadchhanna",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68009,
+        "fields": {
+            "name": "Masta",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68010,
+        "fields": {
+            "name": "Surma",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68011,
+        "fields": {
+            "name": "Talkot",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68012,
+        "fields": {
+            "name": "Thalara",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 68099,
+        "fields": {
+            "name": "Khaptad National Park",
+            "district": 71
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 69001,
+        "fields": {
+            "name": "Bannigadhi Jayagadh",
+            "district": 69
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 69002,
+        "fields": {
+            "name": "Chaurpati",
+            "district": 69
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 69003,
+        "fields": {
+            "name": "Dhakari",
+            "district": 69
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 69004,
+        "fields": {
+            "name": "Kamalbazar",
+            "district": 69
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 69005,
+        "fields": {
+            "name": "Mangalsen",
+            "district": 69
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 69006,
+        "fields": {
+            "name": "Mellekh",
+            "district": 69
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 69007,
+        "fields": {
+            "name": "Panchadewal Binayak",
+            "district": 69
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 69008,
+        "fields": {
+            "name": "Ramaroshan",
+            "district": 69
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 69009,
+        "fields": {
+            "name": "Sanphebagar",
+            "district": 69
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 69010,
+        "fields": {
+            "name": "Turmakhad",
+            "district": 69
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 69099,
+        "fields": {
+            "name": "Khaptad National Park",
+            "district": 69
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 70001,
+        "fields": {
+            "name": "Adharsha",
+            "district": 68
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 70002,
+        "fields": {
+            "name": "Badikedar",
+            "district": 68
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 70003,
+        "fields": {
+            "name": "Bogtan",
+            "district": 68
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 70004,
+        "fields": {
+            "name": "Dipayal Silgadi",
+            "district": 68
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 70005,
+        "fields": {
+            "name": "Jorayal",
+            "district": 68
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 70006,
+        "fields": {
+            "name": "K I Singh",
+            "district": 68
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 70007,
+        "fields": {
+            "name": "Purbichauki",
+            "district": 68
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 70008,
+        "fields": {
+            "name": "Sayal",
+            "district": 68
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 70009,
+        "fields": {
+            "name": "Shikhar",
+            "district": 68
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 70099,
+        "fields": {
+            "name": "Khaptad National Park",
+            "district": 68
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71001,
+        "fields": {
+            "name": "Bardagoriya",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71002,
+        "fields": {
+            "name": "Bhajani",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71003,
+        "fields": {
+            "name": "Chure",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71004,
+        "fields": {
+            "name": "Dhangadhi",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71005,
+        "fields": {
+            "name": "Gauriganga",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71006,
+        "fields": {
+            "name": "Ghodaghodi",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71007,
+        "fields": {
+            "name": "Godawari",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71008,
+        "fields": {
+            "name": "Janaki",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71009,
+        "fields": {
+            "name": "Joshipur",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71010,
+        "fields": {
+            "name": "Kailari",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71011,
+        "fields": {
+            "name": "Lamkichuha",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71012,
+        "fields": {
+            "name": "Mohanyal",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 71013,
+        "fields": {
+            "name": "Tikapur",
+            "district": 67
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 72001,
+        "fields": {
+            "name": "Bedkot",
+            "district": 75
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 72002,
+        "fields": {
+            "name": "Belauri",
+            "district": 75
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 72003,
+        "fields": {
+            "name": "Beldandi",
+            "district": 75
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 72004,
+        "fields": {
+            "name": "Bhimdatta",
+            "district": 75
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 72005,
+        "fields": {
+            "name": "Krishnapur",
+            "district": 75
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 72006,
+        "fields": {
+            "name": "Laljhadi",
+            "district": 75
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 72007,
+        "fields": {
+            "name": "Mahakali",
+            "district": 75
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 72008,
+        "fields": {
+            "name": "Punarbas",
+            "district": 75
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 72009,
+        "fields": {
+            "name": "Shuklaphanta",
+            "district": 75
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 72099,
+        "fields": {
+            "name": "Shuklaphanta National Park",
+            "district": 75
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 73001,
+        "fields": {
+            "name": "Ajaymeru",
+            "district": 74
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 73002,
+        "fields": {
+            "name": "Alital",
+            "district": 74
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 73003,
+        "fields": {
+            "name": "Amargadhi",
+            "district": 74
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 73004,
+        "fields": {
+            "name": "Bhageshwar",
+            "district": 74
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 73005,
+        "fields": {
+            "name": "Ganayapdhura",
+            "district": 74
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 73006,
+        "fields": {
+            "name": "Nawadurga",
+            "district": 74
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 73007,
+        "fields": {
+            "name": "Parashuram",
+            "district": 74
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 74001,
+        "fields": {
+            "name": "Dasharathchanda",
+            "district": 73
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 74002,
+        "fields": {
+            "name": "Dilasaini",
+            "district": 73
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 74003,
+        "fields": {
+            "name": "Dogadakedar",
+            "district": 73
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 74004,
+        "fields": {
+            "name": "Melauli",
+            "district": 73
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 74005,
+        "fields": {
+            "name": "Pancheshwar",
+            "district": 73
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 74006,
+        "fields": {
+            "name": "Patan",
+            "district": 73
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 74007,
+        "fields": {
+            "name": "Purchaudi",
+            "district": 73
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 74008,
+        "fields": {
+            "name": "Shivanath",
+            "district": 73
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 74009,
+        "fields": {
+            "name": "Sigas",
+            "district": 73
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 74010,
+        "fields": {
+            "name": "Surnaya",
+            "district": 73
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 75001,
+        "fields": {
+            "name": "Apihimal",
+            "district": 72
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 75002,
+        "fields": {
+            "name": "Byas",
+            "district": 72
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 75003,
+        "fields": {
+            "name": "Dunhu",
+            "district": 72
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 75004,
+        "fields": {
+            "name": "Lekam",
+            "district": 72
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 75005,
+        "fields": {
+            "name": "Mahakali",
+            "district": 72
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 75006,
+        "fields": {
+            "name": "Malikaarjun",
+            "district": 72
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 75007,
+        "fields": {
+            "name": "Marma",
+            "district": 72
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 75008,
+        "fields": {
+            "name": "Naugad",
+            "district": 72
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 75009,
+        "fields": {
+            "name": "Shailyashikhar",
+            "district": 72
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 76001,
+        "fields": {
+            "name": "Binayee Tribeni",
+            "district": 481
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 76002,
+        "fields": {
+            "name": "Bulingtar",
+            "district": 481
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 76003,
+        "fields": {
+            "name": "Bungdikali",
+            "district": 481
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 76004,
+        "fields": {
+            "name": "Devchuli",
+            "district": 481
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 76005,
+        "fields": {
+            "name": "Gaidakot",
+            "district": 481
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 76006,
+        "fields": {
+            "name": "Hupsekot",
+            "district": 481
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 76007,
+        "fields": {
+            "name": "Kawasoti",
+            "district": 481
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 76008,
+        "fields": {
+            "name": "Madhyabindu",
+            "district": 481
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 76099,
+        "fields": {
+            "name": "Chitawan National Park",
+            "district": 481
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 77001,
+        "fields": {
+            "name": "Bhume",
+            "district": 541
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 77002,
+        "fields": {
+            "name": "Putha Uttarganga",
+            "district": 541
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 77003,
+        "fields": {
+            "name": "Sisne",
+            "district": 541
+        }
+    },
+    {
+        "model": "geo.palika",
+        "pk": 77099,
+        "fields": {
+            "name": "Dhorpatan Hunting Reserve",
+            "district": 541
+        }
+    }
+]

@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from geo.models import Map
-from metadata.models import District, Gaupalika
+from geo.models import District, Palika
 import utils.topojson
 
 import json
@@ -11,8 +11,8 @@ class Command(BaseCommand):
         print('Loading districts')
         self.load_districts()
         print('Done')
-        print('Loading gaupalikas')
-        self.load_gaupalikas()
+        print('Loading Palikas')
+        self.load_palikas()
         print('Done')
 
     def load_districts(self):
@@ -39,8 +39,8 @@ class Command(BaseCommand):
                 },
             )
 
-    def load_gaupalikas(self):
-        map = Map.objects.filter(key='gaupalikas').first()
+    def load_palikas(self):
+        map = Map.objects.filter(key='palikas').first()
         if not map:
             return
 
@@ -67,7 +67,7 @@ class Command(BaseCommand):
                 )
                 continue
 
-            Gaupalika.objects.update_or_create(
+            Palika.objects.update_or_create(
                 name=name,
                 defaults={
                     'district': district,

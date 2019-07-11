@@ -1,10 +1,10 @@
 version: '3.3'
 
 services:
-  db:
+  wp-db:
     image: mysql:5.7
     volumes:
-      - db_data:/var/lib/mysql
+      - db-data:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -12,9 +12,14 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: root
 
+  db:
+    image: postgres:9.6
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
   wordpress:
     depends_on:
-      - db
+      - wp-db
     image: wordpress:latest
     volumes:
       - ./wp-theme:/var/www/html/wp-content/themes/ultrasimpleRes
@@ -22,7 +27,7 @@ services:
       - '8051:80'
     restart: always
     environment:
-      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_HOST: wp-db:3306
       WORDPRESS_DB_USER: root
       WORDPRESS_DB_PASSWORD: root
       WORDPRESS_DB_NAME: wordpress
@@ -42,13 +47,15 @@ services:
   server:
     image: devtc/pin-dashboard-server:develop
     build: ./server/
-    command: bash -c '/code/scripts/run_develop.sh'
+    command: bash -c '/code/scripts/wait-for-it.sh db:5432 && /code/scripts/run_develop.sh'
     env_file:
       - .env
     volumes:
       - ./server/:/code
     ports:
       - '8050:8050'
+    depends_on:
+      - db
 
 volumes:
-    db_data: {}
+  db-data:

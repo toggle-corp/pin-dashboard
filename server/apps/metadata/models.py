@@ -1,22 +1,6 @@
 from django.db import models
 
-
-class District(models.Model):
-    name = models.CharField(max_length=256)
-    geojson = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Gaupalika(models.Model):
-    name = models.CharField(max_length=256)
-    district = models.ForeignKey(District,
-                                 on_delete=models.CASCADE)
-    geojson = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.name
+from geo.models import Palika, District
 
 
 class GeoSite(models.Model):
@@ -25,14 +9,18 @@ class GeoSite(models.Model):
     latitude = models.FloatField(default=None, blank=True, null=True)
     longitude = models.FloatField(default=None, blank=True, null=True)
 
-    district = models.ForeignKey(District,
-                                 default=None, blank=True, null=True,
-                                 on_delete=models.SET_NULL)
-    gaupalika = models.ForeignKey(Gaupalika,
-                                  default=None, blank=True, null=True,
-                                  on_delete=models.SET_NULL)
+    district = models.ForeignKey(
+        District,
+        default=None, blank=True, null=True,
+        on_delete=models.SET_NULL,
+    )
+    palika = models.ForeignKey(
+        Palika,
+        default=None, blank=True, null=True,
+        on_delete=models.SET_NULL,
+    )
     place = models.CharField(max_length=256, blank=True)
-    ward = models.CharField(max_length=256, blank=True)
+    ward = models.CharField(max_length=256, null=True, blank=True)
 
     category = models.CharField(max_length=256, blank=True)
     risk_score = models.CharField(max_length=256, blank=True)
@@ -57,11 +45,13 @@ class Household(models.Model):
     district = models.ForeignKey(District,
                                  default=None, blank=True, null=True,
                                  on_delete=models.SET_NULL)
-    gaupalika = models.ForeignKey(Gaupalika,
-                                  default=None, blank=True, null=True,
-                                  on_delete=models.SET_NULL)
+    palika = models.ForeignKey(
+        Palika,
+        default=None, blank=True, null=True,
+        on_delete=models.SET_NULL,
+    )
     place = models.CharField(max_length=256, blank=True)
-    ward = models.CharField(max_length=256, blank=True)
+    ward = models.CharField(max_length=256, null=True, blank=True)
 
     land_size = models.FloatField(default=None, blank=True, null=True)
     eligibility_source = models.CharField(max_length=256, blank=True)
