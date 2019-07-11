@@ -59,8 +59,8 @@ class GeohazardAffectedHouseholdsView extends React.PureComponent<Props> {
         }
 
         const {
-            Eligible: eligible = 0,
-            Relocated: relocated = 0,
+            eligible = 0,
+            relocated = 0,
         } = data;
 
         const inProcess = eligible - relocated;

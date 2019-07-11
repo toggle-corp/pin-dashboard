@@ -1,17 +1,34 @@
+.information-pending {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .information {
     display: flex;
     flex-direction: column;
 
     .header {
+        display: flex;
         flex-shrink: 0;
 
-        .heading {
+        .back-button {
+            flex-shrink: 0;
             padding: var(--spacing-medium);
+            font-size: var(--font-size-extra-large);
+        }
+
+        .heading {
+            flex-grow: 1;
+            padding: var(--spacing-medium);
+            font-size: var(--font-size-super-large);
+            font-weight: var(--font-weight-bold);
         }
     }
 
     .content {
         display: flex;
+        position: relative;
         align-content: flex-start;
         flex-grow: 1;
         flex-wrap: wrap;

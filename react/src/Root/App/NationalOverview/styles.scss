@@ -1,7 +1,10 @@
 .national-overview {
+    display: flex;
+    flex-direction: column;
     background-color: var(--color-background-alt);
 
     .information {
+        flex-grow: 1;
         background-color: var(--color-foreground);
     }
 }
