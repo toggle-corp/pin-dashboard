@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 
 
 class Map(models.Model):
@@ -12,6 +13,7 @@ class Map(models.Model):
 
 class Province(models.Model):
     name = models.CharField(max_length=256)
+    meta = JSONField(default=dict)
 
     def __str__(self):
         return self.name
@@ -20,7 +22,7 @@ class Province(models.Model):
 class District(models.Model):
     name = models.CharField(max_length=256)
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
-    geojson = models.TextField(blank=True)
+    meta = JSONField(default=dict)
 
     def __str__(self):
         return self.name
@@ -29,7 +31,7 @@ class District(models.Model):
 class Palika(models.Model):
     name = models.CharField(max_length=256)
     district = models.ForeignKey(District, on_delete=models.CASCADE)
-    geojson = models.TextField(blank=True)
+    meta = JSONField(default=dict)
 
     def __str__(self):
         return self.name

@@ -96,9 +96,9 @@ class Metadata:
     def geohazard_affected(self):
         hh = self.hh.filter(eligibility_source='Geohazard')
         return {
-            'Eligible': hh.filter(eligibility__contains='Yes').count(),
-            'Relocated': hh.filter(result__contains='Relocated').count(),
-            'Total': hh.count(),
+            'eligible': hh.filter(eligibility__contains='Yes').count(),
+            'relocated': hh.filter(result__contains='Relocated').count(),
+            'total': hh.count(),
         }
 
     def people_relocated(self):
@@ -166,7 +166,7 @@ class Metadata:
 class MetadataView(views.APIView):
 
     @method_decorator(cache_page(60 * 60 * 1))
-    def get(self, request, district=None):
+    def get(self, request, district_id=None):
         loader = Loader()
 
         try:
@@ -175,8 +175,8 @@ class MetadataView(views.APIView):
         except Exception:
             pass
 
-        if district:
-            district = get_object_or_404(District, name__iexact=district)
+        if district_id:
+            district = get_object_or_404(District, pk=district_id)
             metadata = Metadata(district)
             serializer = DistrictDetailSerializer(metadata)
         else:

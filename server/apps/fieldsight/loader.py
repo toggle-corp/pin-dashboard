@@ -4,6 +4,7 @@ import os
 import re
 
 from django.conf import settings
+from django.contrib.postgres import search
 from fieldsight.models import Project
 from geo.models import (
     Palika,
@@ -57,6 +58,12 @@ def parse_number(text):
 def parse_land_area(text):
     number = parse_number(text)
     return number and float(number) * 10000
+
+
+def trigram_name_search(queryset, name_query):
+    return queryset.annotate(
+        similarity=search.TrigramSimilarity('name', str(name_query or '')),
+    ).filter(similarity__gt=0.5)
 
 
 class Loader:
@@ -137,6 +144,7 @@ class Loader:
         data = self.fetch_data('geosites', force)
         for datum in data:
             try:
+                logger.info('Collecting Geosites!!')
                 self.load_geosite(datum)
             except Exception:
                 logger.error('Fetch Geosites Failed!!', exc_info=True)
@@ -145,6 +153,7 @@ class Loader:
         data = self.fetch_data('hh_registry', force)
         for datum in data:
             try:
+                logger.info('Collecting Households!!')
                 self.load_household(datum)
             except Exception:
                 logger.error('Fetch Households Failed!!', exc_info=True)
@@ -161,14 +170,24 @@ class Loader:
         defaults['longitude'] = get_attr(datum, 'longitude') or \
             datum['location'][0]
 
-        defaults['district'] = District.objects.filter(
-            name__trigram_similar=get_attr(datum, 'District')
-        ).first()
-        defaults['palika'] = Palika.objects.filter(
-            name__trigram_similar=get_attr(datum, 'Gaupalika'),
-            district__in=[defaults['district']],
+        defaults['district'] = trigram_name_search(District.objects, get_attr(datum, 'District')).first()
+        defaults['palika'] = trigram_name_search(
+            Palika.objects.filter(district__in=[defaults['district']]),
+            get_attr(datum, 'Gaupalika'),
         ).first()
         defaults['ward'] = str(get_attr(datum, 'Ward')) if get_attr(datum, 'Ward') else None
+
+        [
+            logger.warning(
+                f">> Geosite: '{geo_dist}' not found for '{datum.get('id')}', "
+                f"Provided data: {get_attr(datum, data_selector)}"
+            )
+            for geo_dist, data_selector in [
+                ('district', 'District'),
+                ('palika', 'Gaupalika'),
+                ('ward', 'Ward'),
+            ] if defaults[geo_dist] is None
+        ]
 
         geosite, _ = GeoSite.objects.update_or_create(
             code=code,
@@ -200,14 +219,24 @@ class Loader:
         defaults['geosite'] = geosite
 
         try:
-            defaults['district'] = District.objects.filter(
-                name__trigram_similar=get_attr(datum, 'District_of_origin')
-            ).first()
-            defaults['palika'] = Palika.objects.filter(
-                name__trigram_similar=get_attr(datum, 'Gaupalika_Municipality'),
-                district__in=[defaults['district']],
+            defaults['district'] = trigram_name_search(District.objects, get_attr(datum, 'District_of_origin')).first()
+            defaults['palika'] = trigram_name_search(
+                Palika.objects.filter(district__in=[defaults['district']]),
+                get_attr(datum, 'Gaupalika_Municipality'),
             ).first()
             defaults['ward'] = str(get_attr(datum, 'Ward')) if get_attr(datum, 'Ward') else None
+
+            [
+                logger.warning(
+                    f">> Household: '{geo_dist}' not found for '{code}', "
+                    f"Provided data: {get_attr(datum, data_selector)}"
+                )
+                for geo_dist, data_selector in [
+                    ('district', 'District_of_origin'),
+                    ('palika', 'Gaupalika_Municipality'),
+                    ('ward', 'Ward'),
+                ] if defaults[geo_dist] is None
+            ]
         except Exception:
             logger.error(f'Load Household({code}) Failed!!', exc_info=True)
 

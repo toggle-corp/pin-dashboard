@@ -140,6 +140,9 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser',
     ),
+    'JSON_UNDERSCOREIZE': {
+        'no_underscore_before_number': True,
+    },
 
     'EXCEPTION_HANDLER': 'pin.exception_handler.custom_exception_handler',
     'DEFAULT_PAGINATION_CLASS':

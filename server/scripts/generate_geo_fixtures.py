@@ -7,19 +7,14 @@ CODE_BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 DATA_EXTRACTOR = {
-    'province': lambda prop: {
-        'name': prop['title'],
-    },
+    'province': lambda prop: {},
     'district': lambda prop: {
-        'name': prop['title'],
         'province': prop['province'],
     },
     'palika': lambda prop: {
-        'name': prop['title'],
         'district': prop['district'],
     },
     'ward': lambda prop: {
-        'name': prop['title'],
         'palika': prop['municipality'],
     },
 }
@@ -28,10 +23,18 @@ DATA_EXTRACTOR = {
 def parse_geo_data(division_type, geodata):
     collections = []
     for feature in geodata['features']:
+        prop = feature['properties']
         collections.append({
             'model': f'geo.{division_type}',
             'pk': feature['id'],
-            'fields': DATA_EXTRACTOR[division_type](feature['properties']),
+            'fields': {
+                **DATA_EXTRACTOR[division_type](prop),
+                'name': prop['title'],
+                'meta': {
+                    'centroid': '',
+                    'bbox': '',
+                },
+            },
         })
     collections.sort(key=lambda d: d['pk'])
     return collections
