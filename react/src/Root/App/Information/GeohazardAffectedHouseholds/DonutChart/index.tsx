@@ -59,10 +59,23 @@ class DonutChart<T> extends React.PureComponent<Props<T>> {
             acc + d.value
         ), 0);
 
+        if (totalValue <= 0) {
+            return [
+                {
+                    key: 'none',
+                    label: 'N/A',
+                    value: 0,
+                    startAngle: 0,
+                    endAngle: 359.99,
+                    color: 'gray',
+                },
+            ];
+        }
+
         let prevStartAngle = 0;
         const renderData = structuredData.map((datum) => {
             const startAngle = prevStartAngle;
-            const endAngle = startAngle + (360 * (datum.value / totalValue));
+            const endAngle = Math.min(startAngle + (360 * (datum.value / totalValue)), 359.99);
 
             prevStartAngle = endAngle;
 

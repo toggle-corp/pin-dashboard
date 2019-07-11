@@ -2,7 +2,11 @@ import React from 'react';
 import memoize from 'memoize-one';
 import { _cs } from '@togglecorp/fujs';
 
-import { Metadata } from '#constants';
+import LoadingAnimation from '#rscv/LoadingAnimation';
+import Message from '#rscv/Message';
+
+import Button from '#rsca/Button';
+import { Base } from '#constants';
 
 import LandslidesSurveyed from './LandslidesSurveyed';
 import LandslidesRiskScore from './LandslidesRiskScore';
@@ -14,8 +18,11 @@ import styles from './styles.scss';
 
 interface Props {
     className?: string;
-    data?: Metadata;
+    data?: Base;
     title?: string;
+    pending?: boolean;
+    showBackButton?: boolean;
+    onBackButtonClick?: () => void;
 }
 
 class Information extends React.PureComponent<Props> {
@@ -24,15 +31,23 @@ class Information extends React.PureComponent<Props> {
         totalHouseholds,
     }))
 
-    public render() {
+    private renderDetail = () => {
         const {
-            className,
             data,
-            title,
+            pending,
         } = this.props;
 
+        if (pending) {
+            return (
+                <LoadingAnimation />
+            );
+        }
         if (!data) {
-            return null;
+            return (
+                <Message>
+                    Data not available
+                </Message>
+            );
         }
 
         const {
@@ -47,33 +62,58 @@ class Information extends React.PureComponent<Props> {
         const landPurchasedData = this.getLandPurchasedData(landPurchased, totalHouseholds);
 
         return (
+            <>
+                <LandslidesSurveyed
+                    data={landslidesSurveyed}
+                    className={styles.landslidesSurveyed}
+                />
+                <LandslidesRiskScore
+                    data={landslidesRiskScore}
+                    className={styles.landslidesRiskScore}
+                />
+                <GeohazardAffectedHouseholds
+                    className={styles.geohazardAffectedHouseholds}
+                    data={geohazardAffected}
+                />
+                <LandPurchased
+                    className={styles.landPurchased}
+                    data={landPurchasedData}
+                />
+                <PeopleRelocated
+                    className={styles.peopleRelocated}
+                    data={peopleRelocated}
+                />
+            </>
+        );
+    }
+
+    public render() {
+        const {
+            className,
+            title,
+            showBackButton,
+            onBackButtonClick,
+        } = this.props;
+
+        return (
             <div className={_cs(className, styles.information)}>
                 <header className={styles.header}>
+                    { showBackButton && (
+                        <Button
+                            transparent
+                            smallHorizontalPadding
+                            smallVerticalPadding
+                            className={styles.backButton}
+                            iconName="back"
+                            onClick={onBackButtonClick}
+                        />
+                    )}
                     <h2 className={styles.heading}>
                         { title }
                     </h2>
                 </header>
                 <div className={styles.content}>
-                    <LandslidesSurveyed
-                        data={landslidesSurveyed}
-                        className={styles.landslidesSurveyed}
-                    />
-                    <LandslidesRiskScore
-                        data={landslidesRiskScore}
-                        className={styles.landslidesRiskScore}
-                    />
-                    <GeohazardAffectedHouseholds
-                        className={styles.geohazardAffectedHouseholds}
-                        data={geohazardAffected}
-                    />
-                    <LandPurchased
-                        className={styles.landPurchased}
-                        data={landPurchasedData}
-                    />
-                    <PeopleRelocated
-                        className={styles.peopleRelocated}
-                        data={peopleRelocated}
-                    />
+                    {this.renderDetail()}
                 </div>
             </div>
         );

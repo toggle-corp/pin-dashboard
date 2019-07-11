@@ -1,19 +1,14 @@
 import React from 'react';
 
-import {
-    createConnectedRequestCoordinator,
-    createRequestClient,
-    NewProps,
-    ClientAttributes,
-    methods,
-} from '#request';
-
 import Map from '#rscz/Map';
 import MapContainer from '#rscz/Map/MapContainer';
 
 import MultiViewContainer from '#rscv/MultiViewContainer';
 
 import NationalOverview from './NationalOverview';
+import DistrictOverview from './DistrictOverview';
+
+import { GeoAttribute } from '#constants';
 
 import styles from './styles.scss';
 
@@ -25,8 +20,13 @@ enum ViewLevel {
 
 interface State {
     currentViewLevel: ViewLevel;
+
+    activeDistrict?: GeoAttribute;
+
+    // activePalikaId?: number;
+    // palikaBounds: GeoBounds;
 }
-interface Params {}
+
 interface Props {}
 
 const mapStyle = {
@@ -35,26 +35,29 @@ const mapStyle = {
     color: '#dddddd',
 };
 
-
-const requests: { [key: string]: ClientAttributes<Props, Params> } = {
-    metadaRequest: {
-        url: '/metadata/',
-        method: methods.GET,
-        onMount: true,
-        /*
-        extras: {
-            schemaName: 'alertResponse',
-        },
-        */
-    },
+const countryGeoAttribute: GeoAttribute = {
+    id: 0,
+    name: 'Nepal',
+    centroid: [84.1240, 28.3949],
+    bbox: [
+        80.05858661752784, 26.347836996368667,
+        88.20166918432409, 30.44702867091792,
+    ],
 };
 
-type MyProps = NewProps<Props, Params>;
+
+interface MyType<T> {
+    component: React.ComponentType<T>;
+    rendererParams?: () => T;
+    wrapContainer?: boolean;
+    mount?: boolean;
+    lazyMount?: boolean;
+}
 
 /* Loads required info from server */
 // eslint-disable-next-line react/prefer-stateless-function
-class App extends React.Component<MyProps, State> {
-    public constructor(props: MyProps) {
+class App extends React.Component<Props, State> {
+    public constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -64,17 +67,23 @@ class App extends React.Component<MyProps, State> {
         this.views = {
             [ViewLevel.National]: {
                 component: NationalOverview,
+                rendererParams: () => ({
+                    className: styles.nationalOverview,
+                    country: countryGeoAttribute,
+                    onDistrictDoubleClick: this.handleDistrictDoubleClick,
+                }),
+            },
+            [ViewLevel.District]: {
+                component: DistrictOverview,
                 rendererParams: () => {
                     const {
-                        requests: {
-                            metadaRequest: { response },
-                        },
-                    } = this.props;
+                        activeDistrict,
+                    } = this.state;
 
                     return {
-                        metadata: response,
-                        className: styles.nationalOverview,
-                        title: 'Nepal',
+                        className: styles.districtOverview,
+                        district: activeDistrict,
+                        onBackButtonClick: this.handleDistrictBackButtonClick,
                     };
                 },
             },
@@ -82,33 +91,28 @@ class App extends React.Component<MyProps, State> {
     }
 
     private views: {
-        [key: string]: {
-            component: React.ComponentType;
-            rendererParams?: () => object;
-            wrapContainer?: boolean;
-            mount?: boolean;
-            lazyMount?: boolean;
-        };
+        [ViewLevel.National]: MyType<React.ComponentProps<typeof NationalOverview>>;
+        [ViewLevel.District]: MyType<React.ComponentProps<typeof DistrictOverview>>;
+    }
+
+    private handleDistrictBackButtonClick = () => {
+        this.setState({
+            currentViewLevel: ViewLevel.National,
+            activeDistrict: undefined,
+        });
+    }
+
+    private handleDistrictDoubleClick = (geoAttribute: GeoAttribute) => {
+        this.setState({
+            currentViewLevel: ViewLevel.District,
+            activeDistrict: geoAttribute,
+        });
     }
 
     public render() {
         const {
-            requests: {
-                metadaRequest,
-            },
-        } = this.props;
-
-        const {
             currentViewLevel,
         } = this.state;
-
-        if (metadaRequest.pending) {
-            return (
-                <div className={styles.loadingMessage}>
-                    Loading Metadata ...
-                </div>
-            );
-        }
 
         return (
             <div className={styles.app}>
@@ -139,8 +143,4 @@ class App extends React.Component<MyProps, State> {
     }
 }
 
-export default createConnectedRequestCoordinator<Props>()(
-    createRequestClient(requests)(
-        App,
-    ),
-);
+export default App;

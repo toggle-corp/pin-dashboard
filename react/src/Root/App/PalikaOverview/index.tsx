@@ -1,5 +1,6 @@
 import React from 'react';
 import memoize from 'memoize-one';
+
 import {
     _cs,
     isNotDefined,
@@ -16,14 +17,6 @@ import {
     methods,
 } from '#request';
 
-import {
-    Metadata,
-    mapSources,
-    mapStyles,
-    GeoAttribute,
-} from '#constants';
-import Information from '../Information';
-
 import styles from './styles.scss';
 
 interface State {
@@ -33,19 +26,28 @@ interface State {
 
 interface Props {
     className?: string;
-    district?: GeoAttribute;
-    onBackButtonClick?: () => void;
+    title?: string;
+    palikaId?: number;
+    onBackButtonClick?: () => {};
 }
 
 interface Params {}
 
+/*
 const requests: { [key: string]: ClientAttributes<Props, Params> } = {
     metadaRequest: {
-        url: ({ props }) => `/metadata/district/${props.district && props.district.id}`,
+        url: ({ props }) => {
+            if (!props.palikaId) {
+                return '/metadata/';
+            }
+
+            return `/palika/${palikas[props.districtId]}`;
+        },
         method: methods.GET,
-        onMount: ({ props }) => !!props.district && !!props.district.id,
+        onMount: true,
     },
 };
+ */
 
 type MyProps = NewProps<Props, Params>;
 
@@ -61,37 +63,40 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
     public constructor(props: MyProps) {
         super(props);
 
-        this.state = {};
+        this.state = {
+        };
     }
 
+    /*
     private getInformationDataForSelectedRegion = () => {
         const {
             requests: {
                 metadaRequest: { response },
             },
-            district,
+            districtId,
         } = this.props;
-
-        if (!district) {
-            return {
-                title: undefined,
-                metadata: undefined,
-            };
-        }
 
         const metadata = response as Metadata;
 
         const { selectedId } = this.state;
 
+        const districtName = districtId
+            ? districts[districtId]
+            : undefined;
+
         if (!selectedId) {
             return {
-                title: district.name,
+                title: districtName,
                 metadata,
             };
         }
 
-        const palikaData = metadata && metadata.regions
-            ? metadata.regions.find(region => region.geoAttribute.id === selectedId)
+        const palikaName = selectedId
+            ? palikas[selectedId]
+            : undefined;
+
+        const palikaData = palikaName && metadata && metadata.gaupalikas
+            ? metadata.gaupalikas[palikaName]
             : undefined;
 
         if (!palikaData) {
@@ -102,10 +107,11 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         }
 
         return ({
-            title: palikaData.geoAttribute.name,
+            title: palikaName,
             metadata: palikaData,
         });
     }
+     */
 
     private wrapInArray = memoize(wrapInArray);
 
@@ -115,6 +121,11 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
     private handleDoubleClick = (id: number) => {
         console.warn('double click', id);
+        // const { onDistrictDoubleClick } = this.props;
+
+        // if (onDistrictDoubleClick) {
+        //     onDistrictDoubleClick(id);
+        // }
     }
 
     private handleSelectionChange = (_: number[], id: number) => {
@@ -131,8 +142,8 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     pending: pendingMetadataRequest,
                 },
             },
+            palikaId,
             onBackButtonClick,
-            district,
         } = this.props;
 
         const {
@@ -140,19 +151,24 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             hoveredId,
         } = this.state;
 
+        const sourceKey = 'palika-overview';
+
         const {
             title,
             metadata,
         } = this.getInformationDataForSelectedRegion();
 
-        let filter;
-        if (district) {
-            filter = [
-                '==',
-                ['get', 'district'],
-                district.id,
-            ];
-        }
+        const wardIdList = wardList
+            .filter(p => p.district === districtId)
+            .map(p => p.id);
+
+        const filter = [
+            'match',
+            ['id'],
+            wardIdList,
+            true,
+            false,
+        ];
 
         return (
             <div className={_cs(className, styles.districtOverview)}>
@@ -165,12 +181,11 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     onBackButtonClick={onBackButtonClick}
                 />
                 <MapSource
-                    sourceKey="district-geo"
+                    sourceKey={`${sourceKey}-geo-outline`}
                     url={mapSources.nepal.url}
-                    bounds={district ? district.bbox : undefined}
                 >
                     <MapLayer
-                        layerKey="palika-fill"
+                        layerKey="district-fill"
                         type="fill"
                         sourceLayer={mapSources.nepal.layers.palika}
                         paint={mapStyles.palika.fill}
@@ -184,7 +199,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         onSelectionChange={this.handleSelectionChange}
                     />
                     <MapLayer
-                        layerKey="palika-outline"
+                        layerKey="district-outline"
                         type="line"
                         sourceLayer={mapSources.nepal.layers.palika}
                         paint={mapStyles.palika.outline}
@@ -195,9 +210,3 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         );
     }
 }
-
-export default createConnectedRequestCoordinator<Props>()(
-    createRequestClient(requests)(
-        DistrictOverview,
-    ),
-);

@@ -4,7 +4,7 @@ export default {
         layers: {
             // province: 'provincegeo',
             district: 'districtgeo',
-            // municipality: 'municipalitygeo',
+            palika: 'municipalitygeo',
             // ward: 'wardgeo',
         },
     },

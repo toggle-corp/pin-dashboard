@@ -1,7 +1,10 @@
+export type GeoPoint = [number, number];
+export type GeoBounds = [number, number, number, number];
+
 export interface GeohazardAffected {
-    Eligible?: number;
-    Relocated?: number;
-    Total?: number;
+    eligible?: number;
+    relocated?: number;
+    total?: number;
 }
 
 export interface LandslidesRiskScore {
@@ -49,9 +52,15 @@ export interface RelocationPoint {
     riskScore: keyof LandslidesRiskScore;
 }
 
+export interface GeoAttribute {
+    id: number;
+    name: string;
+    bbox?: GeoBounds;
+    centroid?: GeoPoint;
+}
+
 export interface Base {
-    cat2_points?: RelocationPoint[];
-    cat3_points?: RelocationPoint[];
+    geoAttribute: GeoAttribute;
 
     totalHouseholds?: number;
     landPurchased?: number;
@@ -62,7 +71,7 @@ export interface Base {
 }
 
 export interface Metadata extends Base {
-    districts: {
-        [key: string]: Base;
-    };
+    cat2Points?: RelocationPoint[];
+    cat3Points?: RelocationPoint[];
+    regions: Base[];
 }
