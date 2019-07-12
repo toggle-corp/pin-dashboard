@@ -1,38 +1,44 @@
 from django.contrib import admin
-from django.db.models import Q
+from django.db.models import Count
 from pin.admin import linkify
 from pin.filters import RelatedDropdownFilter
 
-from metadata.models import GeoSite, Household
 from .models import (
-    Map, Province, District, Palika
+    Map,
+    Province,
+    District,
+    Palika,
+    Ward,
 )
 
 admin.site.register(Map)
 
 
-@admin.register(Province)
-class ProvinceAdmin(admin.ModelAdmin):
-    search_fields = ('name',)
-    list_display = ('name', 'get_total_hh', 'get_total_gs')
-
-    def get_total_hh(self, obj):
-        return Household.objects.filter(
-            Q(district__province=obj) | Q(palika__district__province=obj)
-        ).distinct().count()
-
-    def get_total_gs(self, obj):
-        return GeoSite.objects.filter(
-            Q(district__province=obj) | Q(palika__district__province=obj)
-        ).distinct().count()
-
-
 class MetaCountMixin():
-    def get_total_hh(self, obj):
-        return obj.household_set.count()
+    meta_count_prefex = ''
 
-    def get_total_gs(self, obj):
-        return obj.geosite_set.count()
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        qs = qs.annotate(
+            hh_count=Count(f'{self.meta_count_prefex}household', distinct=True),
+            gs_count=Count(f'{self.meta_count_prefex}geosite', distinct=True),
+        )
+        return qs
+
+    def gs_count(self, obj):
+        return obj.gs_count
+    gs_count.admin_order_field = 'gs_count'
+
+    def hh_count(self, obj):
+        return obj.hh_count
+    hh_count.admin_order_field = 'hh_count'
+
+
+@admin.register(Province)
+class ProvinceAdmin(MetaCountMixin, admin.ModelAdmin):
+    search_fields = ('name',)
+    list_display = ('name', 'hh_count', 'gs_count')
+    meta_count_prefex = 'district__'
 
 
 class PalikaInine(admin.StackedInline):
@@ -45,17 +51,23 @@ class PalikaInine(admin.StackedInline):
 class DistrictAdmin(MetaCountMixin, admin.ModelAdmin):
     inlines = (PalikaInine,)
     search_fields = ('name',)
-    list_display = ('name', linkify('province'), 'get_total_hh', 'get_total_gs')
+    list_display = ('name', linkify('province'), 'hh_count', 'gs_count')
     list_filter = ('province',)
+
+
+class WardInline(admin.StackedInline):
+    model = Ward
+    extra = 0
 
 
 @admin.register(Palika)
 class PalikaAdmin(MetaCountMixin, admin.ModelAdmin):
     search_fields = ('name',)
+    inlines = (WardInline,)
     list_display = (
         'name', linkify('district'),
         linkify('district.province', 'Province'),
-        'get_total_hh', 'get_total_gs',
+        'hh_count', 'gs_count',
     )
     list_filter = (
         ('district', RelatedDropdownFilter),

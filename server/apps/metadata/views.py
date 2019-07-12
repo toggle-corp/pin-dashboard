@@ -7,10 +7,16 @@ from rest_framework import (
     views,
     response,
 )
-from .serializers import CountrySerializer, DistrictDetailSerializer
+from geo.models import (
+    District, Palika, Ward
+)
+from .serializers import (
+    CountrySerializer,
+    DistrictDetailSerializer,
+    PalikaDetailSerializer,
+)
 from .models import (
     GeoSite, Household,
-    District, Palika,
 )
 
 from fieldsight.loader import Loader
@@ -65,13 +71,17 @@ class Metadata:
     # We have not used get_xxx naming specification below
     # so that these attributes will be directly mapped with the serializer
     # fields.
-    def __init__(self, district=None, palika=None):
+    def __init__(self, district=None, palika=None, ward=None):
         self.district = district
         self.palika = palika
+        self.ward = ward
         self.gs = GeoSite.objects
         self.hh = Household.objects
 
-        if self.palika:
+        if self.ward:
+            self.gs = self.gs.filter(ward=ward)
+            self.hh = self.hh.filter(ward=ward)
+        elif self.palika:
             self.gs = self.gs.filter(palika=palika)
             self.hh = self.hh.filter(palika=palika)
         elif self.district:
@@ -127,14 +137,21 @@ class Metadata:
 
     def districts(self):
         return [
-            Metadata(district) for district in District.objects.all()
+            Metadata(district=district) for district in District.objects.all()
         ]
 
     def palikas(self):
         return [
-            Metadata(None, palika)
+            Metadata(palika=palika)
             for palika
             in Palika.objects.filter(district=self.district).all()
+        ]
+
+    def wards(self):
+        return [
+            Metadata(ward=ward)
+            for ward
+            in Ward.objects.filter(palika=self.palika).all()
         ]
 
     def total_households(self):
@@ -143,21 +160,31 @@ class Metadata:
         return hh.count()
 
     def cat2_points(self):
+        filter_query = {'district': self.district}
+        if self.ward:
+            filter_query = {'ward': self.ward}
+        elif self.palika:
+            filter_query = {'palika': self.palika}
         return [
             Cat2Point(gs)
             for gs
             in GeoSite.objects.filter(
-                palika__district=self.district,
+                **filter_query,
                 category__iexact='cat2',
             ).prefetch_related('palika', 'household_set')
         ]
 
     def cat3_points(self):
+        filter_query = {'district': self.district}
+        if self.ward:
+            filter_query = {'ward': self.ward}
+        elif self.palika:
+            filter_query = {'palika': self.palika}
         return [
             Cat3Point(gs)
             for gs
             in GeoSite.objects.filter(
-                palika__district=self.district,
+                **filter_query,
                 category__iexact='cat3',
             ).prefetch_related('palika', 'household_set')
         ]
@@ -166,7 +193,7 @@ class Metadata:
 class MetadataView(views.APIView):
 
     @method_decorator(cache_page(60 * 60 * 1))
-    def get(self, request, district_id=None):
+    def get(self, request, district_id=None, palika_id=None):
         loader = Loader()
 
         try:
@@ -177,8 +204,12 @@ class MetadataView(views.APIView):
 
         if district_id:
             district = get_object_or_404(District, pk=district_id)
-            metadata = Metadata(district)
+            metadata = Metadata(district=district)
             serializer = DistrictDetailSerializer(metadata)
+        elif palika_id:
+            palika = get_object_or_404(Palika, pk=palika_id)
+            metadata = Metadata(palika=palika)
+            serializer = PalikaDetailSerializer(metadata)
         else:
             metadata = Metadata()
             serializer = CountrySerializer(metadata)
