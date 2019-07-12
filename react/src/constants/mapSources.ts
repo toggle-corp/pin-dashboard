@@ -5,7 +5,7 @@ export default {
             // province: 'provincegeo',
             district: 'districtgeo',
             palika: 'municipalitygeo',
-            // ward: 'wardgeo',
+            ward: 'wardgeo',
         },
     },
 };

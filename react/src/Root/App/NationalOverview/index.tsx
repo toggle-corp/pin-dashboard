@@ -206,6 +206,38 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         });
     }
 
+    private renderLegend = () => {
+        const mostAffectedColor = '#0010A1';
+        const affectedColor = '#3656f6';
+
+        return (
+            <div className={styles.legend}>
+                <div className={styles.legendItem}>
+                    <div
+                        style={{
+                            backgroundColor: affectedColor,
+                        }}
+                        className={styles.attr}
+                    />
+                    <div className={styles.label}>
+                        Affected by earthquake
+                    </div>
+                </div>
+                <div className={styles.legendItem}>
+                    <div
+                        style={{
+                            backgroundColor: mostAffectedColor,
+                        }}
+                        className={styles.attr}
+                    />
+                    <div className={styles.label}>
+                        Most affected by earthquake
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     public render() {
         const {
             className,
@@ -237,6 +269,7 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         return (
             <div className={_cs(className, styles.nationalOverview)}>
                 {this.renderHoverDetail()}
+                { this.renderLegend() }
                 <Information
                     className={styles.information}
                     data={metadata}

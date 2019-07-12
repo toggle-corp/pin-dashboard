@@ -90,7 +90,7 @@ class Information extends React.PureComponent<Props> {
     public render() {
         const {
             className,
-            title,
+            title = 'Unknown',
             showBackButton,
             onBackButtonClick,
         } = this.props;

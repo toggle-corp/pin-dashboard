@@ -1,6 +1,5 @@
 import React from 'react';
 import memoize from 'memoize-one';
-
 import {
     _cs,
     isNotDefined,
@@ -17,6 +16,17 @@ import {
     methods,
 } from '#request';
 
+import {
+    Metadata,
+    mapSources,
+    mapStyles,
+    GeoAttribute,
+    RelocationPoint,
+} from '#constants';
+
+import Information from '../Information';
+import HoverDetails from '../HoverDetails';
+
 import styles from './styles.scss';
 
 interface State {
@@ -26,31 +36,25 @@ interface State {
 
 interface Props {
     className?: string;
-    title?: string;
-    palikaId?: number;
-    onBackButtonClick?: () => {};
+    palika?: GeoAttribute;
+    onBackButtonClick?: () => void;
 }
 
 interface Params {}
 
-/*
 const requests: { [key: string]: ClientAttributes<Props, Params> } = {
     metadaRequest: {
-        url: ({ props }) => {
-            if (!props.palikaId) {
-                return '/metadata/';
-            }
-
-            return `/palika/${palikas[props.districtId]}`;
-        },
+        // url: ({ props }) => `/metadata/plaika/${props.palika && props.palika.id}`,
+        // TODO: remove this when palika API is done
+        url: '/metadata/district/44',
         method: methods.GET,
-        onMount: true,
+        onMount: ({ props }) => !!props.palika && !!props.palika.id,
     },
 };
- */
 
 type MyProps = NewProps<Props, Params>;
 
+// TODO: Move to commmon utils
 function wrapInArray<T>(item?: T) {
     if (isNotDefined(item)) {
         return [];
@@ -59,47 +63,67 @@ function wrapInArray<T>(item?: T) {
     return [item];
 }
 
-class DistrictOverview extends React.PureComponent<MyProps, State> {
+// TODO: Move to commmon utils
+function convertToGeoJson(catPoints: RelocationPoint[] | undefined = []) {
+    const geojson = {
+        type: 'FeatureCollection',
+        features: catPoints
+            .map((catPoint, i) => ({
+                id: i,
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [
+                        catPoint.longitude,
+                        catPoint.latitude,
+                    ],
+                },
+                properties: {
+                    ...catPoint,
+                },
+            })),
+    };
+    return geojson;
+}
+
+class PalikaOverview extends React.PureComponent<MyProps, State> {
     public constructor(props: MyProps) {
         super(props);
 
-        this.state = {
-        };
+        this.state = {};
     }
 
-    /*
     private getInformationDataForSelectedRegion = () => {
         const {
             requests: {
                 metadaRequest: { response },
             },
-            districtId,
+            palika,
         } = this.props;
+
+        if (!palika) {
+            return {
+                title: undefined,
+                metadata: undefined,
+            };
+        }
 
         const metadata = response as Metadata;
 
         const { selectedId } = this.state;
 
-        const districtName = districtId
-            ? districts[districtId]
-            : undefined;
-
         if (!selectedId) {
             return {
-                title: districtName,
+                title: palika.name,
                 metadata,
             };
         }
 
-        const palikaName = selectedId
-            ? palikas[selectedId]
+        const wardData = metadata && metadata.regions
+            ? metadata.regions.find(region => region.geoAttribute.id === selectedId)
             : undefined;
 
-        const palikaData = palikaName && metadata && metadata.gaupalikas
-            ? metadata.gaupalikas[palikaName]
-            : undefined;
-
-        if (!palikaData) {
+        if (!wardData) {
             return {
                 title: undefined,
                 metadata: undefined,
@@ -107,25 +131,53 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         }
 
         return ({
-            title: palikaName,
-            metadata: palikaData,
+            title: wardData.geoAttribute.name,
+            metadata: wardData,
         });
     }
-     */
 
     private wrapInArray = memoize(wrapInArray);
 
-    private handleHoverChange = (id: number) => {
-        this.setState({ hoveredId: id });
+    private renderHoverDetail = () => {
+        const {
+            requests: {
+                metadaRequest: { response },
+            },
+        } = this.props;
+
+        const { hoveredId } = this.state;
+
+        if (!hoveredId) {
+            return null;
+        }
+
+        // FIXME: prepare palika map in constants
+        const metadata = response as Metadata;
+        const wardData = metadata && metadata.regions.find(
+            region => region.geoAttribute.id === hoveredId,
+        );
+
+        if (!wardData) {
+            return null;
+        }
+
+        const {
+            landslidesSurveyed,
+            geoAttribute: {
+                name: wardName,
+            },
+        } = wardData;
+
+        return (
+            <HoverDetails
+                name={wardName}
+                landslidesSurveyed={landslidesSurveyed}
+            />
+        );
     }
 
-    private handleDoubleClick = (id: number) => {
-        console.warn('double click', id);
-        // const { onDistrictDoubleClick } = this.props;
-
-        // if (onDistrictDoubleClick) {
-        //     onDistrictDoubleClick(id);
-        // }
+    private handleHoverChange = (id: number) => {
+        this.setState({ hoveredId: id });
     }
 
     private handleSelectionChange = (_: number[], id: number) => {
@@ -140,10 +192,11 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             requests: {
                 metadaRequest: {
                     pending: pendingMetadataRequest,
+                    response,
                 },
             },
-            palikaId,
             onBackButtonClick,
+            palika,
         } = this.props;
 
         const {
@@ -151,27 +204,32 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             hoveredId,
         } = this.state;
 
-        const sourceKey = 'palika-overview';
-
         const {
             title,
             metadata,
         } = this.getInformationDataForSelectedRegion();
 
-        const wardIdList = wardList
-            .filter(p => p.district === districtId)
-            .map(p => p.id);
+        let filter;
+        if (palika) {
+            filter = [
+                '==',
+                ['get', 'municipality'],
+                palika.id,
+            ];
+        }
 
-        const filter = [
-            'match',
-            ['id'],
-            wardIdList,
-            true,
-            false,
-        ];
+        const palikaMetadata = response as Metadata;
+        const cat2PointsGeoJson = convertToGeoJson(
+            palikaMetadata ? palikaMetadata.cat2Points : undefined,
+        );
+
+        const cat3PointsGeoJson = convertToGeoJson(
+            palikaMetadata ? palikaMetadata.cat3Points : undefined,
+        );
 
         return (
-            <div className={_cs(className, styles.districtOverview)}>
+            <div className={_cs(className, styles.palikaOverview)}>
+                {this.renderHoverDetail()}
                 <Information
                     className={styles.information}
                     data={metadata}
@@ -181,32 +239,58 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     onBackButtonClick={onBackButtonClick}
                 />
                 <MapSource
-                    sourceKey={`${sourceKey}-geo-outline`}
+                    sourceKey="ward-geo"
                     url={mapSources.nepal.url}
+                    bounds={palika ? palika.bbox : undefined}
                 >
                     <MapLayer
-                        layerKey="district-fill"
+                        layerKey="ward-fill"
                         type="fill"
-                        sourceLayer={mapSources.nepal.layers.palika}
-                        paint={mapStyles.palika.fill}
+                        sourceLayer={mapSources.nepal.layers.ward}
+                        paint={mapStyles.ward.fill}
                         filter={filter}
                         enableHover
                         hoveredId={hoveredId}
                         onHoverChange={this.handleHoverChange}
-                        onDoubleClick={this.handleDoubleClick}
                         enableSelection
                         selectedIds={this.wrapInArray(selectedId)}
                         onSelectionChange={this.handleSelectionChange}
                     />
                     <MapLayer
-                        layerKey="district-outline"
+                        layerKey="ward-outline"
                         type="line"
-                        sourceLayer={mapSources.nepal.layers.palika}
-                        paint={mapStyles.palika.outline}
+                        sourceLayer={mapSources.nepal.layers.ward}
+                        paint={mapStyles.ward.outline}
                         filter={filter}
+                    />
+                </MapSource>
+                <MapSource
+                    sourceKey="palika-cat2-points"
+                    geoJson={cat2PointsGeoJson}
+                >
+                    <MapLayer
+                        layerKey="cat2-points-circle"
+                        type="circle"
+                        paint={mapStyles.cat2Point.circle}
+                    />
+                </MapSource>
+                <MapSource
+                    sourceKey="palika-cat3-points"
+                    geoJson={cat3PointsGeoJson}
+                >
+                    <MapLayer
+                        layerKey="cat3-points-circle"
+                        type="circle"
+                        paint={mapStyles.cat3Point.circle}
                     />
                 </MapSource>
             </div>
         );
     }
 }
+
+export default createConnectedRequestCoordinator<Props>()(
+    createRequestClient(requests)(
+        PalikaOverview,
+    ),
+);

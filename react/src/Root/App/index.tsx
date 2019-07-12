@@ -7,6 +7,7 @@ import MultiViewContainer from '#rscv/MultiViewContainer';
 
 import NationalOverview from './NationalOverview';
 import DistrictOverview from './DistrictOverview';
+import PalikaOverview from './PalikaOverview';
 
 import { GeoAttribute } from '#constants';
 
@@ -15,16 +16,13 @@ import styles from './styles.scss';
 enum ViewLevel {
     National,
     District,
-    Ward
+    Palika
 }
 
 interface State {
     currentViewLevel: ViewLevel;
-
     activeDistrict?: GeoAttribute;
-
-    // activePalikaId?: number;
-    // palikaBounds: GeoBounds;
+    activePalika?: GeoAttribute;
 }
 
 interface Props {}
@@ -84,6 +82,21 @@ class App extends React.Component<Props, State> {
                         className: styles.districtOverview,
                         district: activeDistrict,
                         onBackButtonClick: this.handleDistrictBackButtonClick,
+                        onPalikaDoubleClick: this.handlePalikaDoubleClick,
+                    };
+                },
+            },
+            [ViewLevel.Palika]: {
+                component: PalikaOverview,
+                rendererParams: () => {
+                    const {
+                        activePalika,
+                    } = this.state;
+
+                    return {
+                        className: styles.palikaOverview,
+                        palika: activePalika,
+                        onBackButtonClick: this.handlePalikaBackButtonClick,
                     };
                 },
             },
@@ -93,6 +106,7 @@ class App extends React.Component<Props, State> {
     private views: {
         [ViewLevel.National]: MyType<React.ComponentProps<typeof NationalOverview>>;
         [ViewLevel.District]: MyType<React.ComponentProps<typeof DistrictOverview>>;
+        [ViewLevel.Palika]: MyType<React.ComponentProps<typeof PalikaOverview>>;
     }
 
     private handleDistrictBackButtonClick = () => {
@@ -102,10 +116,24 @@ class App extends React.Component<Props, State> {
         });
     }
 
+    private handlePalikaBackButtonClick = () => {
+        this.setState({
+            currentViewLevel: ViewLevel.District,
+            activePalika: undefined,
+        });
+    }
+
     private handleDistrictDoubleClick = (geoAttribute: GeoAttribute) => {
         this.setState({
             currentViewLevel: ViewLevel.District,
             activeDistrict: geoAttribute,
+        });
+    }
+
+    private handlePalikaDoubleClick = (geoAttribute: GeoAttribute) => {
+        this.setState({
+            currentViewLevel: ViewLevel.Palika,
+            activePalika: geoAttribute,
         });
     }
 

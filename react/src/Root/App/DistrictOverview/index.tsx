@@ -21,20 +21,26 @@ import {
     mapSources,
     mapStyles,
     GeoAttribute,
+    RelocationPoint,
 } from '#constants';
+
 import Information from '../Information';
+import HoverDetails from '../HoverDetails';
+import RiskPointHoverDetails from '../RiskPointHoverDetails';
 
 import styles from './styles.scss';
 
 interface State {
     hoveredId?: number;
     selectedId?: number;
+    hoveredCat2PointId?: number;
 }
 
 interface Props {
     className?: string;
     district?: GeoAttribute;
     onBackButtonClick?: () => void;
+    onPalikaDoubleClick?: (geoAttribute: GeoAttribute) => void;
 }
 
 interface Params {}
@@ -49,12 +55,36 @@ const requests: { [key: string]: ClientAttributes<Props, Params> } = {
 
 type MyProps = NewProps<Props, Params>;
 
+// TODO: Move to commmon utils
 function wrapInArray<T>(item?: T) {
     if (isNotDefined(item)) {
         return [];
     }
 
     return [item];
+}
+
+// TODO: Move to commmon utils
+function convertToGeoJson(catPoints: RelocationPoint[] | undefined = []) {
+    const geojson = {
+        type: 'FeatureCollection',
+        features: catPoints
+            .map((catPoint, i) => ({
+                id: i,
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [
+                        catPoint.longitude,
+                        catPoint.latitude,
+                    ],
+                },
+                properties: {
+                    ...catPoint,
+                },
+            })),
+    };
+    return geojson;
 }
 
 class DistrictOverview extends React.PureComponent<MyProps, State> {
@@ -109,12 +139,108 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
     private wrapInArray = memoize(wrapInArray);
 
+    private renderCatPointHoverDetail = () => {
+        const {
+            requests: {
+                metadaRequest: { response },
+            },
+        } = this.props;
+
+        const {
+            hoveredCat2PointId,
+            hoveredCat3PointId,
+        } = this.state;
+
+        if (!hoveredCat2PointId || !hoveredCat3PointId) {
+            return null;
+        }
+
+        const metadata = response as Metadata;
+        if (!metadata) {
+            return null;
+        }
+
+        const { cat2Points } = metadata;
+
+        return (
+            <RiskPointHoverDetails
+                point={cat2Points[hoveredCat2PointId]}
+                type="cat2"
+            />
+        );
+    }
+
+    private renderHoverDetail = () => {
+        const {
+            requests: {
+                metadaRequest: { response },
+            },
+        } = this.props;
+
+        const {
+            hoveredId,
+            hoveredCat2PointId,
+        } = this.state;
+
+        if (!hoveredId || hoveredCat2PointId) {
+            return null;
+        }
+
+        // FIXME: prepare district map in constants
+        const metadata = response as Metadata;
+        const palikaData = metadata && metadata.regions.find(
+            region => region.geoAttribute.id === hoveredId,
+        );
+
+        if (!palikaData) {
+            return null;
+        }
+
+        const {
+            landslidesSurveyed,
+            geoAttribute: {
+                name: palikaName,
+            },
+        } = palikaData;
+
+        return (
+            <HoverDetails
+                name={palikaName}
+                landslidesSurveyed={landslidesSurveyed}
+            />
+        );
+    }
+
     private handleHoverChange = (id: number) => {
         this.setState({ hoveredId: id });
     }
 
+    private handleCat2PointHoverChange = (id: number) => {
+        this.setState({ hoveredCat2PointId: id });
+    }
+
     private handleDoubleClick = (id: number) => {
-        console.warn('double click', id);
+        const { onPalikaDoubleClick } = this.props;
+
+        const {
+            requests: {
+                metadaRequest: { response },
+            },
+        } = this.props;
+
+        const metadata = response as Metadata;
+        // FIXME: prepare district map in constants
+        const palikaData = metadata && metadata.regions.find(
+            region => region.geoAttribute.id === id,
+        );
+
+        if (!palikaData) {
+            return;
+        }
+
+        if (onPalikaDoubleClick) {
+            onPalikaDoubleClick(palikaData.geoAttribute);
+        }
     }
 
     private handleSelectionChange = (_: number[], id: number) => {
@@ -129,6 +255,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             requests: {
                 metadaRequest: {
                     pending: pendingMetadataRequest,
+                    response,
                 },
             },
             onBackButtonClick,
@@ -154,8 +281,19 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             ];
         }
 
+        const districtMetadata = response as Metadata;
+        const cat2PointsGeoJson = convertToGeoJson(
+            districtMetadata ? districtMetadata.cat2Points : undefined,
+        );
+
+        const cat3PointsGeoJson = convertToGeoJson(
+            districtMetadata ? districtMetadata.cat3Points : undefined,
+        );
+
         return (
             <div className={_cs(className, styles.districtOverview)}>
+                {this.renderHoverDetail()}
+                {this.renderCatPointHoverDetail()}
                 <Information
                     className={styles.information}
                     data={metadata}
@@ -189,6 +327,28 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         sourceLayer={mapSources.nepal.layers.palika}
                         paint={mapStyles.palika.outline}
                         filter={filter}
+                    />
+                </MapSource>
+                <MapSource
+                    sourceKey="district-cat2-points"
+                    geoJson={cat2PointsGeoJson}
+                >
+                    <MapLayer
+                        enableHover
+                        onHoverChange={this.handleCat2PointHoverChange}
+                        layerKey="cat2-points-circle"
+                        type="circle"
+                        paint={mapStyles.cat2Point.circle}
+                    />
+                </MapSource>
+                <MapSource
+                    sourceKey="district-cat3-points"
+                    geoJson={cat3PointsGeoJson}
+                >
+                    <MapLayer
+                        layerKey="cat3-points-circle"
+                        type="circle"
+                        paint={mapStyles.cat3Point.circle}
                     />
                 </MapSource>
             </div>

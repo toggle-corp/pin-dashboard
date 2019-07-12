@@ -1,0 +1,9 @@
+.cat2-point-hover-details {
+    position: absolute;
+    top: var(--spacing-medium);
+    right: var(--spacing-medium);
+    z-index: 111;
+    border: var(--width-separator-thin) solid var(--color-warning);
+    background-color: var(--color-foreground);
+    padding: var(--spacing-medium);
+}
