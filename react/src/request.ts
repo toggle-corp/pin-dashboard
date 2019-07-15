@@ -3,9 +3,7 @@ import {
     methods,
     CoordinatorAttributes,
 } from '@togglecorp/react-rest-request';
-// import { AppState } from '#store/types';
 
-// import store from '#store';
 import schema from '#schema';
 import { sanitizeResponse } from '#utils/common';
 

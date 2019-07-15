@@ -7,11 +7,11 @@ import styles from './styles.scss';
 
 interface Props {
     className?: string;
-    riskCategory?: string;
     labelClassName?: string;
     valueClassName?: string;
-    label?: React.ReactNode | string | number;
-    value?: React.ReactNode | string | number;
+    riskCategory?: 'high' | 'medium' | 'low';
+    label?: React.ReactNode;
+    value?: React.ReactNode;
 }
 
 const riskCategoryStyleMap: { [key: string]: string } = {

@@ -9,13 +9,13 @@ import styles from './styles.scss';
 interface Props {
     className?: string;
     landslidesSurveyed?: LandslidesSurveyed;
-    districtName?: string;
+    name?: string;
 }
 
 class HoverDetails extends React.PureComponent<Props> {
     public render() {
         const {
-            districtName,
+            name,
             landslidesSurveyed,
             className,
         } = this.props;
@@ -32,8 +32,8 @@ class HoverDetails extends React.PureComponent<Props> {
 
         return (
             <div className={_cs(className, styles.hoverDetails)}>
-                <div className={styles.districtName}>
-                    { districtName }
+                <div className={styles.name}>
+                    { name }
                 </div>
                 <div className={styles.details}>
                     <CategoricalTextOutput
