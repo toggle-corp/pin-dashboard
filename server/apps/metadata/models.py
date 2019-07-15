@@ -1,6 +1,6 @@
 from django.db import models
 
-from geo.models import Palika, District
+from geo.models import Palika, District, Ward
 
 
 class GeoSite(models.Model):
@@ -19,8 +19,12 @@ class GeoSite(models.Model):
         default=None, blank=True, null=True,
         on_delete=models.SET_NULL,
     )
+    ward = models.ForeignKey(
+        Ward,
+        default=None, blank=True, null=True,
+        on_delete=models.SET_NULL,
+    )
     place = models.CharField(max_length=256, blank=True)
-    ward = models.CharField(max_length=256, null=True, blank=True)
 
     category = models.CharField(max_length=256, blank=True)
     risk_score = models.CharField(max_length=256, blank=True)
@@ -50,8 +54,12 @@ class Household(models.Model):
         default=None, blank=True, null=True,
         on_delete=models.SET_NULL,
     )
+    ward = models.ForeignKey(
+        Ward,
+        default=None, blank=True, null=True,
+        on_delete=models.SET_NULL,
+    )
     place = models.CharField(max_length=256, blank=True)
-    ward = models.CharField(max_length=256, null=True, blank=True)
 
     land_size = models.FloatField(default=None, blank=True, null=True)
     eligibility_source = models.CharField(max_length=256, blank=True)

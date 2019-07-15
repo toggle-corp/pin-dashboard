@@ -35,3 +35,12 @@ class Palika(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Ward(models.Model):
+    name = models.CharField(max_length=256)
+    palika = models.ForeignKey(Palika, on_delete=models.CASCADE)
+    meta = JSONField(default=dict)
+
+    def __str__(self):
+        return self.name

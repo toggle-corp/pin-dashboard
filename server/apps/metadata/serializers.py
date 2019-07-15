@@ -46,19 +46,28 @@ class GeoAttributeSerializer(serializers.Serializer):
     bbox = serializers.ListField(serializers.IntegerField, source='meta.bbox')
 
 
+class WardSerializer(BaseMetadataSerializer):
+    geo_attribute = GeoAttributeSerializer(source='ward')
+
+
 class PalikaSerializer(BaseMetadataSerializer):
     geo_attribute = GeoAttributeSerializer(source='palika')
 
 
-class DistrictDetailSerializer(BaseMetadataSerializer):
-    geo_attribute = GeoAttributeSerializer(source='district')
+class PalikaDetailSerializer(PalikaSerializer):
     cat2_points = Cat2PointSerializer(many=True)
     cat3_points = Cat3PointSerializer(many=True)
-    regions = PalikaSerializer(source='palikas', many=True)
+    regions = WardSerializer(source='wards', many=True)
 
 
 class DistrictSerializer(BaseMetadataSerializer):
     geo_attribute = GeoAttributeSerializer(source='district')
+
+
+class DistrictDetailSerializer(DistrictSerializer):
+    cat2_points = Cat2PointSerializer(many=True)
+    cat3_points = Cat3PointSerializer(many=True)
+    regions = PalikaSerializer(source='palikas', many=True)
 
 
 class CountrySerializer(BaseMetadataSerializer):

@@ -9,6 +9,7 @@ from fieldsight.models import Project
 from geo.models import (
     Palika,
     District,
+    Ward,
 )
 from metadata.models import (
     GeoSite,
@@ -175,7 +176,9 @@ class Loader:
             Palika.objects.filter(district__in=[defaults['district']]),
             get_attr(datum, 'Gaupalika'),
         ).first()
-        defaults['ward'] = str(get_attr(datum, 'Ward')) if get_attr(datum, 'Ward') else None
+        defaults['ward'] = Ward.objects.filter(
+            name=str(get_attr(datum, 'Ward')), palika__in=[defaults['palika']],
+        ).first()
 
         [
             logger.warning(
@@ -224,7 +227,9 @@ class Loader:
                 Palika.objects.filter(district__in=[defaults['district']]),
                 get_attr(datum, 'Gaupalika_Municipality'),
             ).first()
-            defaults['ward'] = str(get_attr(datum, 'Ward')) if get_attr(datum, 'Ward') else None
+            defaults['ward'] = Ward.objects.filter(
+                name=str(get_attr(datum, 'Ward')), palika__in=[defaults['palika']]
+            ).first()
 
             [
                 logger.warning(

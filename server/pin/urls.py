@@ -20,6 +20,7 @@ urlpatterns = [
 
     path('api/v1/metadata/country/', MetadataView.as_view()),
     path('api/v1/metadata/district/<int:district_id>/', MetadataView.as_view()),
+    path('api/v1/metadata/palika/<int:palika_id>/', MetadataView.as_view()),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
