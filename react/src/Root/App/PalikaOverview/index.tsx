@@ -26,12 +26,15 @@ import {
 
 import Information from '../Information';
 import HoverDetails from '../HoverDetails';
+import RiskPointHoverDetails from '../RiskPointHoverDetails';
 
 import styles from './styles.scss';
 
 interface State {
     hoveredId?: number;
     selectedId?: number;
+    hoveredCat2PointId?: number;
+    hoveredCat3PointId?: number;
 }
 
 interface Props {
@@ -44,9 +47,7 @@ interface Params {}
 
 const requests: { [key: string]: ClientAttributes<Props, Params> } = {
     metadaRequest: {
-        // url: ({ props }) => `/metadata/plaika/${props.palika && props.palika.id}`,
-        // TODO: remove this when palika API is done
-        url: '/metadata/district/44',
+        url: ({ props }) => `/metadata/palika/${props.palika && props.palika.id}/`,
         method: methods.GET,
         onMount: ({ props }) => !!props.palika && !!props.palika.id,
     },
@@ -138,6 +139,54 @@ class PalikaOverview extends React.PureComponent<MyProps, State> {
 
     private wrapInArray = memoize(wrapInArray);
 
+    private renderCatPointHoverDetail = () => {
+        const {
+            requests: {
+                metadaRequest: { response },
+            },
+            palika = {
+                name: 'Unknown',
+            },
+        } = this.props;
+
+        const {
+            hoveredCat2PointId,
+            hoveredCat3PointId,
+        } = this.state;
+
+        const metadata = response as Metadata;
+        if (!metadata) {
+            return null;
+        }
+
+        const {
+            cat2Points = [],
+            cat3Points = [],
+        } = metadata;
+
+        if (hoveredCat3PointId) {
+            return (
+                <RiskPointHoverDetails
+                    title={`${palika.name} / Category 3`}
+                    point={cat3Points[hoveredCat3PointId]}
+                    type="cat3"
+                />
+            );
+        }
+
+        if (hoveredCat2PointId) {
+            return (
+                <RiskPointHoverDetails
+                    title={`${palika.name} / Category 2`}
+                    point={cat2Points[hoveredCat2PointId]}
+                    type="cat2"
+                />
+            );
+        }
+
+        return null;
+    }
+
     private renderHoverDetail = () => {
         const {
             requests: {
@@ -145,9 +194,13 @@ class PalikaOverview extends React.PureComponent<MyProps, State> {
             },
         } = this.props;
 
-        const { hoveredId } = this.state;
+        const {
+            hoveredId,
+            hoveredCat2PointId,
+            hoveredCat3PointId,
+        } = this.state;
 
-        if (!hoveredId) {
+        if (!hoveredId || hoveredCat2PointId || hoveredCat3PointId) {
             return null;
         }
 
@@ -178,6 +231,14 @@ class PalikaOverview extends React.PureComponent<MyProps, State> {
 
     private handleHoverChange = (id: number) => {
         this.setState({ hoveredId: id });
+    }
+
+    private handleCat2PointHoverChange = (id: number) => {
+        this.setState({ hoveredCat2PointId: id });
+    }
+
+    private handleCat3PointHoverChange = (id: number) => {
+        this.setState({ hoveredCat3PointId: id });
     }
 
     private handleSelectionChange = (_: number[], id: number) => {
@@ -229,7 +290,10 @@ class PalikaOverview extends React.PureComponent<MyProps, State> {
 
         return (
             <div className={_cs(className, styles.palikaOverview)}>
-                {this.renderHoverDetail()}
+                <div className={styles.hoverDetails}>
+                    {this.renderHoverDetail()}
+                    {this.renderCatPointHoverDetail()}
+                </div>
                 <Information
                     className={styles.information}
                     data={metadata}
@@ -269,6 +333,8 @@ class PalikaOverview extends React.PureComponent<MyProps, State> {
                     geoJson={cat2PointsGeoJson}
                 >
                     <MapLayer
+                        enableHover
+                        onHoverChange={this.handleCat2PointHoverChange}
                         layerKey="cat2-points-circle"
                         type="circle"
                         paint={mapStyles.cat2Point.circle}
@@ -279,6 +345,8 @@ class PalikaOverview extends React.PureComponent<MyProps, State> {
                     geoJson={cat3PointsGeoJson}
                 >
                     <MapLayer
+                        enableHover
+                        onHoverChange={this.handleCat3PointHoverChange}
                         layerKey="cat3-points-circle"
                         type="circle"
                         paint={mapStyles.cat3Point.circle}
