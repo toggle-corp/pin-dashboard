@@ -268,7 +268,9 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
 
         return (
             <div className={_cs(className, styles.nationalOverview)}>
-                {this.renderHoverDetail()}
+                <div className={styles.hoverDetails}>
+                    { this.renderHoverDetail() }
+                </div>
                 { this.renderLegend() }
                 <Information
                     className={styles.information}

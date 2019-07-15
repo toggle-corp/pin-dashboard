@@ -52,6 +52,25 @@ export interface RelocationPoint {
     riskScore: keyof LandslidesRiskScore;
 }
 
+export interface RiskPoint {
+    directRiskFor: string;
+    gpName: string; // TODO: should be name
+    hhAffected: number;
+    highRiskOf: string;
+    landslideCat: keyof LandslidesSurveyed;
+    landslideCode: string;
+    latitude: number;
+    longitude: number;
+    mitigationWorkBy: string;
+    mitigationWorkStatus: string;
+    place: string;
+    potentialImpact: string;
+    riskProbability: string;
+    riskScore: keyof LandslidesRiskScore;
+    eligibleHouseholds: number;
+    householdsRelocated: number;
+}
+
 export interface GeoAttribute {
     id: number;
     name: string;
@@ -71,7 +90,7 @@ export interface Base {
 }
 
 export interface Metadata extends Base {
-    cat2Points?: RelocationPoint[];
-    cat3Points?: RelocationPoint[];
+    cat2Points?: RiskPoint[];
+    cat3Points?: RiskPoint[];
     regions: Base[];
 }

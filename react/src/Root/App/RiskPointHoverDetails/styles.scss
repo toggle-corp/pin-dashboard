@@ -1,9 +1,27 @@
-.cat2-point-hover-details {
-    position: absolute;
-    top: var(--spacing-medium);
-    right: var(--spacing-medium);
-    z-index: 111;
-    border: var(--width-separator-thin) solid var(--color-warning);
+.cat-point-hover-details {
     background-color: var(--color-foreground);
-    padding: var(--spacing-medium);
+    padding: var(--spacing-small);
+
+    .title {
+        padding: var(--spacing-medium);
+        font-size: var(--font-size-large);
+        font-weight: var(--font-weight-bold);
+    }
+
+    .label {
+        color: var(--color-text-label);
+    }
+
+    .value {
+        font-family: var(--font-family-sans-serif);
+        font-weight: var(--font-weight-medium);
+    }
+
+    &.cat2 {
+        border: var(--width-separator-thin) solid var(--color-warning);
+    }
+
+    &.cat3 {
+        border: var(--width-separator-thin) solid var(--color-danger);
+    }
 }

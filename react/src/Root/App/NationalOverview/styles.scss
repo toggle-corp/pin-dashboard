@@ -8,6 +8,15 @@
         background-color: var(--color-foreground);
     }
 
+    .hover-details {
+        position: absolute;
+        top: var(--spacing-medium);
+        right: var(--spacing-medium);
+        z-index: var(--z-index-hover-details);
+        width: var(--width-hover-details);
+        pointer-events: none;
+    }
+
     .legend {
         position: absolute;
         bottom: 0;

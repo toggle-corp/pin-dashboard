@@ -21,7 +21,7 @@ import {
     mapSources,
     mapStyles,
     GeoAttribute,
-    RelocationPoint,
+    RiskPoint,
 } from '#constants';
 
 import Information from '../Information';
@@ -34,6 +34,7 @@ interface State {
     hoveredId?: number;
     selectedId?: number;
     hoveredCat2PointId?: number;
+    hoveredCat3PointId?: number;
 }
 
 interface Props {
@@ -65,7 +66,7 @@ function wrapInArray<T>(item?: T) {
 }
 
 // TODO: Move to commmon utils
-function convertToGeoJson(catPoints: RelocationPoint[] | undefined = []) {
+function convertToGeoJson(catPoints: RiskPoint[] | undefined = []) {
     const geojson = {
         type: 'FeatureCollection',
         features: catPoints
@@ -144,6 +145,9 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             requests: {
                 metadaRequest: { response },
             },
+            district = {
+                name: 'Unknown',
+            },
         } = this.props;
 
         const {
@@ -151,23 +155,37 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             hoveredCat3PointId,
         } = this.state;
 
-        if (!hoveredCat2PointId || !hoveredCat3PointId) {
-            return null;
-        }
-
         const metadata = response as Metadata;
         if (!metadata) {
             return null;
         }
 
-        const { cat2Points } = metadata;
+        const {
+            cat2Points = [],
+            cat3Points = [],
+        } = metadata;
 
-        return (
-            <RiskPointHoverDetails
-                point={cat2Points[hoveredCat2PointId]}
-                type="cat2"
-            />
-        );
+        if (hoveredCat3PointId) {
+            return (
+                <RiskPointHoverDetails
+                    title={`${district.name} / Category 3`}
+                    point={cat3Points[hoveredCat3PointId]}
+                    type="cat3"
+                />
+            );
+        }
+
+        if (hoveredCat2PointId) {
+            return (
+                <RiskPointHoverDetails
+                    title={`${district.name} / Category 2`}
+                    point={cat2Points[hoveredCat2PointId]}
+                    type="cat2"
+                />
+            );
+        }
+
+        return null;
     }
 
     private renderHoverDetail = () => {
@@ -180,9 +198,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         const {
             hoveredId,
             hoveredCat2PointId,
+            hoveredCat3PointId,
         } = this.state;
 
-        if (!hoveredId || hoveredCat2PointId) {
+        if (!hoveredId || hoveredCat2PointId || hoveredCat3PointId) {
             return null;
         }
 
@@ -217,6 +236,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
     private handleCat2PointHoverChange = (id: number) => {
         this.setState({ hoveredCat2PointId: id });
+    }
+
+    private handleCat3PointHoverChange = (id: number) => {
+        this.setState({ hoveredCat3PointId: id });
     }
 
     private handleDoubleClick = (id: number) => {
@@ -292,8 +315,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
         return (
             <div className={_cs(className, styles.districtOverview)}>
-                {this.renderHoverDetail()}
-                {this.renderCatPointHoverDetail()}
+                <div className={styles.hoverDetails}>
+                    {this.renderHoverDetail()}
+                    {this.renderCatPointHoverDetail()}
+                </div>
                 <Information
                     className={styles.information}
                     data={metadata}
@@ -346,6 +371,8 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     geoJson={cat3PointsGeoJson}
                 >
                     <MapLayer
+                        enableHover
+                        onHoverChange={this.handleCat3PointHoverChange}
                         layerKey="cat3-points-circle"
                         type="circle"
                         paint={mapStyles.cat3Point.circle}
