@@ -3,9 +3,10 @@ version: '3.3'
 services:
   wp-db:
     image: mysql:5.7
+    restart: on-failure
     volumes:
-      - db-data:/var/lib/mysql
-    restart: always
+      - wp-db:/var/lib/mysql
+    command: --explicit_defaults_for_timestamp
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: wordpress
@@ -15,17 +16,17 @@ services:
   db:
     image: postgres:9.6
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - pin-db:/var/lib/postgresql/data
 
   wordpress:
     depends_on:
       - wp-db
     image: wordpress:latest
+    restart: on-failure
     volumes:
       - ./wp-theme:/var/www/html/wp-content/themes/ultrasimpleRes
     ports:
       - '8051:80'
-    restart: always
     environment:
       WORDPRESS_DB_HOST: wp-db:3306
       WORDPRESS_DB_USER: root
@@ -43,6 +44,8 @@ services:
       - ./react/:/code
     ports:
       - '3050:3050'
+    depends_on:
+      - server
 
   server:
     image: devtc/pin-dashboard-server:develop
@@ -58,4 +61,5 @@ services:
       - db
 
 volumes:
-  db-data:
+  wp-db:
+  pin-db:
