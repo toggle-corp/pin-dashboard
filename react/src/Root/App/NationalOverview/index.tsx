@@ -3,6 +3,7 @@ import memoize from 'memoize-one';
 import {
     _cs,
     isNotDefined,
+    listToMap,
 } from '@togglecorp/fujs';
 import {
     createConnectedRequestCoordinator,
@@ -31,17 +32,25 @@ import styles from './styles.scss';
 interface Props {
     className?: string;
     metadata?: Metadata;
-    country: GeoAttribute;
-    onDistrictDoubleClick?: (geoAttribute: GeoAttribute) => void;
+    region: GeoAttribute;
+    onSubRegionDoubleClick?: (geoAttribute: GeoAttribute) => void;
 }
 
-interface Params {}
+interface Params {
+    setCountryData: (response: Metadata) => void;
+}
 
-const requests: { [key: string]: ClientAttributes<Props, Params> } = {
+const requestOptions: { [key: string]: ClientAttributes<Props, Params> } = {
     metadaRequest: {
         url: '/metadata/country/',
         method: methods.GET,
         onMount: true,
+        onSuccess: (val) => {
+            const { params, response } = val;
+            if (params && params.setCountryData) {
+                params.setCountryData(response as Metadata);
+            }
+        },
         /*
         extras: {
             schemaName: 'alertResponse',
@@ -59,6 +68,8 @@ interface State {
     }[];
     hoveredId?: number;
     selectedId?: number;
+
+    metadata?: Metadata;
 }
 
 function wrapInArray<T>(item?: T) {
@@ -75,6 +86,37 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         this.state = {
             mapState: districtsAffected,
         };
+
+        const {
+            requests,
+        } = this.props;
+
+        requests.metadaRequest.setDefaultParams({
+            setCountryData: this.setCountryData,
+        });
+    }
+
+    // FIXME: this is a common method
+    private getSubRegionsMap = memoize((metadata: Metadata | undefined) => {
+        if (!metadata) {
+            return {};
+        }
+
+        const { regions } = metadata;
+        return listToMap(
+            regions,
+            region => region.geoAttribute.id,
+            region => region,
+        );
+    })
+
+    private getSubRegion = (metadata: Metadata | undefined, id: number) => {
+        const subRegionMap = this.getSubRegionsMap(metadata);
+        return subRegionMap[id];
+    }
+
+    private setCountryData = (metadata: Metadata) => {
+        this.setState({ metadata });
     }
 
     private handleHoverChange = (id: number) => {
@@ -82,26 +124,18 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
     }
 
     private handleDoubleClick = (id: number) => {
-        const { onDistrictDoubleClick } = this.props;
+        const { onSubRegionDoubleClick } = this.props;
+        const { metadata } = this.state;
 
-        const {
-            requests: {
-                metadaRequest: { response },
-            },
-        } = this.props;
-
-        const metadata = response as Metadata;
-        // FIXME: prepare district map in constants
-        const districtData = metadata && metadata.regions.find(
-            region => region.geoAttribute.id === id,
-        );
-
-        if (!districtData) {
+        const subRegion = this.getSubRegion(metadata, id);
+        if (!subRegion) {
             return;
         }
 
-        if (onDistrictDoubleClick) {
-            onDistrictDoubleClick(districtData.geoAttribute);
+        const { geoAttribute } = subRegion;
+
+        if (onSubRegionDoubleClick) {
+            onSubRegionDoubleClick(geoAttribute);
         }
     }
 
@@ -115,82 +149,60 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
 
     private renderHoverDetail = () => {
         const {
-            requests: {
-                metadaRequest: { response },
-            },
-        } = this.props;
-
-        const { hoveredId } = this.state;
+            hoveredId,
+            metadata,
+        } = this.state;
 
         if (!hoveredId) {
             return null;
         }
 
-        // FIXME: prepare district map in constants
-        const metadata = response as Metadata;
-        const districtData = metadata && metadata.regions.find(
-            region => region.geoAttribute.id === hoveredId,
-        );
-
-        if (!districtData) {
+        const subRegion = this.getSubRegion(metadata, hoveredId);
+        if (!subRegion) {
             return null;
         }
 
         const {
             landslidesSurveyed,
             geoAttribute: {
-                name: districtName,
+                name,
             },
-        } = districtData;
+        } = subRegion;
 
         return (
             <HoverDetails
-                districtName={districtName}
+                name={name}
                 landslidesSurveyed={landslidesSurveyed}
             />
         );
     }
 
-    private getInformationDataForSelectedRegion = () => {
-        const {
-            requests: {
-                metadaRequest: { response },
-            },
-            country,
-        } = this.props;
-
-        const metadata = response as Metadata;
-
-        const { selectedId } = this.state;
-
+    private getInformationDataForSelectedRegion = (
+        title: string,
+        metadata: Metadata | undefined,
+        selectedId: number | undefined,
+    ) => {
         if (!selectedId) {
             return {
+                title,
                 metadata,
-                title: country.name,
             };
         }
 
-        // FIXME: prepare district map in constants
-        const districtData = metadata && metadata.regions.find(
-            region => region.geoAttribute.id === selectedId,
-        );
-
-        if (!districtData) {
-            return {
-                title: undefined,
-                metadata: undefined,
-            };
+        const subRegion = this.getSubRegion(metadata, selectedId);
+        if (!subRegion) {
+            return {};
         }
 
         const {
             geoAttribute: {
-                name: districtName,
+                name,
             },
-        } = districtData;
+        } = subRegion;
 
         return ({
-            title: districtName,
-            metadata: districtData,
+            title: name,
+            metadata: subRegion,
         });
     }
 
@@ -202,11 +214,15 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
                     pending: pendingMetadataRequest,
                 },
             },
-            country,
+            region: {
+                bbox,
+                name,
+            },
         } = this.props;
 
         const {
             mapState,
+            metadata: originalMetadata,
             selectedId,
             hoveredId,
         } = this.state;
@@ -214,7 +230,9 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         const {
             title,
             metadata,
-        } = this.getInformationDataForSelectedRegion();
+        } = this.getInformationDataForSelectedRegion(name, originalMetadata, selectedId);
+
+        const subRegion = 'district';
 
         return (
             <div className={_cs(className, styles.nationalOverview)}>
@@ -226,15 +244,15 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
                     pending={pendingMetadataRequest}
                 />
                 <MapSource
-                    sourceKey="national-geo"
+                    sourceKey={`national-source-for-${subRegion}`}
                     url={mapSources.nepal.url}
-                    bounds={country.bbox}
+                    bounds={bbox}
                 >
                     <MapLayer
-                        layerKey="district-fill"
+                        layerKey={`${subRegion}-fill`}
                         type="fill"
-                        sourceLayer={mapSources.nepal.layers.district}
-                        paint={mapStyles.district.fill}
+                        sourceLayer={mapSources.nepal.layers[subRegion]}
+                        paint={mapStyles[subRegion].fill}
                         mapState={mapState}
                         enableHover
                         hoveredId={hoveredId}
@@ -245,10 +263,10 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
                         onSelectionChange={this.handleSelectionChange}
                     />
                     <MapLayer
-                        layerKey="district-outline"
+                        layerKey={`${subRegion}-outline`}
                         type="line"
-                        sourceLayer={mapSources.nepal.layers.district}
-                        paint={mapStyles.district.outline}
+                        sourceLayer={mapSources.nepal.layers[subRegion]}
+                        paint={mapStyles[subRegion].outline}
                     />
                 </MapSource>
             </div>
@@ -257,7 +275,7 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
 }
 
 export default createConnectedRequestCoordinator<Props>()(
-    createRequestClient(requests)(
+    createRequestClient(requestOptions)(
         NationalOverview,
     ),
 );

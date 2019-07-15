@@ -69,8 +69,8 @@ class App extends React.Component<Props, State> {
                 component: NationalOverview,
                 rendererParams: () => ({
                     className: styles.nationalOverview,
-                    country: countryGeoAttribute,
-                    onDistrictDoubleClick: this.handleDistrictDoubleClick,
+                    region: countryGeoAttribute,
+                    onSubRegionDoubleClick: this.handleDistrictDoubleClick,
                 }),
             },
             [ViewLevel.District]: {
