@@ -22,6 +22,7 @@ import {
     mapStyles,
     GeoAttribute,
     RelocationPoint,
+    Base,
 } from '#constants';
 
 import Information from '../Information';
@@ -87,6 +88,30 @@ function convertToGeoJson(catPoints: RelocationPoint[] | undefined = []) {
     return geojson;
 }
 
+// TODO: Move to commmon utils
+function getGeoJsonFromGeoAttributeList(geoAttributeList: GeoAttribute[]) {
+    const geojson = {
+        type: 'FeatureCollection',
+        features: geoAttributeList
+            .map(level => ({
+                id: level.id,
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [
+                        ...(level.centroid || []),
+                    ],
+                },
+                properties: {
+                    adminLevelId: level.id,
+                    title: level.name,
+                },
+            })),
+    };
+
+    return geojson;
+}
+
 class PalikaOverview extends React.PureComponent<MyProps, State> {
     public constructor(props: MyProps) {
         super(props);
@@ -136,6 +161,16 @@ class PalikaOverview extends React.PureComponent<MyProps, State> {
             metadata: wardData,
         });
     }
+
+    private getLabelGeoJson = memoize((metadata?: Metadata) => {
+        const { regions = [] } = metadata || {};
+        const geoAttributes = regions.map(
+            (r: Base) => r.geoAttribute,
+        );
+
+        const geoJson = getGeoJsonFromGeoAttributeList(geoAttributes);
+        return geoJson;
+    })
 
     private wrapInArray = memoize(wrapInArray);
 
@@ -288,6 +323,8 @@ class PalikaOverview extends React.PureComponent<MyProps, State> {
             palikaMetadata ? palikaMetadata.cat3Points : undefined,
         );
 
+        const labelGeoJson = this.getLabelGeoJson(palikaMetadata);
+
         return (
             <div className={_cs(className, styles.palikaOverview)}>
                 <div className={styles.hoverDetails}>
@@ -326,6 +363,18 @@ class PalikaOverview extends React.PureComponent<MyProps, State> {
                         sourceLayer={mapSources.nepal.layers.ward}
                         paint={mapStyles.ward.outline}
                         filter={filter}
+                    />
+                </MapSource>
+                <MapSource
+                    sourceKey="ward-label"
+                    geoJson={labelGeoJson}
+                >
+                    <MapLayer
+                        layerKey="ward-label"
+                        type="symbol"
+                        property="adminLevelId"
+                        paint={mapStyles.wardLabel.paint}
+                        layout={mapStyles.wardLabel.layout}
                     />
                 </MapSource>
                 <MapSource

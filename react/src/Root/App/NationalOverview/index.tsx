@@ -22,6 +22,7 @@ import {
     mapStyles,
     districtsAffected,
     GeoAttribute,
+    Base,
 } from '#constants';
 
 import Information from '../Information';
@@ -78,6 +79,31 @@ function wrapInArray<T>(item?: T) {
     }
     return [item];
 }
+
+// TODO: Move to commmon utils
+function getGeoJsonFromGeoAttributeList(geoAttributeList: GeoAttribute[]) {
+    const geojson = {
+        type: 'FeatureCollection',
+        features: geoAttributeList
+            .map(level => ({
+                id: level.id,
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [
+                        ...(level.centroid || []),
+                    ],
+                },
+                properties: {
+                    adminLevelId: level.id,
+                    title: level.name,
+                },
+            })),
+    };
+
+    return geojson;
+}
+
 
 class NationalOverview extends React.PureComponent<MyProps, State> {
     public constructor(props: MyProps) {
@@ -206,6 +232,16 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         });
     }
 
+    private getLabelGeoJson = memoize((metadata?: Metadata) => {
+        const { regions = [] } = metadata || {};
+        const geoAttributes = regions.map(
+            (r: Base) => r.geoAttribute,
+        );
+
+        const geoJson = getGeoJsonFromGeoAttributeList(geoAttributes);
+        return geoJson;
+    })
+
     private renderLegend = () => {
         const mostAffectedColor = '#0010A1';
         const affectedColor = '#3656f6';
@@ -264,6 +300,7 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
             metadata,
         } = this.getInformationDataForSelectedRegion(name, originalMetadata, selectedId);
 
+        const labelGeoJson = this.getLabelGeoJson(originalMetadata);
         const subRegion = 'district';
 
         return (
@@ -304,6 +341,19 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
                         paint={mapStyles[subRegion].outline}
                     />
                 </MapSource>
+                <MapSource
+                    sourceKey="district-label"
+                    geoJson={labelGeoJson}
+                >
+                    <MapLayer
+                        layerKey="district-label"
+                        type="symbol"
+                        property="adminLevelId"
+                        paint={mapStyles.districtLabel.paint}
+                        layout={mapStyles.districtLabel.layout}
+                    />
+                </MapSource>
+
             </div>
         );
     }
