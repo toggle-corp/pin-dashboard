@@ -20,6 +20,10 @@ const styleProperties = {
 
     widthHoverDetails: '320px',
     zIndexHoverDetails: '11',
+
+    colorDanger: '#e53935',
+    colorWarning: '#fb8c00',
+    colorSuccess: '#43A047',
 };
 
 export default styleProperties;

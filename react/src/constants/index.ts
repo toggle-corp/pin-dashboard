@@ -1,4 +1,4 @@
-import { listToMap } from '@togglecorp/fujs';
+// import { listToMap } from '@togglecorp/fujs';
 
 export { default as iconNames } from './iconNames';
 export { default as styleProperties } from './styleProperties';

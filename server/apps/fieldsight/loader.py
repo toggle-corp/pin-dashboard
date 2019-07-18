@@ -221,6 +221,10 @@ class Loader:
 
         defaults['geosite'] = geosite
 
+        defaults['relocated_lng'] = datum['location'][0]
+        defaults['relocated_lat'] = datum['location'][1]
+        defaults['solution_type'] = get_attr(datum, 'Solution_Type')
+
         try:
             defaults['district'] = trigram_name_search(District.objects, get_attr(datum, 'District_of_origin')).first()
             defaults['palika'] = trigram_name_search(

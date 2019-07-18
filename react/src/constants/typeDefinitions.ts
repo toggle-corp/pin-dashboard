@@ -36,23 +36,13 @@ export interface PeopleRelocated {
 }
 
 export interface RelocationPoint {
-    directRiskFor: string;
-    gpName: string; // TODO: should be name
-    hhAffected: number;
-    highRiskOf: string;
-    landslideCat: keyof LandslidesSurveyed;
-    landslideCode: string;
-    latitude: number;
-    longitude: number;
-    mitigationWorkBy: string;
-    mitigationWorkStatus: string;
-    place: string;
-    potentialImpact: string;
-    riskProbability: string;
-    riskScore: keyof LandslidesRiskScore;
+    geosite: string;
+    location: number[];
+    solutionType: string;
 }
 
 export interface RiskPoint {
+    geosite: string;
     directRiskFor: string;
     gpName: string; // TODO: should be name
     hhAffected: number;
@@ -92,5 +82,6 @@ export interface Base {
 export interface Metadata extends Base {
     cat2Points?: RiskPoint[];
     cat3Points?: RiskPoint[];
+    relocationPoints?: RelocationPoint[];
     regions: Base[];
 }

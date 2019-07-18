@@ -1,9 +1,6 @@
 import React from 'react';
 import memoize from 'memoize-one';
-import {
-    _cs,
-    isNotDefined,
-} from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
 
 import MapSource from '#rscz/Map/MapSource';
 import MapLayer from '#rscz/Map/MapLayer';
@@ -17,11 +14,18 @@ import {
 } from '#request';
 
 import {
+    wrapInArray,
+    convertRiskPointToGeoJson,
+    convertRelocationPointToGeoJson,
+    getGeoJsonFromGeoAttributeList,
+    getLineStringGeoJson,
+} from '#utils/common';
+
+import {
     Metadata,
     mapSources,
     mapStyles,
     GeoAttribute,
-    RiskPoint,
     Base,
 } from '#constants';
 
@@ -57,61 +61,6 @@ const requests: { [key: string]: ClientAttributes<Props, Params> } = {
 
 type MyProps = NewProps<Props, Params>;
 
-// TODO: Move to commmon utils
-function wrapInArray<T>(item?: T) {
-    if (isNotDefined(item)) {
-        return [];
-    }
-
-    return [item];
-}
-
-// TODO: Move to commmon utils
-function convertToGeoJson(catPoints: RiskPoint[] | undefined = []) {
-    const geojson = {
-        type: 'FeatureCollection',
-        features: catPoints
-            .map((catPoint, i) => ({
-                id: i,
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [
-                        catPoint.longitude,
-                        catPoint.latitude,
-                    ],
-                },
-                properties: {
-                    ...catPoint,
-                },
-            })),
-    };
-    return geojson;
-}
-
-// TODO: Move to commmon utils
-function getGeoJsonFromGeoAttributeList(geoAttributeList: GeoAttribute[]) {
-    const geojson = {
-        type: 'FeatureCollection',
-        features: geoAttributeList
-            .map(level => ({
-                id: level.id,
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [
-                        ...(level.centroid || []),
-                    ],
-                },
-                properties: {
-                    adminLevelId: level.id,
-                    title: level.name,
-                },
-            })),
-    };
-
-    return geojson;
-}
 
 class DistrictOverview extends React.PureComponent<MyProps, State> {
     public constructor(props: MyProps) {
@@ -169,11 +118,19 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             (r: Base) => r.geoAttribute,
         );
 
-        const geoJson = getGeoJsonFromGeoAttributeList(geoAttributes);
+        const geoJson = this.getGeoJsonFromGeoAttributeList(geoAttributes);
         return geoJson;
     })
 
     private wrapInArray = memoize(wrapInArray);
+
+    private convertRiskPointToGeoJson = memoize(convertRiskPointToGeoJson);
+
+    private convertRelocationPointToGeoJson = memoize(convertRelocationPointToGeoJson);
+
+    private getGeoJsonFromGeoAttributeList = memoize(getGeoJsonFromGeoAttributeList);
+
+    private getLineStringGeoJson = memoize(getLineStringGeoJson);
 
     private renderCatPointHoverDetail = () => {
         const {
@@ -339,13 +296,25 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             ];
         }
 
-        const districtMetadata = response as Metadata;
-        const cat2PointsGeoJson = convertToGeoJson(
-            districtMetadata ? districtMetadata.cat2Points : undefined,
-        );
+        const districtMetadata = (response as Metadata) || {};
 
-        const cat3PointsGeoJson = convertToGeoJson(
-            districtMetadata ? districtMetadata.cat3Points : undefined,
+        const {
+            cat2Points,
+            cat3Points,
+            relocationPoints,
+        } = districtMetadata;
+
+        const cat2PointsGeoJson = this.convertRiskPointToGeoJson(cat2Points);
+        const cat3PointsGeoJson = this.convertRiskPointToGeoJson(cat3Points);
+        const {
+            pla: plaRelocationPointGeoJson,
+            is: isRelocationPointGeoJson,
+        } = this.convertRelocationPointToGeoJson(relocationPoints);
+
+        const lineStringGeoJson = this.getLineStringGeoJson(
+            cat2Points,
+            cat3Points,
+            relocationPoints,
         );
 
         const labelGeoJson = this.getLabelGeoJson(districtMetadata);
@@ -404,6 +373,17 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     />
                 </MapSource>
                 <MapSource
+                    sourceKey="district-line-string"
+                    geoJson={lineStringGeoJson}
+                >
+                    <MapLayer
+                        layerKey="line-string"
+                        type="line"
+                        layout={mapStyles.lineString.layout}
+                        paint={mapStyles.lineString.paint}
+                    />
+                </MapSource>
+                <MapSource
                     sourceKey="district-cat2-points"
                     geoJson={cat2PointsGeoJson}
                 >
@@ -425,6 +405,27 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         layerKey="cat3-points-circle"
                         type="circle"
                         paint={mapStyles.cat3Point.circle}
+                    />
+                </MapSource>
+                <MapSource
+                    sourceKey="district-pla-relocation-points"
+                    geoJson={plaRelocationPointGeoJson}
+                >
+                    <MapLayer
+                        layerKey="relocation-points-circle"
+                        type="circle"
+                        paint={mapStyles.relocationPoint.circle}
+                    />
+                </MapSource>
+                <MapSource
+                    sourceKey="district-is-relocation-points"
+                    geoJson={isRelocationPointGeoJson}
+                >
+                    <MapLayer
+                        layerKey="relocation-points-diamond"
+                        type="symbol"
+                        layout={mapStyles.relocationPoint.layout}
+                        paint={mapStyles.relocationPoint.paint}
                     />
                 </MapSource>
             </div>

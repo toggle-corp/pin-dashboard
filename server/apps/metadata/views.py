@@ -39,7 +39,10 @@ class CatPoint:
 
         self.landslide_code = geosite.code
         self.landslide_cat = geosite.category
+
+        # FIXME: sometime palika is undefined
         self.gp_name = geosite.palika.name
+
         self.place = geosite.place
 
         self.households = geosite.household_set
@@ -65,6 +68,16 @@ class Cat3Point(CatPoint):
             .filter(eligibility__contains='Yes').count()
         self.households_relocated = self.households\
             .filter(result__contains='Relocated').count()
+
+
+class RelocationPoint:
+    def __init__(self, household):
+        self.geosite = household.geosite
+        self.location = [
+            household.relocated_lng,
+            household.relocated_lat,
+        ]
+        self.solution_type = household.solution_type
 
 
 class Metadata:
@@ -158,6 +171,21 @@ class Metadata:
         hh = self.hh.filter(eligibility_source='Geohazard')
         hh = hh.filter(result__contains='Relocated')
         return hh.count()
+
+    def relocation_points(self):
+        filter_query = {'district': self.district}
+        if self.ward:
+            filter_query = {'ward': self.ward}
+        elif self.palika:
+            filter_query = {'palika': self.palika}
+        return [
+            RelocationPoint(hh)
+            for hh
+            in Household.objects.filter(
+                **filter_query,
+                geosite__isnull=False,
+            )
+        ]
 
     def cat2_points(self):
         filter_query = {'district': self.district}

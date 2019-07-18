@@ -80,5 +80,10 @@ class Household(models.Model):
     women_60_plus = models.IntegerField(default=None, blank=True, null=True)
     other = models.IntegerField(default=None, blank=True, null=True)
 
+    relocated_lng = models.FloatField(default=None, blank=True, null=True)
+    relocated_lat = models.FloatField(default=None, blank=True, null=True)
+
+    solution_type = models.TextField(default=None, blank=True, null=True)
+
     def __str__(self):
         return self.code

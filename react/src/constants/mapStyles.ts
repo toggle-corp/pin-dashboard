@@ -97,9 +97,46 @@ export default {
     },
     cat3Point: {
         circle: {
-            'circle-color': 'red',
+            'circle-color': '#e53935',
             'circle-radius': 8,
             'circle-opacity': 1,
+        },
+    },
+    relocationPoint: {
+        circle: {
+            'circle-color': '#1565c0',
+            'circle-radius': 5,
+            'circle-opacity': 1,
+        },
+        layout: {
+            'text-field': '◆',
+            'text-allow-overlap': true,
+            'text-size': 24,
+        },
+        paint: {
+            'text-color': '#1565c0',
+            'text-opacity': ['get', 'opacity'],
+            'text-halo-color': ['case',
+                ['boolean', ['feature-state', 'hover'], false],
+                '#000000',
+                'rgba(0, 0, 0, 0)',
+            ],
+            'text-halo-width': ['case',
+                ['boolean', ['feature-state', 'hover'], false],
+                1,
+                0,
+            ],
+        },
+    },
+    lineString: {
+        layout: {
+            'line-join': 'round',
+            'line-cap': 'round',
+        },
+        paint: {
+            'line-color': '#f0f0f0',
+            'line-width': 2,
+            // 'line-dasharray': [2, 3],
         },
     },
 };

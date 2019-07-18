@@ -13,6 +13,7 @@ class BaseMetadataSerializer(serializers.Serializer):
 
 
 class CatPointSerializer(serializers.Serializer):
+    geosite = serializers.CharField()
     latitude = serializers.FloatField()
     longitude = serializers.FloatField()
 
@@ -39,6 +40,12 @@ class Cat3PointSerializer(CatPointSerializer):
     households_relocated = serializers.IntegerField()
 
 
+class RelocationPointSerializer(serializers.Serializer):
+    geosite = serializers.CharField()
+    location = serializers.ListField(serializers.FloatField)
+    solution_type = serializers.CharField()
+
+
 class GeoAttributeSerializer(serializers.Serializer):
     id = serializers.IntegerField(source='pk')
     name = serializers.CharField()
@@ -57,6 +64,7 @@ class PalikaSerializer(BaseMetadataSerializer):
 class PalikaDetailSerializer(PalikaSerializer):
     cat2_points = Cat2PointSerializer(many=True)
     cat3_points = Cat3PointSerializer(many=True)
+    relocation_points = RelocationPointSerializer(many=True)
     regions = WardSerializer(source='wards', many=True)
 
 
@@ -67,6 +75,7 @@ class DistrictSerializer(BaseMetadataSerializer):
 class DistrictDetailSerializer(DistrictSerializer):
     cat2_points = Cat2PointSerializer(many=True)
     cat3_points = Cat3PointSerializer(many=True)
+    relocation_points = RelocationPointSerializer(many=True)
     regions = PalikaSerializer(source='palikas', many=True)
 
 
