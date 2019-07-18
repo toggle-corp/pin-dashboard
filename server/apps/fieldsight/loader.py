@@ -61,10 +61,46 @@ def parse_land_area(text):
     return number and float(number) * 10000
 
 
+def clean_palika_name(palika_name):
+    name = str(palika_name).lower()
+    for remove_string in ['rural', 'municipality', 'r.m']:
+        name = name.replace(remove_string, '')
+    return name.strip().title()
+
+
+def clean_ward_number(ward_number):
+    name = str(ward_number)
+    if name.find(','):
+        name = name[:name.find(',')]
+    return name.strip()
+
+
+def log_geo_warning(data_type, code, datum, defaults, selectors):
+    missing_warning_message = [
+        f"  >> '{geo_dist}' not found"
+        f", Provided data: {get_attr(datum, data_selector)}"
+        f", used data: {query_name}"
+        for geo_dist, data_selector, query_name in selectors
+        if defaults[geo_dist] is None and query_name not in [None, '', 'None', '0']
+    ]
+    if missing_warning_message:
+        logger.warning(f">> Missing Geo Attribute for {data_type} ID: {code}")
+        logger.warning(
+            '  -> ' +
+            ' -> '.join([
+                (
+                    defaults[geo_dist] and f'(pk={defaults[geo_dist].pk}){defaults[geo_dist].name}'
+                ) or 'None'
+                for geo_dist, _, _ in selectors
+            ])
+        )
+        [logger.warning(message) for message in missing_warning_message]
+
+
 def trigram_name_search(queryset, name_query):
     return queryset.annotate(
         similarity=search.TrigramSimilarity('name', str(name_query or '')),
-    ).filter(similarity__gt=0.5)
+    ).filter(similarity__gt=0.3).order_by('-similarity')
 
 
 class Loader:
@@ -166,31 +202,27 @@ class Loader:
             defaults[value] = get_attr(datum, key)
 
         defaults['category'] = 'CAT{}'.format(get_attr(datum, 'Category'))
-        defaults['latitude'] = get_attr(datum, 'latitude') or \
-            datum['location'][1]
-        defaults['longitude'] = get_attr(datum, 'longitude') or \
-            datum['location'][0]
+        defaults['latitude'] = get_attr(datum, 'latitude') or datum['location'][1]
+        defaults['longitude'] = get_attr(datum, 'longitude') or datum['location'][0]
 
-        defaults['district'] = trigram_name_search(District.objects, get_attr(datum, 'District')).first()
+        district_name = get_attr(datum, 'District')
+        palika_name = clean_palika_name(get_attr(datum, 'Gaupalika'))
+        ward_name = clean_ward_number(get_attr(datum, 'Ward'))
+
+        defaults['district'] = trigram_name_search(District.objects, district_name).first()
         defaults['palika'] = trigram_name_search(
             Palika.objects.filter(district__in=[defaults['district']]),
-            get_attr(datum, 'Gaupalika'),
+            palika_name,
         ).first()
-        defaults['ward'] = Ward.objects.filter(
-            name=str(get_attr(datum, 'Ward')), palika__in=[defaults['palika']],
-        ).first()
+        defaults['ward'] = Ward.objects.filter(name=ward_name, palika__in=[defaults['palika']]).first()
 
-        [
-            logger.warning(
-                f">> Geosite: '{geo_dist}' not found for '{datum.get('id')}', "
-                f"Provided data: {get_attr(datum, data_selector)}"
-            )
-            for geo_dist, data_selector in [
-                ('district', 'District'),
-                ('palika', 'Gaupalika'),
-                ('ward', 'Ward'),
-            ] if defaults[geo_dist] is None
-        ]
+        log_geo_warning(
+            'Geosite', datum.get('id'), datum, defaults, [
+                ('district', 'District', district_name),
+                ('palika', 'Gaupalika', palika_name),
+                ('ward', 'Ward', ward_name),
+            ],
+        )
 
         geosite, _ = GeoSite.objects.update_or_create(
             code=code,
@@ -226,26 +258,27 @@ class Loader:
         defaults['solution_type'] = get_attr(datum, 'Solution_Type')
 
         try:
-            defaults['district'] = trigram_name_search(District.objects, get_attr(datum, 'District_of_origin')).first()
+            district_name = get_attr(datum, 'District_of_origin')
+            palika_name = clean_palika_name(get_attr(datum, 'Gaupalika_Municipality'))
+            ward_name = clean_ward_number(get_attr(datum, 'Ward'))
+
+            defaults['district'] = trigram_name_search(District.objects, district_name).first()
             defaults['palika'] = trigram_name_search(
                 Palika.objects.filter(district__in=[defaults['district']]),
-                get_attr(datum, 'Gaupalika_Municipality'),
+                palika_name,
             ).first()
             defaults['ward'] = Ward.objects.filter(
-                name=str(get_attr(datum, 'Ward')), palika__in=[defaults['palika']]
+                name=ward_name, palika__in=[defaults['palika']]
             ).first()
 
-            [
-                logger.warning(
-                    f">> Household: '{geo_dist}' not found for '{code}', "
-                    f"Provided data: {get_attr(datum, data_selector)}"
-                )
-                for geo_dist, data_selector in [
-                    ('district', 'District_of_origin'),
-                    ('palika', 'Gaupalika_Municipality'),
-                    ('ward', 'Ward'),
-                ] if defaults[geo_dist] is None
-            ]
+            log_geo_warning(
+                'Household', code, datum, defaults, [
+                    ('district', 'District_of_origin', district_name),
+                    ('palika', 'Gaupalika_Municipality', palika_name),
+                    ('ward', 'Ward', ward_name),
+                ],
+            )
+
         except Exception:
             logger.error(f'Load Household({code}) Failed!!', exc_info=True)
 

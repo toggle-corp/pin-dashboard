@@ -41,7 +41,7 @@ class CatPoint:
         self.landslide_cat = geosite.category
 
         # FIXME: sometime palika is undefined
-        self.gp_name = geosite.palika.name
+        self.gp_name = geosite.palika and geosite.palika.name
 
         self.place = geosite.place
 
