@@ -66,7 +66,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    # 'silk.middleware.SilkyMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -182,9 +181,23 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+DJANGO_CACHE_REDIS_URL = os.environ.get('DJANGO_CACHE_REDIS_URL', 'redis://redis:6379/0')
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": DJANGO_CACHE_REDIS_URL,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+        "KEY_PREFIX": "dj_cache-",
+    },
+}
+
+CACHE_METADATA = os.environ.get('CACHE_METADATA', True)
+
 if DEBUG:
-    # INSTALLED_APPS += ['silk']
-    # MIDDLEWARE += ['silk.middleware.SilkyMiddleware']
-    # SILKY_META = True
-    # SILKY_PYTHON_PROFILER = True
-    pass
+    INSTALLED_APPS += ['silk']
+    SILK_MIDDLEWARE = 'silk.middleware.SilkyMiddleware'
+    MIDDLEWARE += [SILK_MIDDLEWARE]
+    SILKY_META = True
+    SILKY_PYTHON_PROFILER = True

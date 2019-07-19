@@ -1,5 +1,5 @@
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+from django.conf import settings
 from django.db import models
 from django.shortcuts import get_object_or_404
 
@@ -219,9 +219,12 @@ class Metadata:
 
 
 class MetadataView(views.APIView):
+    DISTRICT_CACHE_KEY = 'pin-district-metadata-cache-{}'
+    PALIKA_CACHE_KEY = 'pin-palika-metadata-cache-{}'
+    COUNTRY_CACHE_KEY = 'pin-country-metadata-cache-nepal'
 
-    @method_decorator(cache_page(60 * 60 * 1))
-    def get(self, request, district_id=None, palika_id=None):
+    @staticmethod
+    def _get(district_id=None, palika_id=None):
         loader = Loader()
 
         try:
@@ -241,4 +244,22 @@ class MetadataView(views.APIView):
         else:
             metadata = Metadata()
             serializer = CountrySerializer(metadata)
-        return response.Response(serializer.data)
+        return serializer.data
+
+    def get(self, request, district_id=None, palika_id=None):
+        if not settings.CACHE_METADATA:
+            print('NOT CACHING')
+            return MetadataView._get(district_id, palika_id)
+
+        cache_key = self.COUNTRY_CACHE_KEY
+        if district_id:
+            cache_key = self.DISTRICT_CACHE_KEY.format(district_id)
+        elif palika_id:
+            cache_key = self.PALIKA_CACHE_KEY.format(palika_id)
+
+        data = cache.get(cache_key)
+        if data is None:
+            data = MetadataView._get(district_id, palika_id)
+            cache.set(cache_key, data)
+
+        return response.Response(data)
