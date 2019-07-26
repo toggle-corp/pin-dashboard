@@ -28,6 +28,7 @@ class Command(BaseCommand):
         start_time = datetime.now()
         loader = Loader()
         loader.fetch_geosites(force=True)
+        loader.fetch_relocation_sites(force=True)
         loader.fetch_households(force=True)
 
         start_cache_time = datetime.now()

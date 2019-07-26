@@ -16,7 +16,9 @@ from .serializers import (
     PalikaDetailSerializer,
 )
 from .models import (
-    GeoSite, Household,
+    GeoSite,
+    Household,
+    RelocationSite,
 )
 
 from fieldsight.loader import Loader
@@ -52,6 +54,8 @@ class CatPoint:
         self.direct_risk_for = geosite.direct_risk_for
         self.potential_impact = geosite.potential_impact
         self.risk_probability = geosite.risk_probability
+
+        self.relocation_sites = RelocationSite.objects.filter(household__geosite_id=geosite.pk)
 
 
 class Cat2Point(CatPoint):

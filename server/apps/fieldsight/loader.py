@@ -14,6 +14,7 @@ from geo.models import (
 from metadata.models import (
     GeoSite,
     Household,
+    RelocationSite,
 )
 
 logger = logging.getLogger(__name__)
@@ -123,6 +124,12 @@ class Loader:
         'Ward': 'ward',
     }
 
+    relocation_site_map = {
+        'Site_Type': 'site_type',
+        'Protection_Support': 'protection_support',
+        'Name_of_Place': 'place',
+    }
+
     household_map = {
         'Land_size_allocated_to_HH': 'land_size',
         'Eligibility_Source': 'eligibility_source',
@@ -186,6 +193,15 @@ class Loader:
             except Exception:
                 logger.error('Fetch Geosites Failed!!', exc_info=True)
 
+    def fetch_relocation_sites(self, force=False):
+        data = self.fetch_data('ds2_pprisnd', force)
+        for datum in data:
+            try:
+                logger.info('Collecting Relocation Sites!!')
+                self.load_relocation_site(datum)
+            except Exception:
+                logger.error('Fetch Relocation Sites Failed!!', exc_info=True)
+
     def fetch_households(self, force=False):
         data = self.fetch_data('hh_registry', force)
         for datum in data:
@@ -194,6 +210,44 @@ class Loader:
                 self.load_household(datum)
             except Exception:
                 logger.error('Fetch Households Failed!!', exc_info=True)
+
+    def load_relocation_site(self, datum):
+        code = get_attr(datum, 'Relocation_Place_Code')
+        defaults = {}
+
+        for key, value in self.relocation_site_map.items():
+            defaults[value] = get_attr(datum, key)
+
+        defaults['latitude'] = get_attr(datum, 'Geo_point_Lat') or \
+            datum['location'][1]
+        defaults['longitude'] = get_attr(datum, 'Geo_point_Long') or \
+            datum['location'][0]
+
+        defaults['district'] = trigram_name_search(District.objects, get_attr(datum, 'District')).first()
+        defaults['palika'] = trigram_name_search(
+            Palika.objects.filter(district__in=[defaults['district']]),
+            get_attr(datum, 'Gaupalika'),
+        ).first()
+        defaults['ward'] = Ward.objects.filter(
+            name=str(get_attr(datum, 'Ward')), palika__in=[defaults['palika']],
+        ).first()
+
+        [
+            logger.warning(
+                f">> Relocation Site: '{geo_dist}' not found for '{datum.get('id')}', "
+                f"Provided data: {get_attr(datum, data_selector)}"
+            )
+            for geo_dist, data_selector in [
+                ('district', 'District'),
+                ('palika', 'Gaupalika'),
+                ('ward', 'Ward'),
+            ] if defaults[geo_dist] is None
+        ]
+
+        relocation_site, _ = RelocationSite.objects.update_or_create(
+            code=code,
+            defaults=defaults,
+        )
 
     def load_geosite(self, datum):
         code = get_attr(datum, 'Geohazard_code')
@@ -234,6 +288,9 @@ class Loader:
         geosite = GeoSite.objects.filter(
             code=get_attr(datum, 'Geohazard_Code')
         ).first()
+        relocation_site = GeoSite.objects.filter(
+            code=get_attr(datum, 'Relocation_Place_Code')
+        ).first()
 
         if code is None:
             logger.error(
@@ -252,6 +309,7 @@ class Loader:
                     defaults[value] = function(defaults[value])
 
         defaults['geosite'] = geosite
+        defaults['relocation_site'] = relocation_site
 
         defaults['relocated_lng'] = datum['location'][0]
         defaults['relocated_lat'] = datum['location'][1]
