@@ -41,6 +41,13 @@ export interface RelocationPoint {
     solutionType: string;
 }
 
+export interface RelocationSite {
+    code: string;
+    latitude: number;
+    longitude: number;
+    siteType: 'Integrated Settelement' | 'Private Land';
+}
+
 export interface RiskPoint {
     geosite: string;
     directRiskFor: string;
@@ -59,6 +66,7 @@ export interface RiskPoint {
     riskScore: keyof LandslidesRiskScore;
     eligibleHouseholds: number;
     householdsRelocated: number;
+    relocationSites: RelocationSite[];
 }
 
 export interface GeoAttribute {
@@ -84,4 +92,16 @@ export interface Metadata extends Base {
     cat3Points?: RiskPoint[];
     relocationPoints?: RelocationPoint[];
     regions: Base[];
+}
+
+export interface RelocationSiteCodes {
+    [key: string]: boolean;
+}
+
+export interface FeatureIdentifiers {
+    [key: string]: number;
+}
+
+export interface FeatureFromIdentifier {
+    [key: number]: string;
 }

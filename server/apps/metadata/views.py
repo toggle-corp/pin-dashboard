@@ -55,7 +55,7 @@ class CatPoint:
         self.potential_impact = geosite.potential_impact
         self.risk_probability = geosite.risk_probability
 
-        self.relocation_sites = RelocationSite.objects.filter(household__geosite_id=geosite.pk)
+        self.relocation_sites = RelocationSite.objects.filter(household__geosite=geosite).distinct()
 
 
 class Cat2Point(CatPoint):
@@ -72,16 +72,6 @@ class Cat3Point(CatPoint):
             .filter(eligibility__contains='Yes').count()
         self.households_relocated = self.households\
             .filter(result__contains='Relocated').count()
-
-
-class RelocationPoint:
-    def __init__(self, household):
-        self.geosite = household.geosite
-        self.location = [
-            household.relocated_lng,
-            household.relocated_lat,
-        ]
-        self.solution_type = household.solution_type
 
 
 class Metadata:

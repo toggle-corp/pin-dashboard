@@ -9,7 +9,11 @@ import {
 import {
     RiskPoint,
     RelocationPoint,
+    RelocationSite,
     GeoAttribute,
+    RelocationSiteCodes,
+    FeatureIdentifiers,
+    FeatureFromIdentifier,
 } from '#constants';
 
 export const forEach = (obj: object, func: (key: string, val: unknown) => void) => {
@@ -50,6 +54,165 @@ export function wrapInArray<T>(item?: T) {
     return [item];
 }
 
+const getRelocationSiteFeatures = (
+    relocationSiteList: RelocationSite[],
+    featureIdentifier: FeatureIdentifiers,
+) => (
+    relocationSiteList
+        .filter(r => r.longitude && r.latitude)
+        .map(r => ({
+            // id: i,
+            id: featureIdentifier[r.code],
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [
+                    r.longitude,
+                    r.latitude,
+                ],
+            },
+        }))
+);
+
+const getCatPointFeatures = (
+    catPoints: RiskPoint[],
+    featureIdentifier: FeatureIdentifiers,
+) => (
+    catPoints
+        .filter(cp => cp.longitude && cp.latitude)
+        .map(cp => ({
+            id: featureIdentifier[cp.geosite],
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [
+                    cp.longitude,
+                    cp.latitude,
+                ],
+            },
+        }))
+);
+
+export function getPlottableMapLayersFromRiskPoints(
+    cat2PointList: RiskPoint[] | undefined = [],
+    cat3PointList: RiskPoint[] | undefined = [],
+) {
+    const catPointList = [
+        ...cat2PointList,
+        ...cat3PointList,
+    ] as RiskPoint[];
+
+    const relocationSiteCodes: RelocationSiteCodes = {};
+    const relocationSiteList = catPointList.map(
+        d => d.relocationSites,
+    )
+        .flat()
+        .filter(d => !!d.latitude && !!d.longitude)
+        .filter((d) => {
+            const filter = relocationSiteCodes[d.code];
+            relocationSiteCodes[d.code] = true;
+
+            return !filter;
+        });
+
+    const featureIdentifier: FeatureIdentifiers = {};
+
+    let count = 1;
+    catPointList.forEach((d) => {
+        featureIdentifier[d.geosite] = count;
+        count += 1;
+    });
+    relocationSiteList.forEach((d) => {
+        featureIdentifier[d.code] = count;
+        count += 1;
+    });
+
+    // FIXME: use mapToMap later
+    const initialValue: FeatureFromIdentifier = {};
+    const featureFromIdentifier = Object.keys(featureIdentifier)
+        .reduce((acc, key) => {
+            const value = featureIdentifier[key];
+            acc[value] = key;
+            return acc;
+        }, initialValue);
+
+    const cat2PointsGeoJson = {
+        type: 'FeatureCollection',
+        features: getCatPointFeatures(cat2PointList, featureIdentifier),
+    };
+
+    const cat3PointsGeoJson = {
+        type: 'FeatureCollection',
+        features: getCatPointFeatures(cat3PointList, featureIdentifier),
+    };
+
+    const integratedSettelementRelocationPointsGeoJson = {
+        type: 'FeatureCollection',
+        features: getRelocationSiteFeatures(
+            relocationSiteList.filter(d => d.siteType === 'Integrated Settelement'),
+            featureIdentifier,
+        ),
+    };
+
+    const privateLandRelocationPointsGeoJson = {
+        type: 'FeatureCollection',
+        features: getRelocationSiteFeatures(
+            relocationSiteList.filter(d => d.siteType === 'Private Land'),
+            featureIdentifier,
+        ),
+    };
+
+    const lineStringIdentifier = {};
+
+    const lineStringsGeoJson = {
+        type: 'FeatureCollection',
+        features: catPointList.map(
+            (catPoint) => {
+                const validRelocationSites = catPoint.relocationSites
+                    .filter(d => !!d.latitude && !!d.longitude);
+
+                if (validRelocationSites.length === 0) {
+                    return null;
+                }
+
+                return (
+                    validRelocationSites.map((
+                        (relocationSite) => {
+                            const stringId = `${catPoint.geosite}:${relocationSite.code}`;
+                            const id = count;
+                            lineStringIdentifier[stringId] = id;
+                            count += 1;
+
+                            return {
+                                id,
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'LineString',
+                                    coordinates: [
+                                        [catPoint.longitude, catPoint.latitude],
+                                        [relocationSite.longitude, relocationSite.latitude],
+                                    ],
+                                },
+                            };
+                        }
+                    ))
+                );
+            },
+        ).flat().filter(d => d),
+    };
+
+    return {
+        featureIdentifier,
+        featureFromIdentifier,
+        cat2PointsGeoJson,
+        cat3PointsGeoJson,
+        integratedSettelementRelocationPointsGeoJson,
+        privateLandRelocationPointsGeoJson,
+        lineStringsGeoJson,
+        lineStringIdentifier,
+    };
+}
+
 export function convertRiskPointToGeoJson(catPoints: RiskPoint[] | undefined = []) {
     const geojson = {
         type: 'FeatureCollection',
@@ -65,6 +228,7 @@ export function convertRiskPointToGeoJson(catPoints: RiskPoint[] | undefined = [
                     ],
                 },
                 properties: {
+                    id: i,
                     ...catPoint,
                 },
             })),

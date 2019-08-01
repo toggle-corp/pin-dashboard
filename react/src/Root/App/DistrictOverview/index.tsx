@@ -15,10 +15,8 @@ import {
 
 import {
     wrapInArray,
-    convertRiskPointToGeoJson,
-    convertRelocationPointToGeoJson,
     getGeoJsonFromGeoAttributeList,
-    getLineStringGeoJson,
+    getPlottableMapLayersFromRiskPoints,
 } from '#utils/common';
 
 import {
@@ -27,6 +25,10 @@ import {
     mapStyles,
     GeoAttribute,
     Base,
+    RelocationSite,
+    RiskPoint,
+    FeatureIdentifiers,
+    FeatureFromIdentifier,
 } from '#constants';
 
 import Information from '../Information';
@@ -35,11 +37,20 @@ import RiskPointHoverDetails from '../RiskPointHoverDetails';
 
 import styles from './styles.scss';
 
+interface MapStateElement {
+    id?: number;
+    value?: {
+        dim?: boolean;
+        show?: boolean;
+    };
+}
+
 interface State {
-    hoveredId?: number;
-    selectedId?: number;
+    hoveredRegionId?: number;
+    selectedRegionId?: number;
     hoveredCat2PointId?: number;
     hoveredCat3PointId?: number;
+    mapState: MapStateElement[];
 }
 
 interface Props {
@@ -61,13 +72,101 @@ const requests: { [key: string]: ClientAttributes<Props, Params> } = {
 
 type MyProps = NewProps<Props, Params>;
 
+const getNewMapStateOnRiskPointHoverChange = (
+    mapState: MapStateElement[],
+    catPointList: RiskPoint[] = [],
+    id: number | undefined,
+    featureIdentifier: FeatureIdentifiers,
+    featureFromIdentifier: FeatureFromIdentifier,
+    lineStringIdentifier,
+) => {
+    const newMapState = [] as MapStateElement[];
+    const geosite = id ? featureFromIdentifier[id] : undefined;
+
+    const setAsLight: {
+        [key: number]: boolean;
+    } = {};
+
+    catPointList.forEach((catPoint) => {
+        const shouldDim = id ? catPoint.geosite !== geosite : false;
+        const rs = catPoint.relocationSites;
+
+        let relocationSites = [] as RelocationSite[];
+        if (rs) {
+            relocationSites = rs;
+        }
+
+        if (!shouldDim) {
+            newMapState.push({
+                id: featureIdentifier[catPoint.geosite],
+                value: { dim: shouldDim },
+            });
+
+            setAsLight[featureIdentifier[catPoint.geosite]] = true;
+        }
+
+        if (shouldDim && !setAsLight[featureIdentifier[catPoint.geosite]]) {
+            newMapState.push({
+                id: featureIdentifier[catPoint.geosite],
+                value: { dim: shouldDim },
+            });
+        }
+
+        relocationSites
+            .filter(r => featureIdentifier[r.code])
+            .forEach((r) => {
+                if (!shouldDim) {
+                    newMapState.push({
+                        id: featureIdentifier[r.code],
+                        value: { dim: shouldDim },
+                    });
+                    newMapState.push({
+                        id: lineStringIdentifier[`${catPoint.geosite}:${r.code}`],
+                        value: { dim: shouldDim },
+                    });
+
+                    setAsLight[featureIdentifier[r.code]] = true;
+                    setAsLight[lineStringIdentifier[`${catPoint.geosite}:${r.code}`]] = true;
+                }
+
+                if (shouldDim && !setAsLight[featureIdentifier[r.code]]) {
+                    newMapState.push({
+                        id: featureIdentifier[r.code],
+                        value: { dim: shouldDim },
+                    });
+                }
+
+                if (shouldDim && !setAsLight[lineStringIdentifier[`${catPoint.geosite}:${r.code}`]]) {
+                    newMapState.push({
+                        id: lineStringIdentifier[`${catPoint.geosite}:${r.code}`],
+                        value: { dim: shouldDim },
+                    });
+                }
+            });
+    });
+
+    return newMapState;
+};
 
 class DistrictOverview extends React.PureComponent<MyProps, State> {
     public constructor(props: MyProps) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            mapState: [],
+        };
     }
+
+    private featureIdentifier = {}
+
+    private featureFromIdentifier = {}
+
+    private lineStringIdentifier = {}
+
+    private getCatPointList = memoize((cat2PointList: RiskPoint[], cat3PointList: RiskPoint[]) => ([
+        ...cat2PointList,
+        ...cat3PointList,
+    ]))
 
     private getInformationDataForSelectedRegion = () => {
         const {
@@ -86,9 +185,9 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
         const metadata = response as Metadata;
 
-        const { selectedId } = this.state;
+        const { selectedRegionId } = this.state;
 
-        if (!selectedId) {
+        if (!selectedRegionId) {
             return {
                 title: district.name,
                 metadata,
@@ -96,7 +195,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         }
 
         const palikaData = metadata && metadata.regions
-            ? metadata.regions.find(region => region.geoAttribute.id === selectedId)
+            ? metadata.regions.find(region => region.geoAttribute.id === selectedRegionId)
             : undefined;
 
         if (!palikaData) {
@@ -124,13 +223,9 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
     private wrapInArray = memoize(wrapInArray);
 
-    private convertRiskPointToGeoJson = memoize(convertRiskPointToGeoJson);
-
-    private convertRelocationPointToGeoJson = memoize(convertRelocationPointToGeoJson);
+    private getPlottableMapLayersFromRiskPoints = memoize(getPlottableMapLayersFromRiskPoints);
 
     private getGeoJsonFromGeoAttributeList = memoize(getGeoJsonFromGeoAttributeList);
-
-    private getLineStringGeoJson = memoize(getLineStringGeoJson);
 
     private renderCatPointHoverDetail = () => {
         const {
@@ -188,19 +283,19 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         } = this.props;
 
         const {
-            hoveredId,
+            hoveredRegionId,
             hoveredCat2PointId,
             hoveredCat3PointId,
         } = this.state;
 
-        if (!hoveredId || hoveredCat2PointId || hoveredCat3PointId) {
+        if (!hoveredRegionId || hoveredCat2PointId || hoveredCat3PointId) {
             return null;
         }
 
         // FIXME: prepare district map in constants
         const metadata = response as Metadata;
         const palikaData = metadata && metadata.regions.find(
-            region => region.geoAttribute.id === hoveredId,
+            region => region.geoAttribute.id === hoveredRegionId,
         );
 
         if (!palikaData) {
@@ -223,15 +318,59 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
     }
 
     private handleHoverChange = (id: number) => {
-        this.setState({ hoveredId: id });
+        this.setState({ hoveredRegionId: id });
+    }
+
+    private getNewMapStateForRiskPointHoverChange = (id: number) => {
+        const { mapState } = this.state;
+        const {
+            requests: {
+                metadaRequest: {
+                    response,
+                },
+            },
+        } = this.props;
+
+        const districtMetadata = (response as Metadata) || {};
+        const {
+            cat2Points = [],
+            cat3Points = [],
+        } = districtMetadata;
+
+        const catPointList = this.getCatPointList(cat2Points, cat3Points);
+
+        const newMapState = getNewMapStateOnRiskPointHoverChange(
+            mapState,
+            catPointList,
+            id,
+            this.featureIdentifier,
+            this.featureFromIdentifier,
+            this.lineStringIdentifier,
+        );
+
+        return newMapState;
     }
 
     private handleCat2PointHoverChange = (id: number) => {
-        this.setState({ hoveredCat2PointId: id });
+        const newMapState = this.getNewMapStateForRiskPointHoverChange(id);
+
+        this.setState({
+            hoveredCat2PointId: id,
+            mapState: newMapState,
+        });
     }
 
     private handleCat3PointHoverChange = (id: number) => {
-        this.setState({ hoveredCat3PointId: id });
+        const newMapState = this.getNewMapStateForRiskPointHoverChange(id);
+
+        this.setState({
+            hoveredCat3PointId: id,
+            mapState: newMapState,
+        });
+    }
+
+    private handleRelocationPointHoverChange = (id: number) => {
+        // console.warn(id);
     }
 
     private handleDoubleClick = (id: number) => {
@@ -259,9 +398,9 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
     }
 
     private handleSelectionChange = (_: number[], id: number) => {
-        const { selectedId } = this.state;
-        const newId = selectedId === id ? undefined : id;
-        this.setState({ selectedId: newId });
+        const { selectedRegionId } = this.state;
+        const newId = selectedRegionId === id ? undefined : id;
+        this.setState({ selectedRegionId: newId });
     }
 
     public render() {
@@ -278,8 +417,9 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         } = this.props;
 
         const {
-            selectedId,
-            hoveredId,
+            selectedRegionId,
+            hoveredRegionId,
+            mapState,
         } = this.state;
 
         const {
@@ -301,21 +441,22 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         const {
             cat2Points,
             cat3Points,
-            relocationPoints,
         } = districtMetadata;
 
-        const cat2PointsGeoJson = this.convertRiskPointToGeoJson(cat2Points);
-        const cat3PointsGeoJson = this.convertRiskPointToGeoJson(cat3Points);
         const {
-            pla: plaRelocationPointGeoJson,
-            is: isRelocationPointGeoJson,
-        } = this.convertRelocationPointToGeoJson(relocationPoints);
+            featureFromIdentifier,
+            featureIdentifier,
+            cat2PointsGeoJson,
+            cat3PointsGeoJson,
+            integratedSettelementRelocationPointsGeoJson,
+            privateLandRelocationPointsGeoJson,
+            lineStringsGeoJson,
+            lineStringIdentifier,
+        } = this.getPlottableMapLayersFromRiskPoints(cat2Points, cat3Points);
 
-        const lineStringGeoJson = this.getLineStringGeoJson(
-            cat2Points,
-            cat3Points,
-            relocationPoints,
-        );
+        this.featureIdentifier = featureIdentifier;
+        this.featureFromIdentifier = featureFromIdentifier;
+        this.lineStringIdentifier = lineStringIdentifier;
 
         const labelGeoJson = this.getLabelGeoJson(districtMetadata);
 
@@ -345,11 +486,11 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         paint={mapStyles.palika.fill}
                         filter={filter}
                         enableHover
-                        hoveredId={hoveredId}
+                        hoveredId={hoveredRegionId}
                         onHoverChange={this.handleHoverChange}
                         onDoubleClick={this.handleDoubleClick}
                         enableSelection
-                        selectedIds={this.wrapInArray(selectedId)}
+                        selectedIds={this.wrapInArray(selectedRegionId)}
                         onSelectionChange={this.handleSelectionChange}
                     />
                     <MapLayer
@@ -374,9 +515,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                 </MapSource>
                 <MapSource
                     sourceKey="district-line-string"
-                    geoJson={lineStringGeoJson}
+                    geoJson={lineStringsGeoJson}
                 >
                     <MapLayer
+                        mapState={mapState}
                         layerKey="line-string"
                         type="line"
                         layout={mapStyles.lineString.layout}
@@ -388,6 +530,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     geoJson={cat2PointsGeoJson}
                 >
                     <MapLayer
+                        mapState={mapState}
                         enableHover
                         onHoverChange={this.handleCat2PointHoverChange}
                         layerKey="cat2-points-circle"
@@ -400,6 +543,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     geoJson={cat3PointsGeoJson}
                 >
                     <MapLayer
+                        mapState={mapState}
                         enableHover
                         onHoverChange={this.handleCat3PointHoverChange}
                         layerKey="cat3-points-circle"
@@ -408,10 +552,13 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     />
                 </MapSource>
                 <MapSource
-                    sourceKey="district-pla-relocation-points"
-                    geoJson={plaRelocationPointGeoJson}
+                    sourceKey="district-pl-relocation-points"
+                    geoJson={privateLandRelocationPointsGeoJson}
                 >
                     <MapLayer
+                        enableHover
+                        onHoverChange={this.handleRelocationPointHoverChange}
+                        mapState={mapState}
                         layerKey="relocation-points-circle"
                         type="circle"
                         paint={mapStyles.relocationPoint.circle}
@@ -419,9 +566,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                 </MapSource>
                 <MapSource
                     sourceKey="district-is-relocation-points"
-                    geoJson={isRelocationPointGeoJson}
+                    geoJson={integratedSettelementRelocationPointsGeoJson}
                 >
                     <MapLayer
+                        mapState={mapState}
                         layerKey="relocation-points-diamond"
                         type="symbol"
                         layout={mapStyles.relocationPoint.layout}

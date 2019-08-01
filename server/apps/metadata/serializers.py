@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from .models import RelocationSite
 
 
 class BaseMetadataSerializer(serializers.Serializer):
@@ -10,6 +11,12 @@ class BaseMetadataSerializer(serializers.Serializer):
 
     people_relocated = serializers.DictField(serializers.IntegerField)
     total_households = serializers.IntegerField()
+
+
+class RelocationSiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RelocationSite
+        fields = '__all__'
 
 
 class CatPointSerializer(serializers.Serializer):
@@ -28,6 +35,7 @@ class CatPointSerializer(serializers.Serializer):
     direct_risk_for = serializers.CharField()
     potential_impact = serializers.CharField()
     risk_probability = serializers.CharField()
+    relocation_sites = RelocationSiteSerializer(many=True)
 
 
 class Cat2PointSerializer(CatPointSerializer):
@@ -38,12 +46,6 @@ class Cat2PointSerializer(CatPointSerializer):
 class Cat3PointSerializer(CatPointSerializer):
     eligible_households = serializers.IntegerField()
     households_relocated = serializers.IntegerField()
-
-
-class RelocationPointSerializer(serializers.Serializer):
-    geosite = serializers.CharField()
-    location = serializers.ListField(serializers.FloatField)
-    solution_type = serializers.CharField()
 
 
 class GeoAttributeSerializer(serializers.Serializer):
@@ -64,7 +66,6 @@ class PalikaSerializer(BaseMetadataSerializer):
 class PalikaDetailSerializer(PalikaSerializer):
     cat2_points = Cat2PointSerializer(many=True)
     cat3_points = Cat3PointSerializer(many=True)
-    relocation_points = RelocationPointSerializer(many=True)
     regions = WardSerializer(source='wards', many=True)
 
 
@@ -75,7 +76,6 @@ class DistrictSerializer(BaseMetadataSerializer):
 class DistrictDetailSerializer(DistrictSerializer):
     cat2_points = Cat2PointSerializer(many=True)
     cat3_points = Cat3PointSerializer(many=True)
-    relocation_points = RelocationPointSerializer(many=True)
     regions = PalikaSerializer(source='palikas', many=True)
 
 

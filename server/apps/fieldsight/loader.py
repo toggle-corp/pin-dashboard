@@ -288,7 +288,7 @@ class Loader:
         geosite = GeoSite.objects.filter(
             code=get_attr(datum, 'Geohazard_Code')
         ).first()
-        relocation_site = GeoSite.objects.filter(
+        relocation_site = RelocationSite.objects.filter(
             code=get_attr(datum, 'Relocation_Place_Code')
         ).first()
 
