@@ -7,11 +7,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: var(--spacing-medium);
+            padding: var(--spacing-extra-small);
 
-            // FIXME: use variables
-            width: 140px;
-            height: 140px;
+            width: var(--width-geohazard-affected-households-chart);
+            height: var(--height-geohazard-affected-households-chart);
         }
     }
 }

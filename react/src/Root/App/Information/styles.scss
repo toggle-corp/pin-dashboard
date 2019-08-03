@@ -14,7 +14,7 @@
 
         .back-button {
             flex-shrink: 0;
-            padding: var(--spacing-medium);
+            padding: var(--spacing-small-alt) var(--spacing-medium);
             font-size: var(--font-size-extra-large);
         }
 
@@ -38,7 +38,7 @@
             flex-basis: 50%;
             flex-grow: 0;
             flex-shrink: 0;
-            padding: var(--spacing-medium) 0;
+            padding: var(--spacing-small) 0;
         }
 
         %full-section {
@@ -50,6 +50,16 @@
 
         .landslides-surveyed {
             @extend %half-section;
+            flex-basis: 33%;
+        }
+
+        .integrated-settlements {
+            @extend %half-section;
+            flex-basis: 67%;
+        }
+
+        .earthquake-landless-households {
+            @extend %full-section;
         }
 
         .landslides-risk-score {
@@ -57,7 +67,13 @@
         }
 
         .geohazard-affected-households {
-            @extend %full-section;
+            @extend %half-section;
+            flex-basis: 67%;
+        }
+
+        .tranche-update {
+            @extend %half-section;
+            flex-basis: 33%;
         }
 
         .land-purchased {

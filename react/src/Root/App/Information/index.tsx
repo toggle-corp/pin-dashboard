@@ -9,9 +9,12 @@ import Button from '#rsca/Button';
 import { Base } from '#constants';
 
 import LandslidesSurveyed from './LandslidesSurveyed';
+import EarthquakeAffectedLandlessHouseholds from './EarthquakeAffectedLandlessHouseholds';
+import IntegratedSettlements from './IntegratedSettlements';
 import LandslidesRiskScore from './LandslidesRiskScore';
 import GeohazardAffectedHouseholds from './GeohazardAffectedHouseholds';
 import LandPurchased from './LandPurchased';
+import TrancheUpdate from './TrancheUpdate';
 import PeopleRelocated from './PeopleRelocated';
 
 import styles from './styles.scss';
@@ -67,13 +70,18 @@ class Information extends React.PureComponent<Props> {
                     data={landslidesSurveyed}
                     className={styles.landslidesSurveyed}
                 />
-                <LandslidesRiskScore
-                    data={landslidesRiskScore}
-                    className={styles.landslidesRiskScore}
+                <IntegratedSettlements
+                    className={styles.integratedSettlements}
+                />
+                <EarthquakeAffectedLandlessHouseholds
+                    className={styles.earthquakeLandlessHouseholds}
                 />
                 <GeohazardAffectedHouseholds
                     className={styles.geohazardAffectedHouseholds}
                     data={geohazardAffected}
+                />
+                <TrancheUpdate
+                    className={styles.trancheUpdate}
                 />
                 <LandPurchased
                     className={styles.landPurchased}

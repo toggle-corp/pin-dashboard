@@ -256,7 +256,7 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
                         className={styles.attr}
                     />
                     <div className={styles.label}>
-                        Affected by earthquake
+                        Less affected by earthquake
                     </div>
                 </div>
                 <div className={styles.legendItem}>
@@ -353,7 +353,6 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
                         layout={mapStyles.districtLabel.layout}
                     />
                 </MapSource>
-
             </div>
         );
     }
