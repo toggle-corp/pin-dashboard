@@ -29,6 +29,7 @@ import {
     RiskPoint,
     FeatureIdentifiers,
     FeatureFromIdentifier,
+    LineStringIdentifiers,
 } from '#constants';
 
 import Information from '../Information';
@@ -78,7 +79,7 @@ const getNewMapStateOnRiskPointHoverChange = (
     id: number | undefined,
     featureIdentifier: FeatureIdentifiers,
     featureFromIdentifier: FeatureFromIdentifier,
-    lineStringIdentifier,
+    lineStringIdentifier: LineStringIdentifiers,
 ) => {
     const newMapState = [] as MapStateElement[];
     const geosite = id ? featureFromIdentifier[id] : undefined;
@@ -211,7 +212,8 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         });
     }
 
-    private getLabelGeoJson = memoize((metadata?: Metadata) => {
+    private getLabelGeoJson = memoize((metadata: Metadata | undefined) => {
+        // FIXME
         const { regions = [] } = metadata || {};
         const geoAttributes = regions.map(
             (r: Base) => r.geoAttribute,
@@ -331,6 +333,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             },
         } = this.props;
 
+        // FIXME
         const districtMetadata = (response as Metadata) || {};
         const {
             cat2Points = [],

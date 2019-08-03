@@ -102,6 +102,10 @@ export interface FeatureIdentifiers {
     [key: string]: number;
 }
 
+export interface LineStringIdentifiers {
+    [key: string]: number;
+}
+
 export interface FeatureFromIdentifier {
     [key: number]: string;
 }
