@@ -15,6 +15,7 @@ from metadata.models import (
     GeoSite,
     Household,
     RelocationSite,
+    LandlessHousehold,
 )
 
 logger = logging.getLogger(__name__)
@@ -128,6 +129,11 @@ class Loader:
         'Site_Type': 'site_type',
         'Protection_Support': 'protection_support',
         'Name_of_Place': 'place',
+        'Status': 'status',
+    }
+
+    landless_household_map = {
+        'Result': 'result',
     }
 
     household_map = {
@@ -146,6 +152,7 @@ class Loader:
         'Women_Age_6_18': 'women_6_18',
         'Women_Age_19_60': 'women_19_60',
         'Women_Age_60_Plus': 'women_60_plus',
+        'Tranches': 'tranches',
     }
 
     household_parse_functions = {
@@ -210,6 +217,15 @@ class Loader:
                 self.load_household(datum)
             except Exception:
                 logger.error('Fetch Households Failed!!', exc_info=True)
+
+    def fetch_landless_households(self, force=False):
+        data = self.fetch_data('ds_landless', force)
+        for datum in data:
+            try:
+                logger.info('Collecting Landless Households!!')
+                self.load_landless_household(datum)
+            except Exception:
+                logger.error('Fetch Landless Households Failed!!', exc_inf=True)
 
     def load_relocation_site(self, datum):
         code = get_attr(datum, 'Relocation_Place_Code')
@@ -283,6 +299,51 @@ class Loader:
             defaults=defaults,
         )
 
+    def load_landless_household(self, datum):
+        identifier = get_attr(datum, 'LL HH Code')
+
+        defaults = {}
+        for key, value in self.landless_household_map.items():
+            defaults[value] = get_attr(datum, key)
+            if not defaults[value]:
+                defaults[value] = self.household_defaults.get(key)
+            else:
+                function = self.household_parse_functions.get(key)
+                if function:
+                    defaults[value] = function(defaults[value])
+
+        defaults['identifier'] = identifier
+
+        try:
+            district_name = get_attr(datum, 'District_of_origin')
+            palika_name = clean_palika_name(get_attr(datum, 'Gaupalika_Municipality'))
+            ward_name = clean_ward_number(get_attr(datum, 'Ward'))
+
+            defaults['district'] = trigram_name_search(District.objects, district_name).first()
+            defaults['palika'] = trigram_name_search(
+                Palika.objects.filter(district__in=[defaults['district']]),
+                palika_name,
+            ).first()
+            defaults['ward'] = Ward.objects.filter(
+                name=ward_name, palika__in=[defaults['palika']]
+            ).first()
+
+            log_geo_warning(
+                'Household', identifier, datum, defaults, [
+                    ('district', 'District_of_origin', district_name),
+                    ('palika', 'Gaupalika_Municipality', palika_name),
+                    ('ward', 'Ward', ward_name),
+                ],
+            )
+
+        except Exception:
+            logger.error(f'Load Landless Household({identifier}) Failed!!', exc_info=True)
+
+        landless_household, _ = LandlessHousehold.objects.update_or_create(
+            identifier=identifier,
+            defaults=defaults,
+        )
+
     def load_household(self, datum):
         code = get_attr(datum, 'DS_II_HH_Code')
         geosite = GeoSite.objects.filter(
@@ -310,10 +371,6 @@ class Loader:
 
         defaults['geosite'] = geosite
         defaults['relocation_site'] = relocation_site
-
-        defaults['relocated_lng'] = datum['location'][0]
-        defaults['relocated_lat'] = datum['location'][1]
-        defaults['solution_type'] = get_attr(datum, 'Solution_Type')
 
         try:
             district_name = get_attr(datum, 'District_of_origin')

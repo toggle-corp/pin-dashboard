@@ -6,15 +6,19 @@ import TextOutput from '../../TextOutput';
 import Header from '../Header';
 import Heading from '../Heading';
 
+import { IntegratedSettlementMeta } from '#constants';
+
 import styles from './styles.scss';
 
 interface Props {
     className?: string;
-    // data?: LandslidesRiskScore;
+    data?: IntegratedSettlementMeta;
 }
 
+const emptyIntegratedSettlement: IntegratedSettlementMeta = {};
+
 class IntegratedSettlements extends React.PureComponent<Props> {
-    private renderValue = (value: number) => (
+    private renderValue = (value: number | undefined) => (
         <Numeral
             value={value}
             precision={null}
@@ -24,8 +28,17 @@ class IntegratedSettlements extends React.PureComponent<Props> {
 
     public render() {
         const {
+            data = emptyIntegratedSettlement,
             className,
         } = this.props;
+
+        const {
+            phase1,
+            phase2,
+            phase3,
+            completed,
+            total,
+        } = data;
 
         return (
             <div className={_cs(className, styles.integratedSettlements)}>
@@ -38,23 +51,23 @@ class IntegratedSettlements extends React.PureComponent<Props> {
                 <div className={styles.content}>
                     <TextOutput
                         label="Preliminary approved"
-                        value={this.renderValue(1383)}
+                        value={this.renderValue(phase1)}
                     />
                     <TextOutput
                         label="Detailed project report approved"
-                        value={this.renderValue(483)}
+                        value={this.renderValue(phase2)}
                     />
                     <TextOutput
                         label="Implementation"
-                        value={this.renderValue(300)}
+                        value={this.renderValue(phase3)}
                     />
                     <TextOutput
                         label="Completed"
-                        value={this.renderValue(400)}
+                        value={this.renderValue(completed)}
                     />
                     <TextOutput
                         label="Total"
-                        value={this.renderValue(3000)}
+                        value={this.renderValue(total)}
                     />
                 </div>
             </div>

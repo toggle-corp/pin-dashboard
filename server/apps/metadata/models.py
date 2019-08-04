@@ -65,9 +65,29 @@ class RelocationSite(models.Model):
 
     protection_support = models.CharField(max_length=256, blank=True)
     site_type = models.CharField(max_length=256, blank=True)
+    status = models.CharField(max_length=256, blank=True)
 
     def __str__(self):
         return self.code
+
+
+class LandlessHousehold(models.Model):
+    identifier = models.CharField(max_length=128, unique=True)
+    district = models.ForeignKey(District,
+                                 default=None, blank=True, null=True,
+                                 on_delete=models.SET_NULL)
+    palika = models.ForeignKey(
+        Palika,
+        default=None, blank=True, null=True,
+        on_delete=models.SET_NULL,
+    )
+    ward = models.ForeignKey(
+        Ward,
+        default=None, blank=True, null=True,
+        on_delete=models.SET_NULL,
+    )
+
+    result = models.CharField(max_length=256, blank=True)
 
 
 class Household(models.Model):
@@ -113,10 +133,7 @@ class Household(models.Model):
     women_60_plus = models.IntegerField(default=None, blank=True, null=True)
     other = models.IntegerField(default=None, blank=True, null=True)
 
-    relocated_lng = models.FloatField(default=None, blank=True, null=True)
-    relocated_lat = models.FloatField(default=None, blank=True, null=True)
-
-    solution_type = models.TextField(default=None, blank=True, null=True)
+    tranches = models.IntegerField(default=None, blank=True, null=True)
 
     def __str__(self):
         return self.code

@@ -6,15 +6,19 @@ import TextOutput from '../../TextOutput';
 import Header from '../Header';
 import Heading from '../Heading';
 
+import { LandlessHousehold } from '#constants';
+
 import styles from './styles.scss';
 
 interface Props {
     className?: string;
-    // data?: LandslidesRiskScore;
+    data?: LandlessHousehold;
 }
 
+const emptyLandlessData: LandlessHousehold = {};
+
 class EarthaquakeAffectedLandlessHouseholds extends React.PureComponent<Props> {
-    private renderValue = (value: number) => (
+    private renderValue = (value: number | undefined) => (
         <Numeral
             value={value}
             precision={null}
@@ -24,8 +28,15 @@ class EarthaquakeAffectedLandlessHouseholds extends React.PureComponent<Props> {
 
     public render() {
         const {
+            data = emptyLandlessData,
             className,
         } = this.props;
+
+        const {
+            approved,
+            relocated,
+            total,
+        } = data;
 
         return (
             <div className={_cs(className, styles.earthquakeAffectedLandlessHouseholds)}>
@@ -38,15 +49,15 @@ class EarthaquakeAffectedLandlessHouseholds extends React.PureComponent<Props> {
                 <div className={styles.content}>
                     <TextOutput
                         label="Approved to live in the existing place"
-                        value={this.renderValue(1383)}
+                        value={this.renderValue(approved)}
                     />
                     <TextOutput
                         label="Relocated to new location"
-                        value={this.renderValue(483)}
+                        value={this.renderValue(relocated)}
                     />
                     <TextOutput
                         label="Total"
-                        value={this.renderValue(1900)}
+                        value={this.renderValue(total)}
                     />
                 </div>
             </div>

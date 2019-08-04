@@ -12,6 +12,10 @@ class BaseMetadataSerializer(serializers.Serializer):
     people_relocated = serializers.DictField(serializers.IntegerField)
     total_households = serializers.IntegerField()
 
+    tranches = serializers.DictField(serializers.IntegerField)
+    integrated_settlements = serializers.DictField(serializers.IntegerField)
+    landless_households = serializers.DictField(serializers.IntegerField)
+
 
 class RelocationSiteSerializer(serializers.ModelSerializer):
     class Meta:

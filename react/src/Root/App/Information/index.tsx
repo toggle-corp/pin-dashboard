@@ -11,7 +11,7 @@ import { Base } from '#constants';
 import LandslidesSurveyed from './LandslidesSurveyed';
 import EarthquakeAffectedLandlessHouseholds from './EarthquakeAffectedLandlessHouseholds';
 import IntegratedSettlements from './IntegratedSettlements';
-import LandslidesRiskScore from './LandslidesRiskScore';
+// import LandslidesRiskScore from './LandslidesRiskScore';
 import GeohazardAffectedHouseholds from './GeohazardAffectedHouseholds';
 import LandPurchased from './LandPurchased';
 import TrancheUpdate from './TrancheUpdate';
@@ -55,11 +55,14 @@ class Information extends React.PureComponent<Props> {
 
         const {
             landslidesSurveyed,
-            landslidesRiskScore,
+            // landslidesRiskScore,
             geohazardAffected,
             landPurchased,
             totalHouseholds,
             peopleRelocated,
+            tranches,
+            integratedSettlements,
+            landlessHousehold,
         } = data;
 
         const landPurchasedData = this.getLandPurchasedData(landPurchased, totalHouseholds);
@@ -71,9 +74,11 @@ class Information extends React.PureComponent<Props> {
                     className={styles.landslidesSurveyed}
                 />
                 <IntegratedSettlements
+                    data={integratedSettlements}
                     className={styles.integratedSettlements}
                 />
                 <EarthquakeAffectedLandlessHouseholds
+                    data={landlessHousehold}
                     className={styles.earthquakeLandlessHouseholds}
                 />
                 <GeohazardAffectedHouseholds
@@ -82,6 +87,7 @@ class Information extends React.PureComponent<Props> {
                 />
                 <TrancheUpdate
                     className={styles.trancheUpdate}
+                    data={tranches}
                 />
                 <LandPurchased
                     className={styles.landPurchased}

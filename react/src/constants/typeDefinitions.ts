@@ -1,6 +1,14 @@
 export type GeoPoint = [number, number];
 export type GeoBounds = [number, number, number, number];
 
+export interface IntegratedSettlementMeta {
+    phase1?: number;
+    phase2?: number;
+    phase3?: number;
+    completed?: number;
+    total?: number;
+}
+
 export interface GeohazardAffected {
     eligible?: number;
     relocated?: number;
@@ -76,6 +84,18 @@ export interface GeoAttribute {
     centroid?: GeoPoint;
 }
 
+export interface Tranches {
+    first?: number;
+    second?: number;
+    third?: number;
+}
+
+export interface LandlessHousehold {
+    approved?: number;
+    relocated?: number;
+    total?: number;
+}
+
 export interface Base {
     geoAttribute: GeoAttribute;
 
@@ -85,6 +105,9 @@ export interface Base {
     landslidesRiskScore: LandslidesRiskScore;
     landslidesSurveyed: LandslidesSurveyed;
     peopleRelocated: PeopleRelocated;
+    tranches: Tranches;
+    integratedSettlements: IntegratedSettlementMeta;
+    landlessHousehold: LandlessHousehold;
 }
 
 export interface Metadata extends Base {

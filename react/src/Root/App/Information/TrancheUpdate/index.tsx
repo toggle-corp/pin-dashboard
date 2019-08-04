@@ -6,15 +6,19 @@ import TextOutput from '../../TextOutput';
 import Header from '../Header';
 import Heading from '../Heading';
 
+import { Tranches } from '#constants';
+
 import styles from './styles.scss';
 
 interface Props {
     className?: string;
-    // data?: LandslidesRiskScore;
+    data?: Tranches;
 }
 
+const emptyTranches: Tranches = {};
+
 class TrancheUpdate extends React.PureComponent<Props> {
-    private renderValue = (value: number) => (
+    private renderValue = (value: number | undefined) => (
         <Numeral
             value={value}
             precision={null}
@@ -25,7 +29,14 @@ class TrancheUpdate extends React.PureComponent<Props> {
     public render() {
         const {
             className,
+            data = emptyTranches,
         } = this.props;
+
+        const {
+            first,
+            second,
+            third,
+        } = data;
 
         return (
             <div className={_cs(className, styles.trancheUpdate)}>
@@ -38,15 +49,15 @@ class TrancheUpdate extends React.PureComponent<Props> {
                 <div className={styles.content}>
                     <TextOutput
                         label="First"
-                        value={this.renderValue(10)}
+                        value={this.renderValue(first)}
                     />
                     <TextOutput
                         label="Second"
-                        value={this.renderValue(14)}
+                        value={this.renderValue(second)}
                     />
                     <TextOutput
                         label="Third"
-                        value={this.renderValue(17)}
+                        value={this.renderValue(third)}
                     />
                 </div>
             </div>

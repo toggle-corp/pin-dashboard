@@ -19,6 +19,7 @@ from .models import (
     GeoSite,
     Household,
     RelocationSite,
+    LandlessHousehold,
 )
 
 from fieldsight.loader import Loader
@@ -84,16 +85,24 @@ class Metadata:
         self.ward = ward
         self.gs = GeoSite.objects
         self.hh = Household.objects
+        self.llhh = LandlessHousehold.objects
+        self.rs = RelocationSite.objects
 
         if self.ward:
             self.gs = self.gs.filter(ward=ward)
             self.hh = self.hh.filter(ward=ward)
+            self.rs = self.rs.filter(ward=ward)
+            self.llhh = self.llhh.filter(ward=ward)
         elif self.palika:
             self.gs = self.gs.filter(palika=palika)
             self.hh = self.hh.filter(palika=palika)
+            self.rs = self.rs.filter(palika=palika)
+            self.llhh = self.llhh.filter(palika=palika)
         elif self.district:
             self.gs = self.gs.filter(district=district)
             self.hh = self.hh.filter(district=district)
+            self.rs = self.rs.filter(district=district)
+            self.llhh = self.llhh.filter(district=district)
 
     def landslides_surveyed(self):
         return get_counts(
@@ -116,6 +125,47 @@ class Metadata:
             'eligible': hh.filter(eligibility__contains='Yes').count(),
             'relocated': hh.filter(result__contains='Relocated').count(),
             'total': hh.count(),
+        }
+
+    def tranches(self):
+        hh = self.hh
+
+        first_tranche = len(hh.filter(tranches=1))
+        second_tranche = len(hh.filter(tranches=2))
+        third_tranche = len(hh.filter(tranches=3))
+
+        return {
+            'first': first_tranche + second_tranche + third_tranche,
+            'second': second_tranche + third_tranche,
+            'third': third_tranche
+        }
+
+    def integrated_settlements(self):
+        rs = self.rs
+
+        phase1 = len(rs.filter(status='Phase 1 - Primary Plan Approved'))
+        phase2 = len(rs.filter(status='Phase 2 - DPR Approved'))
+        phase3 = len(rs.filter(status='Phase 3 - Implementation'))
+        completed = len(rs.filter(status='Completed'))
+
+        return {
+            'phase1': phase1,
+            'phase2': phase2,
+            'phase3': phase3,
+            'completed': completed,
+            'total': phase1 + phase2 + phase3 + completed,
+        }
+
+    def landless_households(self):
+        llhh = self.llhh
+
+        approved = len(llhh.filter(result='Approved to live in the existing place'))
+        relocated = len(llhh.filter(result='Relocated'))
+
+        return {
+            'approved': approved,
+            'relocated': relocated,
+            'total': approved + relocated,
         }
 
     def people_relocated(self):
@@ -165,21 +215,6 @@ class Metadata:
         hh = self.hh.filter(eligibility_source='Geohazard')
         hh = hh.filter(result__contains='Relocated')
         return hh.count()
-
-    def relocation_points(self):
-        filter_query = {'district': self.district}
-        if self.ward:
-            filter_query = {'ward': self.ward}
-        elif self.palika:
-            filter_query = {'palika': self.palika}
-        return [
-            RelocationPoint(hh)
-            for hh
-            in Household.objects.filter(
-                **filter_query,
-                geosite__isnull=False,
-            )
-        ]
 
     def cat2_points(self):
         filter_query = {'district': self.district}

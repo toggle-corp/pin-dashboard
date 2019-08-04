@@ -27,6 +27,8 @@ const styleProperties = {
 
     widthGeohazardAffectedHouseholdsChart: '96px',
     heightGeohazardAffectedHouseholdsChart: '96px',
+
+    heightRelocatedPerson: '64px',
 };
 
 export default styleProperties;
