@@ -65,7 +65,7 @@ interface Params {}
 
 const requests: { [key: string]: ClientAttributes<Props, Params> } = {
     metadaRequest: {
-        url: ({ props }) => `/metadata/district/${props.district && props.district.id}`,
+        url: ({ props }) => `/metadata/district/${props.district && props.district.id}/`,
         method: methods.GET,
         onMount: ({ props }) => !!props.district && !!props.district.id,
     },

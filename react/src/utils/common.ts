@@ -4,6 +4,7 @@ import {
     isList,
     isNotDefined,
     listToMap,
+    mapToMap,
 } from '@togglecorp/fujs';
 
 import {
@@ -14,6 +15,7 @@ import {
     RelocationSiteCodes,
     FeatureIdentifiers,
     FeatureFromIdentifier,
+    LineStringIdentifiers,
 } from '#constants';
 
 export const forEach = (obj: object, func: (key: string, val: unknown) => void) => {
@@ -127,14 +129,11 @@ export function getPlottableMapLayersFromRiskPoints(
         count += 1;
     });
 
-    // FIXME: use mapToMap later
-    const initialValue: FeatureFromIdentifier = {};
-    const featureFromIdentifier = Object.keys(featureIdentifier)
-        .reduce((acc, key) => {
-            const value = featureIdentifier[key];
-            acc[value] = key;
-            return acc;
-        }, initialValue);
+    const featureFromIdentifier: FeatureFromIdentifier = mapToMap(
+        featureIdentifier,
+        (_, v) => v,
+        (_, k) => String(k),
+    );
 
     const cat2PointsGeoJson = {
         type: 'FeatureCollection',
@@ -162,7 +161,7 @@ export function getPlottableMapLayersFromRiskPoints(
         ),
     };
 
-    const lineStringIdentifier = {};
+    const lineStringIdentifier: LineStringIdentifiers = {};
 
     const lineStringsGeoJson = {
         type: 'FeatureCollection',
