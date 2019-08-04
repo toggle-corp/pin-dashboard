@@ -132,3 +132,11 @@ export interface LineStringIdentifiers {
 export interface FeatureFromIdentifier {
     [key: number]: string;
 }
+
+export interface MapStateElement {
+    id?: number;
+    value?: {
+        dim?: boolean;
+        show?: boolean;
+    };
+}

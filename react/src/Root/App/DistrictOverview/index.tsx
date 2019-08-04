@@ -1,6 +1,6 @@
 import React from 'react';
 import memoize from 'memoize-one';
-import { _cs } from '@togglecorp/fujs';
+import { _cs, isNotDefined } from '@togglecorp/fujs';
 
 import MapSource from '#rscz/Map/MapSource';
 import MapLayer from '#rscz/Map/MapLayer';
@@ -15,8 +15,10 @@ import {
 
 import {
     wrapInArray,
+    concatArray,
     getGeoJsonFromGeoAttributeList,
     getPlottableMapLayersFromRiskPoints,
+    getNewMapStateOnRiskPointHoverChange,
 } from '#utils/common';
 
 import {
@@ -25,26 +27,15 @@ import {
     mapStyles,
     GeoAttribute,
     Base,
-    RelocationSite,
     RiskPoint,
-    FeatureIdentifiers,
-    FeatureFromIdentifier,
-    LineStringIdentifiers,
+    MapStateElement,
 } from '#constants';
 
-import Information from '../Information';
-import HoverDetails from '../HoverDetails';
-import RiskPointHoverDetails from '../RiskPointHoverDetails';
+import Information from '#components/Information';
+import HoverDetails from '#components/HoverDetails';
+import RiskPointHoverDetails from '#components/RiskPointHoverDetails';
 
 import styles from './styles.scss';
-
-interface MapStateElement {
-    id?: number;
-    value?: {
-        dim?: boolean;
-        show?: boolean;
-    };
-}
 
 interface State {
     hoveredRegionId?: number;
@@ -73,82 +64,6 @@ const requests: { [key: string]: ClientAttributes<Props, Params> } = {
 
 type MyProps = NewProps<Props, Params>;
 
-const getNewMapStateOnRiskPointHoverChange = (
-    mapState: MapStateElement[],
-    catPointList: RiskPoint[] = [],
-    id: number | undefined,
-    featureIdentifier: FeatureIdentifiers,
-    featureFromIdentifier: FeatureFromIdentifier,
-    lineStringIdentifier: LineStringIdentifiers,
-) => {
-    const newMapState: MapStateElement[] = [];
-    const geosite = id ? featureFromIdentifier[id] : undefined;
-
-    const setAsLight: {
-        [key: number]: boolean;
-    } = {};
-
-    catPointList.forEach((catPoint) => {
-        const shouldDim = id ? catPoint.geosite !== geosite : false;
-        const rs = catPoint.relocationSites;
-
-        let relocationSites: RelocationSite[] = [];
-        if (rs) {
-            relocationSites = rs;
-        }
-
-        if (!shouldDim) {
-            newMapState.push({
-                id: featureIdentifier[catPoint.geosite],
-                value: { dim: shouldDim },
-            });
-
-            setAsLight[featureIdentifier[catPoint.geosite]] = true;
-        }
-
-        if (shouldDim && !setAsLight[featureIdentifier[catPoint.geosite]]) {
-            newMapState.push({
-                id: featureIdentifier[catPoint.geosite],
-                value: { dim: shouldDim },
-            });
-        }
-
-        relocationSites
-            .filter(r => featureIdentifier[r.code])
-            .forEach((r) => {
-                if (!shouldDim) {
-                    newMapState.push({
-                        id: featureIdentifier[r.code],
-                        value: { dim: shouldDim },
-                    });
-                    newMapState.push({
-                        id: lineStringIdentifier[`${catPoint.geosite}:${r.code}`],
-                        value: { dim: shouldDim },
-                    });
-
-                    setAsLight[featureIdentifier[r.code]] = true;
-                    setAsLight[lineStringIdentifier[`${catPoint.geosite}:${r.code}`]] = true;
-                }
-
-                if (shouldDim && !setAsLight[featureIdentifier[r.code]]) {
-                    newMapState.push({
-                        id: featureIdentifier[r.code],
-                        value: { dim: shouldDim },
-                    });
-                }
-
-                if (shouldDim && !setAsLight[lineStringIdentifier[`${catPoint.geosite}:${r.code}`]]) {
-                    newMapState.push({
-                        id: lineStringIdentifier[`${catPoint.geosite}:${r.code}`],
-                        value: { dim: shouldDim },
-                    });
-                }
-            });
-    });
-
-    return newMapState;
-};
-
 class DistrictOverview extends React.PureComponent<MyProps, State> {
     public constructor(props: MyProps) {
         super(props);
@@ -158,17 +73,25 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         };
     }
 
+    // cat risk point, relocation point
     private featureIdentifier = {}
 
     private featureFromIdentifier = {}
 
     private lineStringIdentifier = {}
 
-    private getCatPointList = memoize((cat2PointList: RiskPoint[], cat3PointList: RiskPoint[]) => ([
-        ...cat2PointList,
-        ...cat3PointList,
-    ]))
+    // utils
 
+    private wrapInArray = memoize(wrapInArray);
+
+    // NOTE: memoize and generics don't go well
+    private concatArray = memoize((foo: RiskPoint[], bar: RiskPoint[]) => (
+        concatArray(foo, bar)
+    ))
+
+    // getters
+
+    // NOTE: can be re-used
     private getInformationDataForSelectedRegion = () => {
         const {
             requests: {
@@ -223,11 +146,100 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         return geoJson;
     })
 
-    private wrapInArray = memoize(wrapInArray);
-
     private getPlottableMapLayersFromRiskPoints = memoize(getPlottableMapLayersFromRiskPoints);
 
     private getGeoJsonFromGeoAttributeList = memoize(getGeoJsonFromGeoAttributeList);
+
+    private getNewMapStateForRiskPointHoverChange = (id: number) => {
+        const { mapState } = this.state;
+        const {
+            requests: {
+                metadaRequest: {
+                    response,
+                },
+            },
+        } = this.props;
+
+        // FIXME: if value is null, then return instead
+        const districtMetadata = (response as Metadata);
+        if (isNotDefined(districtMetadata)) {
+            return [];
+        }
+
+        const {
+            cat2Points = [],
+            cat3Points = [],
+        } = districtMetadata;
+
+        const catPointList: RiskPoint[] = this.concatArray(cat2Points, cat3Points);
+
+        const newMapState = getNewMapStateOnRiskPointHoverChange(
+            mapState,
+            catPointList,
+            id,
+            this.featureIdentifier,
+            this.featureFromIdentifier,
+            this.lineStringIdentifier,
+        );
+
+        return newMapState;
+    }
+
+    private handleHoverChange = (id: number) => {
+        this.setState({ hoveredRegionId: id });
+    }
+
+    private handleCat2PointHoverChange = (id: number) => {
+        const newMapState = this.getNewMapStateForRiskPointHoverChange(id);
+
+        this.setState({
+            hoveredCat2PointId: id,
+            mapState: newMapState,
+        });
+    }
+
+    private handleCat3PointHoverChange = (id: number) => {
+        const newMapState = this.getNewMapStateForRiskPointHoverChange(id);
+
+        this.setState({
+            hoveredCat3PointId: id,
+            mapState: newMapState,
+        });
+    }
+
+    private handleRelocationPointHoverChange = (id: number) => {
+        // console.warn(id);
+    }
+
+    private handleDoubleClick = (id: number) => {
+        const { onPalikaDoubleClick } = this.props;
+
+        const {
+            requests: {
+                metadaRequest: { response },
+            },
+        } = this.props;
+
+        const metadata = response as Metadata;
+        // FIXME: prepare district map in constants
+        const palikaData = metadata && metadata.regions.find(
+            region => region.geoAttribute.id === id,
+        );
+
+        if (!palikaData) {
+            return;
+        }
+
+        if (onPalikaDoubleClick) {
+            onPalikaDoubleClick(palikaData.geoAttribute);
+        }
+    }
+
+    private handleSelectionChange = (_: number[], id: number) => {
+        const { selectedRegionId } = this.state;
+        const newId = selectedRegionId === id ? undefined : id;
+        this.setState({ selectedRegionId: newId });
+    }
 
     private renderCatPointHoverDetail = () => {
         const {
@@ -317,93 +329,6 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                 landslidesSurveyed={landslidesSurveyed}
             />
         );
-    }
-
-    private handleHoverChange = (id: number) => {
-        this.setState({ hoveredRegionId: id });
-    }
-
-    private getNewMapStateForRiskPointHoverChange = (id: number) => {
-        const { mapState } = this.state;
-        const {
-            requests: {
-                metadaRequest: {
-                    response,
-                },
-            },
-        } = this.props;
-
-        // FIXME: if value is null, then return instead
-        const districtMetadata = (response as Metadata) || {};
-        const {
-            cat2Points = [],
-            cat3Points = [],
-        } = districtMetadata;
-
-        const catPointList = this.getCatPointList(cat2Points, cat3Points);
-
-        const newMapState = getNewMapStateOnRiskPointHoverChange(
-            mapState,
-            catPointList,
-            id,
-            this.featureIdentifier,
-            this.featureFromIdentifier,
-            this.lineStringIdentifier,
-        );
-
-        return newMapState;
-    }
-
-    private handleCat2PointHoverChange = (id: number) => {
-        const newMapState = this.getNewMapStateForRiskPointHoverChange(id);
-
-        this.setState({
-            hoveredCat2PointId: id,
-            mapState: newMapState,
-        });
-    }
-
-    private handleCat3PointHoverChange = (id: number) => {
-        const newMapState = this.getNewMapStateForRiskPointHoverChange(id);
-
-        this.setState({
-            hoveredCat3PointId: id,
-            mapState: newMapState,
-        });
-    }
-
-    private handleRelocationPointHoverChange = (id: number) => {
-        // console.warn(id);
-    }
-
-    private handleDoubleClick = (id: number) => {
-        const { onPalikaDoubleClick } = this.props;
-
-        const {
-            requests: {
-                metadaRequest: { response },
-            },
-        } = this.props;
-
-        const metadata = response as Metadata;
-        // FIXME: prepare district map in constants
-        const palikaData = metadata && metadata.regions.find(
-            region => region.geoAttribute.id === id,
-        );
-
-        if (!palikaData) {
-            return;
-        }
-
-        if (onPalikaDoubleClick) {
-            onPalikaDoubleClick(palikaData.geoAttribute);
-        }
-    }
-
-    private handleSelectionChange = (_: number[], id: number) => {
-        const { selectedRegionId } = this.state;
-        const newId = selectedRegionId === id ? undefined : id;
-        this.setState({ selectedRegionId: newId });
     }
 
     public render() {

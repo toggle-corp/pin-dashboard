@@ -29,9 +29,9 @@ import {
     Base,
 } from '#constants';
 
-import Information from '../Information';
-import HoverDetails from '../HoverDetails';
-import RiskPointHoverDetails from '../RiskPointHoverDetails';
+import Information from '#components/Information';
+import HoverDetails from '#components/HoverDetails';
+import RiskPointHoverDetails from '#components/RiskPointHoverDetails';
 
 import styles from './styles.scss';
 

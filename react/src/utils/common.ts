@@ -8,6 +8,7 @@ import {
 } from '@togglecorp/fujs';
 
 import {
+    Metadata,
     RiskPoint,
     RelocationPoint,
     RelocationSite,
@@ -16,6 +17,7 @@ import {
     FeatureIdentifiers,
     FeatureFromIdentifier,
     LineStringIdentifiers,
+    MapStateElement,
 } from '#constants';
 
 export const forEach = (obj: object, func: (key: string, val: unknown) => void) => {
@@ -56,44 +58,55 @@ export function wrapInArray<T>(item?: T) {
     return [item];
 }
 
-const getRelocationSiteFeatures = (
+export function concatArray<T>(foo: T[], bar: T[]): T[] {
+    return [
+        ...foo,
+        ...bar,
+    ];
+}
+
+function getRelocationSiteFeatures(
     relocationSiteList: RelocationSite[],
     featureIdentifier: FeatureIdentifiers,
-) => (
-    relocationSiteList
-        .filter(r => r.longitude && r.latitude)
-        .map(r => ({
-            // id: i,
-            id: featureIdentifier[r.code],
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [
-                    r.longitude,
-                    r.latitude,
-                ],
-            },
-        }))
-);
+) {
+    return (
+        relocationSiteList
+            .filter(r => r.longitude && r.latitude)
+            .map(r => ({
+                // id: i,
+                id: featureIdentifier[r.code],
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [
+                        r.longitude,
+                        r.latitude,
+                    ],
+                },
+            }))
+    );
+}
 
-const getCatPointFeatures = (
+function getCatPointFeatures(
     catPoints: RiskPoint[],
     featureIdentifier: FeatureIdentifiers,
-) => (
-    catPoints
-        .filter(cp => cp.longitude && cp.latitude)
-        .map(cp => ({
-            id: featureIdentifier[cp.geosite],
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: [
-                    cp.longitude,
-                    cp.latitude,
-                ],
-            },
-        }))
-);
+) {
+    return (
+        catPoints
+            .filter(cp => cp.longitude && cp.latitude)
+            .map(cp => ({
+                id: featureIdentifier[cp.geosite],
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [
+                        cp.longitude,
+                        cp.latitude,
+                    ],
+                },
+            }))
+    );
+}
 
 export function getPlottableMapLayersFromRiskPoints(
     cat2PointList: RiskPoint[] | undefined = [],
@@ -212,6 +225,133 @@ export function getPlottableMapLayersFromRiskPoints(
     };
 }
 
+export function getNewMapStateOnRiskPointHoverChange(
+    mapState: MapStateElement[],
+    catPointList: RiskPoint[] = [],
+    id: number | undefined,
+    featureIdentifier: FeatureIdentifiers,
+    featureFromIdentifier: FeatureFromIdentifier,
+    lineStringIdentifier: LineStringIdentifiers,
+) {
+    const newMapState: MapStateElement[] = [];
+    const geosite = id ? featureFromIdentifier[id] : undefined;
+
+    const setAsLight: {
+        [key: number]: boolean;
+    } = {};
+
+    catPointList.forEach((catPoint) => {
+        const shouldDim = id ? catPoint.geosite !== geosite : false;
+        const rs = catPoint.relocationSites;
+
+        let relocationSites: RelocationSite[] = [];
+        if (rs) {
+            relocationSites = rs;
+        }
+
+        if (!shouldDim) {
+            newMapState.push({
+                id: featureIdentifier[catPoint.geosite],
+                value: { dim: shouldDim },
+            });
+
+            setAsLight[featureIdentifier[catPoint.geosite]] = true;
+        }
+
+        if (shouldDim && !setAsLight[featureIdentifier[catPoint.geosite]]) {
+            newMapState.push({
+                id: featureIdentifier[catPoint.geosite],
+                value: { dim: shouldDim },
+            });
+        }
+
+        relocationSites
+            .filter(r => featureIdentifier[r.code])
+            .forEach((r) => {
+                if (!shouldDim) {
+                    newMapState.push({
+                        id: featureIdentifier[r.code],
+                        value: { dim: shouldDim },
+                    });
+                    newMapState.push({
+                        id: lineStringIdentifier[`${catPoint.geosite}:${r.code}`],
+                        value: { dim: shouldDim },
+                    });
+
+                    setAsLight[featureIdentifier[r.code]] = true;
+                    setAsLight[lineStringIdentifier[`${catPoint.geosite}:${r.code}`]] = true;
+                }
+
+                if (shouldDim && !setAsLight[featureIdentifier[r.code]]) {
+                    newMapState.push({
+                        id: featureIdentifier[r.code],
+                        value: { dim: shouldDim },
+                    });
+                }
+
+                if (shouldDim && !setAsLight[lineStringIdentifier[`${catPoint.geosite}:${r.code}`]]) {
+                    newMapState.push({
+                        id: lineStringIdentifier[`${catPoint.geosite}:${r.code}`],
+                        value: { dim: shouldDim },
+                    });
+                }
+            });
+    });
+
+    return newMapState;
+}
+
+
+// TODO: memoize this
+function getSubRegionsMap(metadata: Metadata | undefined) {
+    if (!metadata) {
+        return {};
+    }
+
+    const { regions } = metadata;
+    return listToMap(
+        regions,
+        region => region.geoAttribute.id,
+        region => region,
+    );
+}
+
+export function getSubRegion(metadata: Metadata | undefined, id: number) {
+    const subRegionMap = getSubRegionsMap(metadata);
+    return subRegionMap[id];
+}
+
+export function getInformationDataForSelectedRegion(
+    title: string,
+    metadata: Metadata | undefined,
+    selectedId: number | undefined,
+) {
+    if (!selectedId) {
+        return {
+            title,
+            metadata,
+        };
+    }
+
+    const subRegion = getSubRegion(metadata, selectedId);
+    if (!subRegion) {
+        return {};
+    }
+
+    const {
+        geoAttribute: {
+            name,
+        },
+    } = subRegion;
+
+    return ({
+        title: name,
+        metadata: subRegion,
+    });
+}
+
+
+// FIXME: remove this
 export function convertRiskPointToGeoJson(catPoints: RiskPoint[] | undefined = []) {
     const geojson = {
         type: 'FeatureCollection',
@@ -235,6 +375,7 @@ export function convertRiskPointToGeoJson(catPoints: RiskPoint[] | undefined = [
     return geojson;
 }
 
+// FIXME: remove this
 export function convertRelocationPointToGeoJson(
     relocationPointList: RelocationPoint[] | undefined = [],
 ) {
@@ -309,6 +450,7 @@ export function getGeoJsonFromGeoAttributeList(
     return geojson;
 }
 
+// FIXME: remove this
 export function getLineStringGeoJson(
     cat2PointList: RiskPoint[] = [],
     cat3PointList: RiskPoint[] = [],

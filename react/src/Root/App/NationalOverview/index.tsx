@@ -1,10 +1,6 @@
 import React from 'react';
 import memoize from 'memoize-one';
-import {
-    _cs,
-    isNotDefined,
-    listToMap,
-} from '@togglecorp/fujs';
+import { _cs } from '@togglecorp/fujs';
 import {
     createConnectedRequestCoordinator,
     createRequestClient,
@@ -24,9 +20,15 @@ import {
     GeoAttribute,
     Base,
 } from '#constants';
+import {
+    getGeoJsonFromGeoAttributeList,
+    getSubRegion,
+    wrapInArray,
+    getInformationDataForSelectedRegion,
+} from '#utils/common';
 
-import Information from '../Information';
-import HoverDetails from '../HoverDetails';
+import Information from '#components/Information';
+import HoverDetails from '#components/HoverDetails';
 
 import styles from './styles.scss';
 
@@ -73,38 +75,6 @@ interface State {
     metadata?: Metadata;
 }
 
-function wrapInArray<T>(item?: T) {
-    if (isNotDefined(item)) {
-        return [];
-    }
-    return [item];
-}
-
-// TODO: Move to commmon utils
-function getGeoJsonFromGeoAttributeList(geoAttributeList: GeoAttribute[]) {
-    const geojson = {
-        type: 'FeatureCollection',
-        features: geoAttributeList
-            .map(level => ({
-                id: level.id,
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [
-                        ...(level.centroid || []),
-                    ],
-                },
-                properties: {
-                    adminLevelId: level.id,
-                    title: level.name,
-                },
-            })),
-    };
-
-    return geojson;
-}
-
-
 class NationalOverview extends React.PureComponent<MyProps, State> {
     public constructor(props: MyProps) {
         super(props);
@@ -122,28 +92,21 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         });
     }
 
-    // FIXME: this is a common method
-    private getSubRegionsMap = memoize((metadata: Metadata | undefined) => {
-        if (!metadata) {
-            return {};
-        }
-
-        const { regions } = metadata;
-        return listToMap(
-            regions,
-            region => region.geoAttribute.id,
-            region => region,
-        );
-    })
-
-    private getSubRegion = (metadata: Metadata | undefined, id: number) => {
-        const subRegionMap = this.getSubRegionsMap(metadata);
-        return subRegionMap[id];
-    }
+    private wrapInArray = memoize(wrapInArray);
 
     private setCountryData = (metadata: Metadata) => {
         this.setState({ metadata });
     }
+
+    private getLabelGeoJson = memoize((metadata?: Metadata) => {
+        const { regions = [] } = metadata || {};
+        const geoAttributes = regions.map(
+            (r: Base) => r.geoAttribute,
+        );
+
+        const geoJson = getGeoJsonFromGeoAttributeList(geoAttributes);
+        return geoJson;
+    })
 
     private handleHoverChange = (id: number) => {
         this.setState({ hoveredId: id });
@@ -153,7 +116,7 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         const { onSubRegionDoubleClick } = this.props;
         const { metadata } = this.state;
 
-        const subRegion = this.getSubRegion(metadata, id);
+        const subRegion = getSubRegion(metadata, id);
         if (!subRegion) {
             return;
         }
@@ -171,8 +134,6 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         this.setState({ selectedId: newId });
     }
 
-    private wrapInArray = memoize(wrapInArray);
-
     private renderHoverDetail = () => {
         const {
             hoveredId,
@@ -183,7 +144,7 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
             return null;
         }
 
-        const subRegion = this.getSubRegion(metadata, hoveredId);
+        const subRegion = getSubRegion(metadata, hoveredId);
         if (!subRegion) {
             return null;
         }
@@ -200,77 +161,6 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
                 name={name}
                 landslidesSurveyed={landslidesSurveyed}
             />
-        );
-    }
-
-    private getInformationDataForSelectedRegion = (
-        title: string,
-        metadata: Metadata | undefined,
-        selectedId: number | undefined,
-    ) => {
-        if (!selectedId) {
-            return {
-                title,
-                metadata,
-            };
-        }
-
-        const subRegion = this.getSubRegion(metadata, selectedId);
-        if (!subRegion) {
-            return {};
-        }
-
-        const {
-            geoAttribute: {
-                name,
-            },
-        } = subRegion;
-
-        return ({
-            title: name,
-            metadata: subRegion,
-        });
-    }
-
-    private getLabelGeoJson = memoize((metadata?: Metadata) => {
-        const { regions = [] } = metadata || {};
-        const geoAttributes = regions.map(
-            (r: Base) => r.geoAttribute,
-        );
-
-        const geoJson = getGeoJsonFromGeoAttributeList(geoAttributes);
-        return geoJson;
-    })
-
-    private renderLegend = () => {
-        const mostAffectedColor = '#0010A1';
-        const affectedColor = '#3656f6';
-
-        return (
-            <div className={styles.legend}>
-                <div className={styles.legendItem}>
-                    <div
-                        style={{
-                            backgroundColor: affectedColor,
-                        }}
-                        className={styles.attr}
-                    />
-                    <div className={styles.label}>
-                        Less affected by earthquake
-                    </div>
-                </div>
-                <div className={styles.legendItem}>
-                    <div
-                        style={{
-                            backgroundColor: mostAffectedColor,
-                        }}
-                        className={styles.attr}
-                    />
-                    <div className={styles.label}>
-                        Most affected by earthquake
-                    </div>
-                </div>
-            </div>
         );
     }
 
@@ -298,18 +188,43 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         const {
             title,
             metadata,
-        } = this.getInformationDataForSelectedRegion(name, originalMetadata, selectedId);
+        } = getInformationDataForSelectedRegion(name, originalMetadata, selectedId);
 
         const labelGeoJson = this.getLabelGeoJson(originalMetadata);
         const region = 'national';
         const subRegion = 'district';
+        const mostAffectedColor = '#0010A1';
+        const affectedColor = '#3656f6';
 
         return (
             <div className={_cs(className, styles.overview)}>
                 <div className={styles.hoverDetails}>
                     { this.renderHoverDetail() }
                 </div>
-                { this.renderLegend() }
+                <div className={styles.legend}>
+                    <div className={styles.legendItem}>
+                        <div
+                            style={{
+                                backgroundColor: affectedColor,
+                            }}
+                            className={styles.attr}
+                        />
+                        <div className={styles.label}>
+                            Less affected by earthquake
+                        </div>
+                    </div>
+                    <div className={styles.legendItem}>
+                        <div
+                            style={{
+                                backgroundColor: mostAffectedColor,
+                            }}
+                            className={styles.attr}
+                        />
+                        <div className={styles.label}>
+                            Most affected by earthquake
+                        </div>
+                    </div>
+                </div>
                 <Information
                     className={styles.information}
                     data={metadata}
