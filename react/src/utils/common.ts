@@ -100,7 +100,7 @@ export function getPlottableMapLayersFromRiskPoints(
     const catPointList = [
         ...cat2PointList,
         ...cat3PointList,
-    ] as RiskPoint[];
+    ];
 
     const relocationSiteCodes: RelocationSiteCodes = {};
     const relocationSiteList = catPointList.map(

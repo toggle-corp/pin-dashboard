@@ -81,7 +81,7 @@ const getNewMapStateOnRiskPointHoverChange = (
     featureFromIdentifier: FeatureFromIdentifier,
     lineStringIdentifier: LineStringIdentifiers,
 ) => {
-    const newMapState = [] as MapStateElement[];
+    const newMapState: MapStateElement[] = [];
     const geosite = id ? featureFromIdentifier[id] : undefined;
 
     const setAsLight: {
@@ -92,7 +92,7 @@ const getNewMapStateOnRiskPointHoverChange = (
         const shouldDim = id ? catPoint.geosite !== geosite : false;
         const rs = catPoint.relocationSites;
 
-        let relocationSites = [] as RelocationSite[];
+        let relocationSites: RelocationSite[] = [];
         if (rs) {
             relocationSites = rs;
         }
@@ -333,7 +333,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             },
         } = this.props;
 
-        // FIXME
+        // FIXME: if value is null, then return instead
         const districtMetadata = (response as Metadata) || {};
         const {
             cat2Points = [],

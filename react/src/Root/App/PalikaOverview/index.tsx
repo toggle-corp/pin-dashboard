@@ -270,6 +270,7 @@ class PalikaOverview extends React.PureComponent<MyProps, State> {
             ];
         }
 
+        // FIXME: handle null condition
         const palikaMetadata = response as Metadata || {};
 
         const {
