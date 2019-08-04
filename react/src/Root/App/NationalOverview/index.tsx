@@ -42,7 +42,7 @@ interface Params {
 }
 
 const requestOptions: { [key: string]: ClientAttributes<Props, Params> } = {
-    metadaRequest: {
+    metadataRequest: {
         url: '/metadata/country/',
         method: methods.GET,
         onMount: true,
@@ -117,7 +117,7 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
             requests,
         } = this.props;
 
-        requests.metadaRequest.setDefaultParams({
+        requests.metadataRequest.setDefaultParams({
             setCountryData: this.setCountryData,
         });
     }
@@ -278,7 +278,7 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         const {
             className,
             requests: {
-                metadaRequest: {
+                metadataRequest: {
                     pending: pendingMetadataRequest,
                 },
             },
@@ -301,10 +301,11 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         } = this.getInformationDataForSelectedRegion(name, originalMetadata, selectedId);
 
         const labelGeoJson = this.getLabelGeoJson(originalMetadata);
+        const region = 'national';
         const subRegion = 'district';
 
         return (
-            <div className={_cs(className, styles.nationalOverview)}>
+            <div className={_cs(className, styles.overview)}>
                 <div className={styles.hoverDetails}>
                     { this.renderHoverDetail() }
                 </div>
@@ -316,7 +317,7 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
                     pending={pendingMetadataRequest}
                 />
                 <MapSource
-                    sourceKey={`national-source-for-${subRegion}`}
+                    sourceKey={`${region}-source-for-${subRegion}`}
                     url={mapSources.nepal.url}
                     bounds={bbox}
                 >
@@ -342,11 +343,11 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
                     />
                 </MapSource>
                 <MapSource
-                    sourceKey="district-label"
+                    sourceKey={`${subRegion}-label`}
                     geoJson={labelGeoJson}
                 >
                     <MapLayer
-                        layerKey="district-label"
+                        layerKey={`${subRegion}-label`}
                         type="symbol"
                         property="adminLevelId"
                         paint={mapStyles.districtLabel.paint}

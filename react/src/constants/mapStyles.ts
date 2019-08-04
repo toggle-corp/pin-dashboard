@@ -1,3 +1,10 @@
+const labelSize = 14;
+const labelFont = ['Source Sans Pro Regular'];
+const labelColor = '#666';
+const labelHaloColor = 'rgba(255, 255, 255, 0.95)';
+const labelHaloWidth = 1.5;
+const labelHaloBlur = 1;
+
 export default {
     district: {
         outline: {
@@ -17,15 +24,15 @@ export default {
     },
     districtLabel: {
         paint: {
-            'text-color': 'rgba(0, 0, 0, 0.4)',
-            'text-halo-color': 'rgba(255, 255, 255, 0.5)',
-            'text-halo-width': 2,
+            'text-color': labelColor,
+            'text-halo-color': labelHaloColor,
+            'text-halo-width': labelHaloWidth,
+            'text-halo-blur': labelHaloBlur,
         },
         layout: {
-            visibility: 'visible',
-            'text-font': ['Raleway Black'],
+            'text-font': labelFont,
+            'text-size': labelSize,
             'text-field': ['get', 'title'],
-            'text-size': 12,
             'text-justify': 'center',
             'text-anchor': 'center',
         },
@@ -46,15 +53,15 @@ export default {
     },
     palikaLabel: {
         paint: {
-            'text-color': 'rgba(0, 0, 0, 0.4)',
-            'text-halo-color': 'rgba(255, 255, 255, 0.5)',
-            'text-halo-width': 2,
+            'text-color': labelColor,
+            'text-halo-color': labelHaloColor,
+            'text-halo-width': labelHaloWidth,
+            'text-halo-blur': labelHaloBlur,
         },
         layout: {
-            visibility: 'visible',
-            'text-font': ['Raleway Black'],
+            'text-font': labelFont,
+            'text-size': labelSize,
             'text-field': ['get', 'title'],
-            'text-size': 13,
             'text-justify': 'center',
             'text-anchor': 'center',
         },
@@ -75,15 +82,15 @@ export default {
     },
     wardLabel: {
         paint: {
-            'text-color': 'rgba(0, 0, 0, 0.4)',
-            'text-halo-color': 'rgba(255, 255, 255, 0.5)',
-            'text-halo-width': 2,
+            'text-color': labelColor,
+            'text-halo-color': labelHaloColor,
+            'text-halo-width': labelHaloWidth,
+            'text-halo-blur': labelHaloBlur,
         },
         layout: {
-            visibility: 'visible',
-            'text-font': ['Raleway Black'],
+            'text-font': labelFont,
+            'text-size': labelSize,
             'text-field': ['get', 'title'],
-            'text-size': 17,
             'text-justify': 'center',
             'text-anchor': 'center',
         },
