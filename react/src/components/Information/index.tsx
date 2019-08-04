@@ -42,7 +42,9 @@ class Information extends React.PureComponent<Props> {
 
         if (pending) {
             return (
-                <LoadingAnimation />
+                <LoadingAnimation
+                    message="Loading Data"
+                />
             );
         }
         if (!data) {

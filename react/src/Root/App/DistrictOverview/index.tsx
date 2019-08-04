@@ -1,6 +1,6 @@
 import React from 'react';
 import memoize from 'memoize-one';
-import { _cs, isNotDefined } from '@togglecorp/fujs';
+import { _cs, isDefined, isNotDefined } from '@togglecorp/fujs';
 
 import MapSource from '#rscz/Map/MapSource';
 import MapLayer from '#rscz/Map/MapLayer';
@@ -19,6 +19,9 @@ import {
     getGeoJsonFromGeoAttributeList,
     getPlottableMapLayersFromRiskPoints,
     getNewMapStateOnRiskPointHoverChange,
+    getNewMapStateOnRelocationHoverChange,
+    getInformationDataForSelectedRegion,
+    getSubRegion,
 } from '#utils/common';
 
 import {
@@ -40,25 +43,42 @@ import styles from './styles.scss';
 interface State {
     hoveredRegionId?: number;
     selectedRegionId?: number;
+
     hoveredCat2PointId?: number;
     hoveredCat3PointId?: number;
+    hoveredISRelocationPointId?: number;
+    hoveredPLRelocationPointId?: number;
+
     mapState: MapStateElement[];
+
+    metadata?: Metadata;
 }
 
 interface Props {
     className?: string;
-    district?: GeoAttribute;
+    region?: GeoAttribute;
     onBackButtonClick?: () => void;
-    onPalikaDoubleClick?: (geoAttribute: GeoAttribute) => void;
+    onSubRegionDoubleClick?: (geoAttribute: GeoAttribute) => void;
 }
 
-interface Params {}
+interface Params {
+    setRegionMetadata: (response: Metadata) => void;
+}
 
-const requests: { [key: string]: ClientAttributes<Props, Params> } = {
-    metadaRequest: {
-        url: ({ props }) => `/metadata/district/${props.district && props.district.id}/`,
+const regionLevel = 'district';
+const subRegionLevel = 'palika';
+
+const requestOptions: { [key: string]: ClientAttributes<Props, Params> } = {
+    metadataRequest: {
+        url: ({ props }) => `/metadata/district/${props.region && props.region.id}/`,
         method: methods.GET,
-        onMount: ({ props }) => !!props.district && !!props.district.id,
+        onMount: ({ props }) => !!props.region && !!props.region.id,
+        onSuccess: (val) => {
+            const { params, response } = val;
+            if (params && params.setRegionMetadata) {
+                params.setRegionMetadata(response as Metadata);
+            }
+        },
     },
 };
 
@@ -71,16 +91,20 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         this.state = {
             mapState: [],
         };
+
+        const {
+            requests,
+        } = this.props;
+        requests.metadataRequest.setDefaultParams({
+            setRegionMetadata: this.setRegionMetadata,
+        });
     }
 
-    // cat risk point, relocation point
     private featureIdentifier = {}
 
     private featureFromIdentifier = {}
 
     private lineStringIdentifier = {}
-
-    // utils
 
     private wrapInArray = memoize(wrapInArray);
 
@@ -89,54 +113,12 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         concatArray(foo, bar)
     ))
 
-    // getters
-
-    // NOTE: can be re-used
-    private getInformationDataForSelectedRegion = () => {
-        const {
-            requests: {
-                metadaRequest: { response },
-            },
-            district,
-        } = this.props;
-
-        if (!district) {
-            return {
-                title: undefined,
-                metadata: undefined,
-            };
-        }
-
-        const metadata = response as Metadata;
-
-        const { selectedRegionId } = this.state;
-
-        if (!selectedRegionId) {
-            return {
-                title: district.name,
-                metadata,
-            };
-        }
-
-        const palikaData = metadata && metadata.regions
-            ? metadata.regions.find(region => region.geoAttribute.id === selectedRegionId)
-            : undefined;
-
-        if (!palikaData) {
-            return {
-                title: undefined,
-                metadata: undefined,
-            };
-        }
-
-        return ({
-            title: palikaData.geoAttribute.name,
-            metadata: palikaData,
-        });
+    private setRegionMetadata = (metadata: Metadata) => {
+        this.setState({ metadata });
     }
 
+    // FIXME: reusable
     private getLabelGeoJson = memoize((metadata: Metadata | undefined) => {
-        // FIXME
         const { regions = [] } = metadata || {};
         const geoAttributes = regions.map(
             (r: Base) => r.geoAttribute,
@@ -151,25 +133,19 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
     private getGeoJsonFromGeoAttributeList = memoize(getGeoJsonFromGeoAttributeList);
 
     private getNewMapStateForRiskPointHoverChange = (id: number) => {
-        const { mapState } = this.state;
         const {
-            requests: {
-                metadaRequest: {
-                    response,
-                },
-            },
-        } = this.props;
+            metadata,
+            mapState,
+        } = this.state;
 
-        // FIXME: if value is null, then return instead
-        const districtMetadata = (response as Metadata);
-        if (isNotDefined(districtMetadata)) {
+        if (isNotDefined(metadata)) {
             return [];
         }
 
         const {
             cat2Points = [],
             cat3Points = [],
-        } = districtMetadata;
+        } = metadata;
 
         const catPointList: RiskPoint[] = this.concatArray(cat2Points, cat3Points);
 
@@ -185,8 +161,33 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         return newMapState;
     }
 
-    private handleHoverChange = (id: number) => {
-        this.setState({ hoveredRegionId: id });
+    private getNewMapStateForRelocationPointHoverChange = (id: number) => {
+        const {
+            metadata,
+            mapState,
+        } = this.state;
+
+        if (isNotDefined(metadata)) {
+            return [];
+        }
+
+        const {
+            cat2Points = [],
+            cat3Points = [],
+        } = metadata;
+
+        const catPointList: RiskPoint[] = this.concatArray(cat2Points, cat3Points);
+
+        const newMapState = getNewMapStateOnRelocationHoverChange(
+            mapState,
+            catPointList,
+            id,
+            this.featureIdentifier,
+            this.featureFromIdentifier,
+            this.lineStringIdentifier,
+        );
+
+        return newMapState;
     }
 
     private handleCat2PointHoverChange = (id: number) => {
@@ -207,31 +208,41 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         });
     }
 
-    private handleRelocationPointHoverChange = (id: number) => {
-        // console.warn(id);
+    private handleISRelocationPointHoverChange = (id: number) => {
+        const newMapState = this.getNewMapStateForRelocationPointHoverChange(id);
+
+        this.setState({
+            hoveredISRelocationPointId: id,
+            mapState: newMapState,
+        });
+    }
+
+    private handlePLRelocationPointHoverChange = (id: number) => {
+        const newMapState = this.getNewMapStateForRelocationPointHoverChange(id);
+
+        this.setState({
+            hoveredPLRelocationPointId: id,
+            mapState: newMapState,
+        });
+    }
+
+    private handleHoverChange = (id: number) => {
+        this.setState({ hoveredRegionId: id });
     }
 
     private handleDoubleClick = (id: number) => {
-        const { onPalikaDoubleClick } = this.props;
+        const { onSubRegionDoubleClick } = this.props;
 
-        const {
-            requests: {
-                metadaRequest: { response },
-            },
-        } = this.props;
-
-        const metadata = response as Metadata;
-        // FIXME: prepare district map in constants
-        const palikaData = metadata && metadata.regions.find(
-            region => region.geoAttribute.id === id,
-        );
-
-        if (!palikaData) {
+        const { metadata } = this.state;
+        const subRegion = getSubRegion(metadata, id);
+        if (!subRegion) {
             return;
         }
 
-        if (onPalikaDoubleClick) {
-            onPalikaDoubleClick(palikaData.geoAttribute);
+        const { geoAttribute } = subRegion;
+
+        if (onSubRegionDoubleClick) {
+            onSubRegionDoubleClick(geoAttribute);
         }
     }
 
@@ -243,21 +254,18 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
     private renderCatPointHoverDetail = () => {
         const {
-            requests: {
-                metadaRequest: { response },
-            },
-            district = {
+            region = {
                 name: 'Unknown',
             },
         } = this.props;
 
         const {
+            metadata,
             hoveredCat2PointId,
             hoveredCat3PointId,
         } = this.state;
 
-        const metadata = response as Metadata;
-        if (!metadata) {
+        if (isNotDefined(metadata)) {
             return null;
         }
 
@@ -266,20 +274,20 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             cat3Points = [],
         } = metadata;
 
-        if (hoveredCat3PointId) {
+        if (isDefined(hoveredCat3PointId)) {
             return (
                 <RiskPointHoverDetails
-                    title={`${district.name} / Category 3`}
+                    title={`${region.name} / Category 3`}
                     point={cat3Points[hoveredCat3PointId]}
                     type="cat3"
                 />
             );
         }
 
-        if (hoveredCat2PointId) {
+        if (isDefined(hoveredCat2PointId)) {
             return (
                 <RiskPointHoverDetails
-                    title={`${district.name} / Category 2`}
+                    title={`${region.name} / Category 2`}
                     point={cat2Points[hoveredCat2PointId]}
                     type="cat2"
                 />
@@ -291,41 +299,39 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
     private renderHoverDetail = () => {
         const {
-            requests: {
-                metadaRequest: { response },
-            },
-        } = this.props;
-
-        const {
             hoveredRegionId,
             hoveredCat2PointId,
             hoveredCat3PointId,
+            hoveredISRelocationPointId,
+            hoveredPLRelocationPointId,
+            metadata,
         } = this.state;
 
-        if (!hoveredRegionId || hoveredCat2PointId || hoveredCat3PointId) {
+        if (
+            isNotDefined(hoveredRegionId)
+            || isDefined(hoveredCat2PointId)
+            || isDefined(hoveredCat3PointId)
+            || isDefined(hoveredISRelocationPointId)
+            || isDefined(hoveredPLRelocationPointId)
+        ) {
             return null;
         }
 
-        // FIXME: prepare district map in constants
-        const metadata = response as Metadata;
-        const palikaData = metadata && metadata.regions.find(
-            region => region.geoAttribute.id === hoveredRegionId,
-        );
-
-        if (!palikaData) {
+        const subRegion = getSubRegion(metadata, hoveredRegionId);
+        if (!subRegion) {
             return null;
         }
 
         const {
             landslidesSurveyed,
             geoAttribute: {
-                name: palikaName,
+                name,
             },
-        } = palikaData;
+        } = subRegion;
 
         return (
             <HoverDetails
-                name={palikaName}
+                name={name}
                 landslidesSurveyed={landslidesSurveyed}
             />
         );
@@ -335,41 +341,47 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         const {
             className,
             requests: {
-                metadaRequest: {
+                metadataRequest: {
                     pending: pendingMetadataRequest,
-                    response,
                 },
             },
             onBackButtonClick,
-            district,
+            region,
         } = this.props;
+
+        if (!region) {
+            return null;
+        }
 
         const {
             selectedRegionId,
             hoveredRegionId,
             mapState,
+            metadata: originalMetadata,
         } = this.state;
+
+        const {
+            id,
+            name,
+            bbox,
+        } = region;
+
+        // FIXME: memoize this
+        const filter = [
+            '==',
+            ['get', regionLevel],
+            id,
+        ];
 
         const {
             title,
             metadata,
-        } = this.getInformationDataForSelectedRegion();
-
-        let filter;
-        if (district) {
-            filter = [
-                '==',
-                ['get', 'district'],
-                district.id,
-            ];
-        }
-
-        const districtMetadata = (response as Metadata) || {};
+        } = getInformationDataForSelectedRegion(name, originalMetadata, selectedRegionId);
 
         const {
-            cat2Points,
-            cat3Points,
-        } = districtMetadata;
+            cat2Points = [],
+            cat3Points = [],
+        } = originalMetadata || {};
 
         const {
             featureFromIdentifier,
@@ -386,10 +398,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         this.featureFromIdentifier = featureFromIdentifier;
         this.lineStringIdentifier = lineStringIdentifier;
 
-        const labelGeoJson = this.getLabelGeoJson(districtMetadata);
+        const labelGeoJson = this.getLabelGeoJson(originalMetadata);
 
         return (
-            <div className={_cs(className, styles.districtOverview)}>
+            <div className={_cs(className, styles.overview)}>
                 <div className={styles.hoverDetails}>
                     {this.renderHoverDetail()}
                     {this.renderCatPointHoverDetail()}
@@ -403,46 +415,46 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     onBackButtonClick={onBackButtonClick}
                 />
                 <MapSource
-                    sourceKey="district-geo"
+                    sourceKey={`${regionLevel}-source-for-${subRegionLevel}`}
                     url={mapSources.nepal.url}
-                    bounds={district ? district.bbox : undefined}
+                    bounds={bbox}
                 >
                     <MapLayer
-                        layerKey="palika-fill"
+                        layerKey={`${subRegionLevel}-fill`}
                         type="fill"
-                        sourceLayer={mapSources.nepal.layers.palika}
-                        paint={mapStyles.palika.fill}
+                        sourceLayer={mapSources.nepal.layers[subRegionLevel]}
+                        paint={mapStyles[subRegionLevel].fill}
                         filter={filter}
-                        enableHover
+                        enableHover={!pendingMetadataRequest}
+                        enableSelection={!pendingMetadataRequest}
                         hoveredId={hoveredRegionId}
                         onHoverChange={this.handleHoverChange}
                         onDoubleClick={this.handleDoubleClick}
-                        enableSelection
                         selectedIds={this.wrapInArray(selectedRegionId)}
                         onSelectionChange={this.handleSelectionChange}
                     />
                     <MapLayer
-                        layerKey="palika-outline"
                         type="line"
-                        sourceLayer={mapSources.nepal.layers.palika}
-                        paint={mapStyles.palika.outline}
+                        layerKey={`${subRegionLevel}-outline`}
+                        sourceLayer={mapSources.nepal.layers[subRegionLevel]}
+                        paint={mapStyles[subRegionLevel].outline}
                         filter={filter}
                     />
                 </MapSource>
                 <MapSource
-                    sourceKey="palika-label"
+                    sourceKey={`${subRegionLevel}-label`}
                     geoJson={labelGeoJson}
                 >
                     <MapLayer
-                        layerKey="palika-label"
+                        layerKey={`${subRegionLevel}-label`}
                         type="symbol"
                         property="adminLevelId"
-                        paint={mapStyles.palikaLabel.paint}
-                        layout={mapStyles.palikaLabel.layout}
+                        paint={mapStyles[subRegionLevel].label.paint}
+                        layout={mapStyles[subRegionLevel].label.layout}
                     />
                 </MapSource>
                 <MapSource
-                    sourceKey="district-line-string"
+                    sourceKey={`${subRegionLevel}-line-string`}
                     geoJson={lineStringsGeoJson}
                 >
                     <MapLayer
@@ -454,12 +466,12 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     />
                 </MapSource>
                 <MapSource
-                    sourceKey="district-cat2-points"
+                    sourceKey={`${subRegionLevel}-cat2-points`}
                     geoJson={cat2PointsGeoJson}
                 >
                     <MapLayer
                         mapState={mapState}
-                        enableHover
+                        enableHover={!pendingMetadataRequest}
                         onHoverChange={this.handleCat2PointHoverChange}
                         layerKey="cat2-points-circle"
                         type="circle"
@@ -467,12 +479,12 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     />
                 </MapSource>
                 <MapSource
-                    sourceKey="district-cat3-points"
+                    sourceKey={`${subRegionLevel}-cat3-points`}
                     geoJson={cat3PointsGeoJson}
                 >
                     <MapLayer
                         mapState={mapState}
-                        enableHover
+                        enableHover={!pendingMetadataRequest}
                         onHoverChange={this.handleCat3PointHoverChange}
                         layerKey="cat3-points-circle"
                         type="circle"
@@ -480,12 +492,12 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     />
                 </MapSource>
                 <MapSource
-                    sourceKey="district-pl-relocation-points"
+                    sourceKey={`${subRegionLevel}-pl-relocation-points`}
                     geoJson={privateLandRelocationPointsGeoJson}
                 >
                     <MapLayer
-                        enableHover
-                        onHoverChange={this.handleRelocationPointHoverChange}
+                        enableHover={!pendingMetadataRequest}
+                        onHoverChange={this.handleISRelocationPointHoverChange}
                         mapState={mapState}
                         layerKey="relocation-points-circle"
                         type="circle"
@@ -493,10 +505,12 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     />
                 </MapSource>
                 <MapSource
-                    sourceKey="district-is-relocation-points"
+                    sourceKey={`${subRegionLevel}-is-relocation-points`}
                     geoJson={integratedSettelementRelocationPointsGeoJson}
                 >
                     <MapLayer
+                        enableHover={!pendingMetadataRequest}
+                        onHoverChange={this.handlePLRelocationPointHoverChange}
                         mapState={mapState}
                         layerKey="relocation-points-diamond"
                         type="symbol"
@@ -510,7 +524,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 }
 
 export default createConnectedRequestCoordinator<Props>()(
-    createRequestClient(requests)(
+    createRequestClient(requestOptions)(
         DistrictOverview,
     ),
 );

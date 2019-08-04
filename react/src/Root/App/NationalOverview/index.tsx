@@ -40,8 +40,13 @@ interface Props {
 }
 
 interface Params {
-    setCountryData: (response: Metadata) => void;
+    setRegionMetadata: (response: Metadata) => void;
 }
+
+const regionLevel = 'country';
+const subRegionLevel = 'district';
+const mostAffectedColor = '#0010A1';
+const affectedColor = '#3656f6';
 
 const requestOptions: { [key: string]: ClientAttributes<Props, Params> } = {
     metadataRequest: {
@@ -50,15 +55,10 @@ const requestOptions: { [key: string]: ClientAttributes<Props, Params> } = {
         onMount: true,
         onSuccess: (val) => {
             const { params, response } = val;
-            if (params && params.setCountryData) {
-                params.setCountryData(response as Metadata);
+            if (params && params.setRegionMetadata) {
+                params.setRegionMetadata(response as Metadata);
             }
         },
-        /*
-        extras: {
-            schemaName: 'alertResponse',
-        },
-        */
     },
 };
 
@@ -75,7 +75,7 @@ interface State {
     metadata?: Metadata;
 }
 
-class NationalOverview extends React.PureComponent<MyProps, State> {
+class CountryOverview extends React.PureComponent<MyProps, State> {
     public constructor(props: MyProps) {
         super(props);
 
@@ -86,19 +86,19 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         const {
             requests,
         } = this.props;
-
         requests.metadataRequest.setDefaultParams({
-            setCountryData: this.setCountryData,
+            setRegionMetadata: this.setRegionMetadata,
         });
     }
 
     private wrapInArray = memoize(wrapInArray);
 
-    private setCountryData = (metadata: Metadata) => {
+    private setRegionMetadata = (metadata: Metadata) => {
         this.setState({ metadata });
     }
 
-    private getLabelGeoJson = memoize((metadata?: Metadata) => {
+    // FIXME: reusable
+    private getLabelGeoJson = memoize((metadata: Metadata | undefined) => {
         const { regions = [] } = metadata || {};
         const geoAttributes = regions.map(
             (r: Base) => r.geoAttribute,
@@ -191,10 +191,6 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
         } = getInformationDataForSelectedRegion(name, originalMetadata, selectedId);
 
         const labelGeoJson = this.getLabelGeoJson(originalMetadata);
-        const region = 'national';
-        const subRegion = 'district';
-        const mostAffectedColor = '#0010A1';
-        const affectedColor = '#3656f6';
 
         return (
             <div className={_cs(className, styles.overview)}>
@@ -232,41 +228,41 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
                     pending={pendingMetadataRequest}
                 />
                 <MapSource
-                    sourceKey={`${region}-source-for-${subRegion}`}
+                    sourceKey={`${regionLevel}-source-for-${subRegionLevel}`}
                     url={mapSources.nepal.url}
                     bounds={bbox}
                 >
                     <MapLayer
-                        layerKey={`${subRegion}-fill`}
                         type="fill"
-                        sourceLayer={mapSources.nepal.layers[subRegion]}
-                        paint={mapStyles[subRegion].fill}
+                        enableHover={!pendingMetadataRequest}
+                        enableSelection={!pendingMetadataRequest}
+                        layerKey={`${subRegionLevel}-fill`}
+                        sourceLayer={mapSources.nepal.layers[subRegionLevel]}
+                        paint={mapStyles[subRegionLevel].fill}
                         mapState={mapState}
-                        enableHover
                         hoveredId={hoveredId}
                         onHoverChange={this.handleHoverChange}
                         onDoubleClick={this.handleDoubleClick}
-                        enableSelection
                         selectedIds={this.wrapInArray(selectedId)}
                         onSelectionChange={this.handleSelectionChange}
                     />
                     <MapLayer
-                        layerKey={`${subRegion}-outline`}
                         type="line"
-                        sourceLayer={mapSources.nepal.layers[subRegion]}
-                        paint={mapStyles[subRegion].outline}
+                        layerKey={`${subRegionLevel}-outline`}
+                        sourceLayer={mapSources.nepal.layers[subRegionLevel]}
+                        paint={mapStyles[subRegionLevel].outline}
                     />
                 </MapSource>
                 <MapSource
-                    sourceKey={`${subRegion}-label`}
+                    sourceKey={`${subRegionLevel}-label`}
                     geoJson={labelGeoJson}
                 >
                     <MapLayer
-                        layerKey={`${subRegion}-label`}
+                        layerKey={`${subRegionLevel}-label`}
                         type="symbol"
                         property="adminLevelId"
-                        paint={mapStyles.districtLabel.paint}
-                        layout={mapStyles.districtLabel.layout}
+                        paint={mapStyles[subRegionLevel].label.paint}
+                        layout={mapStyles[subRegionLevel].label.layout}
                     />
                 </MapSource>
             </div>
@@ -276,6 +272,6 @@ class NationalOverview extends React.PureComponent<MyProps, State> {
 
 export default createConnectedRequestCoordinator<Props>()(
     createRequestClient(requestOptions)(
-        NationalOverview,
+        CountryOverview,
     ),
 );

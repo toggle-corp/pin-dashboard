@@ -80,9 +80,9 @@ class App extends React.Component<Props, State> {
 
                     return {
                         className: styles.districtOverview,
-                        district: activeDistrict,
+                        region: activeDistrict,
                         onBackButtonClick: this.handleDistrictBackButtonClick,
-                        onPalikaDoubleClick: this.handlePalikaDoubleClick,
+                        onSubRegionDoubleClick: this.handlePalikaDoubleClick,
                     };
                 },
             },

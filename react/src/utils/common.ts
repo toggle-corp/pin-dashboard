@@ -302,6 +302,19 @@ export function getNewMapStateOnRiskPointHoverChange(
 }
 
 
+export function getNewMapStateOnRelocationHoverChange(
+    mapState: MapStateElement[],
+    catPointList: RiskPoint[] = [],
+    id: number | undefined,
+    featureIdentifier: FeatureIdentifiers,
+    featureFromIdentifier: FeatureFromIdentifier,
+    lineStringIdentifier: LineStringIdentifiers,
+) {
+    const newMapState: MapStateElement[] = [];
+    // TODO: add logic here
+    return newMapState;
+}
+
 // TODO: memoize this
 function getSubRegionsMap(metadata: Metadata | undefined) {
     if (!metadata) {
