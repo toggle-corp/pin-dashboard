@@ -80,21 +80,20 @@ const ward = {
         ],
         'fill-opacity': 0.7,
     },
-};
-
-const wardLabel = {
-    paint: {
-        'text-color': labelColor,
-        'text-halo-color': labelHaloColor,
-        'text-halo-width': labelHaloWidth,
-        'text-halo-blur': labelHaloBlur,
-    },
-    layout: {
-        'text-font': labelFont,
-        'text-size': labelSize,
-        'text-field': ['get', 'title'],
-        'text-justify': 'center',
-        'text-anchor': 'center',
+    label: {
+        paint: {
+            'text-color': labelColor,
+            'text-halo-color': labelHaloColor,
+            'text-halo-width': labelHaloWidth,
+            'text-halo-blur': labelHaloBlur,
+        },
+        layout: {
+            'text-font': labelFont,
+            'text-size': labelSize,
+            'text-field': ['get', 'title'],
+            'text-justify': 'center',
+            'text-anchor': 'center',
+        },
     },
 };
 
@@ -232,7 +231,6 @@ export default {
     district,
     palika,
     ward,
-    wardLabel,
     cat2Point,
     cat3Point,
     relocationISPoint,

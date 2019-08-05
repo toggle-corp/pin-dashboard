@@ -11,7 +11,6 @@ import {
 import {
     Metadata,
     RiskPoint,
-    RelocationPoint,
     RelocationSite,
     GeoAttribute,
     FeatureIdentifiers,
@@ -22,10 +21,6 @@ import {
 interface WithLatLong {
     latitude?: number;
     longitude?: number;
-}
-
-function hasValidLatLong(obj: WithLatLong) {
-    return !!obj.latitude && !!obj.longitude;
 }
 
 export const forEach = (obj: object, func: (key: string, val: unknown) => void) => {
@@ -58,6 +53,10 @@ export const sanitizeResponse = (data: unknown): any => {
     return data;
 };
 
+export function hasValidLatLong(obj: WithLatLong) {
+    return !!obj.latitude && !!obj.longitude;
+}
+
 export function wrapInArray<T>(item?: T) {
     if (isNotDefined(item)) {
         return [];
@@ -71,6 +70,79 @@ export function concatArray<T>(foo: T[] | undefined = [], bar: T[] | undefined =
         ...foo,
         ...bar,
     ];
+}
+
+// TODO: memoize this
+function getSubRegionsMap(metadata: Metadata | undefined) {
+    if (!metadata) {
+        return {};
+    }
+
+    const { regions } = metadata;
+    return listToMap(
+        regions,
+        region => region.geoAttribute.id,
+        region => region,
+    );
+}
+
+export function getSubRegion(metadata: Metadata | undefined, id: number) {
+    const subRegionMap = getSubRegionsMap(metadata);
+    return subRegionMap[id];
+}
+
+export function getInformationDataForSelectedRegion(
+    title: string,
+    metadata: Metadata | undefined,
+    selectedId: number | undefined,
+) {
+    if (!selectedId) {
+        return {
+            title,
+            metadata,
+        };
+    }
+
+    const subRegion = getSubRegion(metadata, selectedId);
+    if (!subRegion) {
+        return {};
+    }
+
+    const {
+        geoAttribute: {
+            name,
+        },
+    } = subRegion;
+
+    return ({
+        title: name,
+        metadata: subRegion,
+    });
+}
+
+export function getGeoJsonFromGeoAttributeList(
+    geoAttributeList: GeoAttribute[],
+) {
+    const geojson = {
+        type: 'FeatureCollection',
+        features: geoAttributeList
+            .map(level => ({
+                id: level.id,
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [
+                        ...(level.centroid || []),
+                    ],
+                },
+                properties: {
+                    adminLevelId: level.id,
+                    title: level.name,
+                },
+            })),
+    };
+
+    return geojson;
 }
 
 function getCatPointFeatures(
@@ -120,10 +192,7 @@ export function getPlottableMapLayersFromRiskPoints(
     cat2PointList: RiskPoint[] | undefined = [],
     cat3PointList: RiskPoint[] | undefined = [],
 ) {
-    const catPointList = [
-        ...cat2PointList,
-        ...cat3PointList,
-    ];
+    const catPointList = concatArray(cat2PointList, cat3PointList);
 
     const relocationSiteList = unique(
         catPointList.map(d => d.relocationSites)
@@ -309,208 +378,4 @@ export function getNewMapStateOnRelocationHoverChange(
     );
 
     return newMapState;
-}
-
-// TODO: memoize this
-function getSubRegionsMap(metadata: Metadata | undefined) {
-    if (!metadata) {
-        return {};
-    }
-
-    const { regions } = metadata;
-    return listToMap(
-        regions,
-        region => region.geoAttribute.id,
-        region => region,
-    );
-}
-
-export function getSubRegion(metadata: Metadata | undefined, id: number) {
-    const subRegionMap = getSubRegionsMap(metadata);
-    return subRegionMap[id];
-}
-
-export function getInformationDataForSelectedRegion(
-    title: string,
-    metadata: Metadata | undefined,
-    selectedId: number | undefined,
-) {
-    if (!selectedId) {
-        return {
-            title,
-            metadata,
-        };
-    }
-
-    const subRegion = getSubRegion(metadata, selectedId);
-    if (!subRegion) {
-        return {};
-    }
-
-    const {
-        geoAttribute: {
-            name,
-        },
-    } = subRegion;
-
-    return ({
-        title: name,
-        metadata: subRegion,
-    });
-}
-
-
-// FIXME: remove this
-export function convertRiskPointToGeoJson(catPoints: RiskPoint[] | undefined = []) {
-    const geojson = {
-        type: 'FeatureCollection',
-        features: catPoints
-            .map((catPoint, i) => ({
-                id: i,
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [
-                        catPoint.longitude,
-                        catPoint.latitude,
-                    ],
-                },
-                properties: {
-                    id: i,
-                    ...catPoint,
-                },
-            })),
-    };
-    return geojson;
-}
-
-// FIXME: remove this
-export function convertRelocationPointToGeoJson(
-    relocationPointList: RelocationPoint[] | undefined = [],
-) {
-    const plaRelocationPointList = relocationPointList.filter(
-        d => d.solutionType === 'Private Land Acquisition',
-    );
-
-    const isRelocationPointList = relocationPointList.filter(
-        d => d.solutionType === 'Integrated Settlement',
-    );
-
-    const plaGeoJson = {
-        type: 'FeatureCollection',
-        features: plaRelocationPointList
-            .map((relocationPoint, i) => ({
-                id: i,
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: relocationPoint.location,
-                },
-                properties: {
-                    ...relocationPoint,
-                },
-            })),
-    };
-
-    const isGeoJson = {
-        type: 'FeatureCollection',
-        features: isRelocationPointList
-            .map((relocationPoint, i) => ({
-                id: i,
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: relocationPoint.location,
-                },
-                properties: {
-                    ...relocationPoint,
-                },
-            })),
-    };
-
-    return {
-        pla: plaGeoJson,
-        is: isGeoJson,
-    };
-}
-
-export function getGeoJsonFromGeoAttributeList(
-    geoAttributeList: GeoAttribute[],
-) {
-    const geojson = {
-        type: 'FeatureCollection',
-        features: geoAttributeList
-            .map(level => ({
-                id: level.id,
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [
-                        ...(level.centroid || []),
-                    ],
-                },
-                properties: {
-                    adminLevelId: level.id,
-                    title: level.name,
-                },
-            })),
-    };
-
-    return geojson;
-}
-
-// FIXME: remove this
-export function getLineStringGeoJson(
-    cat2PointList: RiskPoint[] = [],
-    cat3PointList: RiskPoint[] = [],
-    relocationPointList: RelocationPoint[] = [],
-) {
-    const cat2Points = listToMap(
-        cat2PointList,
-        d => d.geosite,
-        d => ([d.longitude, d.latitude]),
-    );
-
-    const cat3Points = listToMap(
-        cat3PointList,
-        d => d.geosite,
-        d => ([d.longitude, d.latitude]),
-    );
-
-    const filteredRelocationPointList = relocationPointList
-        .filter(d => cat2Points[d.geosite] || cat3Points[d.geosite])
-        .filter(d => (
-            d.solutionType === 'Private Land Acquisition'
-            || d.solutionType === 'Integrated Settlement'
-        ));
-
-    const geojson = {
-        type: 'FeatureCollection',
-        features: filteredRelocationPointList
-            .map((relocationPoint, i) => {
-                const coordinates = [];
-
-                coordinates.push([...relocationPoint.location || []]);
-                if (cat2Points[relocationPoint.geosite]) {
-                    coordinates.push([...(cat2Points[relocationPoint.geosite]) || []]);
-                }
-                if (cat3Points[relocationPoint.geosite]) {
-                    coordinates.push([...(cat3Points[relocationPoint.geosite]) || []]);
-                }
-
-                return {
-                    id: i,
-                    type: 'Feature',
-                    geometry: {
-                        type: 'LineString',
-                        coordinates,
-                    },
-                    properties: {
-                        geosite: relocationPoint.geosite,
-                    },
-                };
-            }),
-    };
-
-    return geojson;
 }

@@ -7,7 +7,6 @@ import MultiViewContainer from '#rscv/MultiViewContainer';
 
 import NationalOverview from './NationalOverview';
 import DistrictOverview from './DistrictOverview';
-import PalikaOverview from './PalikaOverview';
 
 import { GeoAttribute } from '#constants';
 
@@ -83,11 +82,13 @@ class App extends React.Component<Props, State> {
                         region: activeDistrict,
                         onBackButtonClick: this.handleDistrictBackButtonClick,
                         onSubRegionDoubleClick: this.handlePalikaDoubleClick,
+                        regionLevel: 'district',
+                        subRegionLevel: 'palika',
                     };
                 },
             },
             [ViewLevel.Palika]: {
-                component: PalikaOverview,
+                component: DistrictOverview,
                 rendererParams: () => {
                     const {
                         activePalika,
@@ -95,8 +96,11 @@ class App extends React.Component<Props, State> {
 
                     return {
                         className: styles.palikaOverview,
-                        palika: activePalika,
+                        region: activePalika,
                         onBackButtonClick: this.handlePalikaBackButtonClick,
+                        onSubRegionDoubleClick: () => {},
+                        regionLevel: 'palika',
+                        subRegionLevel: 'ward',
                     };
                 },
             },
@@ -106,7 +110,7 @@ class App extends React.Component<Props, State> {
     private views: {
         [ViewLevel.National]: MyType<React.ComponentProps<typeof NationalOverview>>;
         [ViewLevel.District]: MyType<React.ComponentProps<typeof DistrictOverview>>;
-        [ViewLevel.Palika]: MyType<React.ComponentProps<typeof PalikaOverview>>;
+        [ViewLevel.Palika]: MyType<React.ComponentProps<typeof DistrictOverview>>;
     }
 
     private handleDistrictBackButtonClick = () => {

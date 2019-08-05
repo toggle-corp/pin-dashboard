@@ -63,18 +63,17 @@ interface Props {
     region?: GeoAttribute;
     onBackButtonClick?: () => void;
     onSubRegionDoubleClick?: (geoAttribute: GeoAttribute) => void;
+    regionLevel: 'district' | 'palika';
+    subRegionLevel: 'palika' | 'ward';
 }
 
 interface Params {
     setRegionMetadata: (response: Metadata) => void;
 }
 
-const regionLevel = 'district';
-const subRegionLevel = 'palika';
-
 const requestOptions: { [key: string]: ClientAttributes<Props, Params> } = {
     metadataRequest: {
-        url: ({ props }) => `/metadata/${regionLevel}/${props.region && props.region.id}/`,
+        url: ({ props }) => `/metadata/${props.regionLevel}/${props.region && props.region.id}/`,
         method: methods.GET,
         onMount: ({ props }) => !!props.region && !!props.region.id,
         onSuccess: (val) => {
@@ -376,6 +375,8 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             },
             onBackButtonClick,
             region,
+            regionLevel,
+            subRegionLevel,
         } = this.props;
 
         const {
@@ -404,10 +405,11 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         } = region;
 
         // FIXME: memoize this
+        // FIXME: change municipality to palika in vector tile
         // Filter for sub region
         const subRegionFilter = [
             '==',
-            ['get', regionLevel],
+            ['get', regionLevel === 'palika' ? 'municipality' : regionLevel],
             id,
         ];
 
