@@ -63,6 +63,7 @@ export interface RelocationSite {
     districtName?: string;
     palikaName?: string;
     wardName?: string;
+    numberOfHouseholds?: number;
 }
 
 export interface RiskPoint {

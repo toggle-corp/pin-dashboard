@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import RelocationSite
+from .models import RelocationSite, Household
 
 
 class BaseMetadataSerializer(serializers.Serializer):
@@ -22,9 +22,14 @@ class RelocationSiteSerializer(serializers.ModelSerializer):
     district_name = serializers.CharField(source='district.name', read_only=True)
     ward_name = serializers.CharField(source='ward.name', read_only=True)
 
+    number_of_households = serializers.SerializerMethodField()
+
     class Meta:
         model = RelocationSite
         fields = '__all__'
+
+    def get_number_of_households(self, obj):
+        return len(Household.objects.filter(relocation_site=obj))
 
 
 class CatPointSerializer(serializers.Serializer):

@@ -1,6 +1,7 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
+import Numeral from '#rscv/Numeral';
 import { RelocationSite } from '#constants/typeDefinitions';
 import TextOutput from '../TextOutput';
 import styles from './styles.scss';
@@ -11,6 +12,14 @@ interface Props {
 }
 
 class RelocationSiteDetails extends React.PureComponent<Props> {
+    private renderNumericValue = (value: number | undefined) => (
+        <Numeral
+            value={value}
+            precision={null}
+            showSeparator
+        />
+    )
+
     public render() {
         const {
             data,
@@ -30,6 +39,7 @@ class RelocationSiteDetails extends React.PureComponent<Props> {
             palikaName,
             wardName,
             code,
+            numberOfHouseholds,
         } = data;
 
         return (
@@ -48,7 +58,7 @@ class RelocationSiteDetails extends React.PureComponent<Props> {
                     />
                     <TextOutput
                         label="Number of households"
-                        value={10}
+                        value={this.renderNumericValue(numberOfHouseholds)}
                     />
                     <TextOutput
                         label="Protection support"
