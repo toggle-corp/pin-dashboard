@@ -290,25 +290,38 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         }
 
         const {
+            featureFromIdentifier,
+        } = this.getPlottableMapLayersFromRiskPoints(
+            metadata ? metadata.cat2Points : undefined,
+            metadata ? metadata.cat3Points : undefined,
+        );
+
+        const {
             cat2Points = [],
             cat3Points = [],
         } = metadata;
 
         if (isDefined(cat3PointId)) {
+            const geosite = featureFromIdentifier[cat3PointId];
+            const cat3Point = cat3Points.find(d => d.geosite === geosite);
+
             return (
                 <RiskPointHoverDetails
                     title={`${region.name} / Category 3`}
-                    point={cat3Points[cat3PointId]}
+                    point={cat3Point}
                     type="cat3"
                 />
             );
         }
 
         if (isDefined(cat2PointId)) {
+            const geosite = featureFromIdentifier[cat2PointId];
+            const cat2Point = cat2Points.find(d => d.geosite === geosite);
+
             return (
                 <RiskPointHoverDetails
                     title={`${region.name} / Category 2`}
-                    point={cat2Points[cat2PointId]}
+                    point={cat2Point}
                     type="cat2"
                 />
             );
@@ -318,12 +331,6 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
     }
 
     private renderRelocationSiteDetail = () => {
-        const {
-            region = {
-                name: 'Unknown',
-            },
-        } = this.props;
-
         const {
             metadata,
             hoveredISRelocationPointId,
@@ -341,7 +348,6 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
         const {
             featureFromIdentifier,
-            featureIdentifier,
             relocationSiteList,
         } = this.getPlottableMapLayersFromRiskPoints(
             metadata ? metadata.cat2Points : undefined,
