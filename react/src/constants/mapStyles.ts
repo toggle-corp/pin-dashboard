@@ -5,82 +5,22 @@ const labelHaloColor = 'rgba(255, 255, 255, 0.95)';
 const labelHaloWidth = 1.5;
 const labelHaloBlur = 1;
 
-export default {
-    district: {
-        outline: {
-            'line-color': '#000000',
-            'line-width': 1,
-        },
-        fill: {
-            'fill-color': [
-                'case',
-                ['==', ['feature-state', 'selected'], true], '#18bc9c',
-                ['==', ['feature-state', 'type'], 'most-affected-district'], '#0010A1',
-                ['==', ['feature-state', 'type'], 'affected-district'], '#3656F6',
-                '#ffffff',
-            ],
-            'fill-opacity': 0.7,
-        },
-        label: {
-            paint: {
-                'text-color': labelColor,
-                'text-halo-color': labelHaloColor,
-                'text-halo-width': labelHaloWidth,
-                'text-halo-blur': labelHaloBlur,
-            },
-            layout: {
-                'text-font': labelFont,
-                'text-size': labelSize,
-                'text-field': ['get', 'title'],
-                'text-justify': 'center',
-                'text-anchor': 'center',
-            },
-        },
+const district = {
+    outline: {
+        'line-color': '#000000',
+        'line-width': 1,
     },
-    palika: {
-        outline: {
-            'line-color': '#000000',
-            'line-width': 1,
-        },
-        fill: {
-            'fill-color': [
-                'case',
-                ['==', ['feature-state', 'selected'], true], '#18bc9c',
-                '#ffffff',
-            ],
-            'fill-opacity': 0.7,
-        },
-        label: {
-            paint: {
-                'text-color': labelColor,
-                'text-halo-color': labelHaloColor,
-                'text-halo-width': labelHaloWidth,
-                'text-halo-blur': labelHaloBlur,
-            },
-            layout: {
-                'text-font': labelFont,
-                'text-size': labelSize,
-                'text-field': ['get', 'title'],
-                'text-justify': 'center',
-                'text-anchor': 'center',
-            },
-        },
+    fill: {
+        'fill-color': [
+            'case',
+            ['==', ['feature-state', 'selected'], true], '#18bc9c',
+            ['==', ['feature-state', 'type'], 'most-affected-district'], '#0010A1',
+            ['==', ['feature-state', 'type'], 'affected-district'], '#3656F6',
+            '#ffffff',
+        ],
+        'fill-opacity': 0.7,
     },
-    ward: {
-        outline: {
-            'line-color': '#000000',
-            'line-width': 1,
-        },
-        fill: {
-            'fill-color': [
-                'case',
-                ['==', ['feature-state', 'selected'], true], '#18bc9c',
-                '#ffffff',
-            ],
-            'fill-opacity': 0.7,
-        },
-    },
-    wardLabel: {
+    label: {
         paint: {
             'text-color': labelColor,
             'text-halo-color': labelHaloColor,
@@ -95,100 +35,213 @@ export default {
             'text-anchor': 'center',
         },
     },
-    cat2Point: {
-        circle: {
-            'circle-color': 'orange',
-            'circle-radius': 8,
-            'circle-opacity': [
-                'case',
-                [
-                    'boolean',
-                    ['feature-state', 'dim'],
-                    false,
-                ],
-                0.1,
-                1,
-            ],
-        },
+};
+
+const palika = {
+    outline: {
+        'line-color': '#000000',
+        'line-width': 1,
     },
-    cat3Point: {
-        circle: {
-            'circle-color': '#e53935',
-            'circle-radius': 8,
-            'circle-opacity': [
-                'case',
-                [
-                    'boolean',
-                    ['feature-state', 'dim'],
-                    false,
-                ],
-                0.1,
-                1,
-            ],
-        },
+    fill: {
+        'fill-color': [
+            'case',
+            ['==', ['feature-state', 'selected'], true], '#18bc9c',
+            '#ffffff',
+        ],
+        'fill-opacity': 0.7,
     },
-    relocationPoint: {
-        circle: {
-            'circle-color': '#1565c0',
-            'circle-radius': 9,
-            'circle-opacity': [
-                'case',
-                [
-                    'boolean',
-                    ['feature-state', 'dim'],
-                    false,
-                ],
-                0.1,
-                1,
-            ],
+    label: {
+        paint: {
+            'text-color': labelColor,
+            'text-halo-color': labelHaloColor,
+            'text-halo-width': labelHaloWidth,
+            'text-halo-blur': labelHaloBlur,
         },
         layout: {
-            'text-field': '◆',
-            'text-allow-overlap': true,
-            'text-size': 24,
-        },
-        paint: {
-            'text-color': '#1565c0',
-            'text-opacity': [
-                'case',
-                [
-                    'boolean',
-                    ['feature-state', 'dim'],
-                    false,
-                ],
-                0.1,
-                1,
-            ],
-            'text-halo-color': ['case',
-                ['boolean', ['feature-state', 'hover'], false],
-                '#000000',
-                'rgba(0, 0, 0, 0)',
-            ],
-            'text-halo-width': ['case',
-                ['boolean', ['feature-state', 'hover'], false],
-                1,
-                0,
-            ],
+            'text-font': labelFont,
+            'text-size': labelSize,
+            'text-field': ['get', 'title'],
+            'text-justify': 'center',
+            'text-anchor': 'center',
         },
     },
-    lineString: {
-        layout: {
-            'line-join': 'round',
-            'line-cap': 'round',
-        },
-        paint: {
-            'line-color': '#333333',
-            'line-opacity': [
-                'case',
-                [
-                    'boolean',
-                    ['feature-state', 'dim'],
-                    false,
-                ],
-                0.1,
-                0.4,
-            ],
-            'line-width': 1,
-        },
+};
+
+const ward = {
+    outline: {
+        'line-color': '#000000',
+        'line-width': 1,
     },
+    fill: {
+        'fill-color': [
+            'case',
+            ['==', ['feature-state', 'selected'], true], '#18bc9c',
+            '#ffffff',
+        ],
+        'fill-opacity': 0.7,
+    },
+};
+
+const wardLabel = {
+    paint: {
+        'text-color': labelColor,
+        'text-halo-color': labelHaloColor,
+        'text-halo-width': labelHaloWidth,
+        'text-halo-blur': labelHaloBlur,
+    },
+    layout: {
+        'text-font': labelFont,
+        'text-size': labelSize,
+        'text-field': ['get', 'title'],
+        'text-justify': 'center',
+        'text-anchor': 'center',
+    },
+};
+
+const cat2Point = {
+    circle: {
+        'circle-color': 'orange',
+        'circle-radius': 8,
+        'circle-opacity': 1,
+    },
+};
+
+const cat2PointInverted = {
+    circle: {
+        ...cat2Point.circle,
+        'circle-opacity': [
+            'case',
+            [
+                'boolean',
+                ['feature-state', 'darken'],
+                false,
+            ],
+            1,
+            0.1,
+        ],
+    },
+};
+
+const cat3Point = {
+    circle: {
+        'circle-color': '#e53935',
+        'circle-radius': 8,
+        'circle-opacity': 1,
+    },
+};
+
+const cat3PointInverted = {
+    circle: {
+        ...cat3Point.circle,
+        'circle-opacity': [
+            'case',
+            [
+                'boolean',
+                ['feature-state', 'darken'],
+                false,
+            ],
+            1,
+            0.1,
+        ],
+    },
+};
+
+const relocationISPoint = {
+    circle: {
+        'circle-color': '#1565c0',
+        'circle-radius': 9,
+        'circle-opacity': 1,
+    },
+};
+
+const relocationISPointInverted = {
+    circle: {
+        ...relocationISPoint.circle,
+        'circle-opacity': [
+            'case',
+            [
+                'boolean',
+                ['feature-state', 'darken'],
+                false,
+            ],
+            1,
+            0.1,
+        ],
+    },
+};
+
+const relocationPLPoint = {
+    text: {
+        'text-color': '#1565c0',
+        'text-opacity': 1,
+    },
+    layout: {
+        'text-field': '◆',
+        'text-allow-overlap': true,
+        'text-size': 30,
+    },
+};
+
+const relocationPLPointInverted = {
+    text: {
+        ...relocationPLPoint.text,
+        'text-opacity': [
+            'case',
+            [
+                'boolean',
+                ['feature-state', 'darken'],
+                false,
+            ],
+            1,
+            0.1,
+        ],
+    },
+    layout: relocationPLPoint.layout,
+};
+
+const connectionLine = {
+    layout: {
+        'line-join': 'round',
+        'line-cap': 'round',
+    },
+    line: {
+        'line-color': '#333333',
+        'line-opacity': 0.4,
+        'line-width': 1,
+    },
+};
+
+const connectionLineInverted = {
+    layout: connectionLine.layout,
+    line: {
+        ...connectionLine.line,
+        'line-opacity': [
+            'case',
+            [
+                'boolean',
+                ['feature-state', 'darken'],
+                false,
+            ],
+            0.4,
+            0.05,
+        ],
+    },
+};
+
+export default {
+    district,
+    palika,
+    ward,
+    wardLabel,
+    cat2Point,
+    cat3Point,
+    relocationISPoint,
+    relocationPLPoint,
+    connectionLine,
+
+    cat2PointInverted,
+    cat3PointInverted,
+    relocationISPointInverted,
+    relocationPLPointInverted,
+    connectionLineInverted,
 };

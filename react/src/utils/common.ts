@@ -5,6 +5,7 @@ import {
     isNotDefined,
     listToMap,
     mapToMap,
+    unique,
 } from '@togglecorp/fujs';
 
 import {
@@ -13,12 +14,19 @@ import {
     RelocationPoint,
     RelocationSite,
     GeoAttribute,
-    RelocationSiteCodes,
     FeatureIdentifiers,
     FeatureFromIdentifier,
-    LineStringIdentifiers,
     MapStateElement,
 } from '#constants';
+
+interface WithLatLong {
+    latitude?: number;
+    longitude?: number;
+}
+
+function hasValidLatLong(obj: WithLatLong) {
+    return !!obj.latitude && !!obj.longitude;
+}
 
 export const forEach = (obj: object, func: (key: string, val: unknown) => void) => {
     Object.keys(obj).forEach((key) => {
@@ -65,13 +73,34 @@ export function concatArray<T>(foo: T[] | undefined = [], bar: T[] | undefined =
     ];
 }
 
+function getCatPointFeatures(
+    catPoints: RiskPoint[],
+    featureIdentifier: FeatureIdentifiers,
+) {
+    return (
+        catPoints
+            .filter(hasValidLatLong)
+            .map(cp => ({
+                id: featureIdentifier[cp.geosite],
+                type: 'Feature',
+                geometry: {
+                    type: 'Point',
+                    coordinates: [
+                        cp.longitude,
+                        cp.latitude,
+                    ],
+                },
+            }))
+    );
+}
+
 function getRelocationSiteFeatures(
     relocationSiteList: RelocationSite[],
     featureIdentifier: FeatureIdentifiers,
 ) {
     return (
         relocationSiteList
-            .filter(r => r.longitude && r.latitude)
+            .filter(hasValidLatLong)
             .map(r => ({
                 // id: i,
                 id: featureIdentifier[r.code],
@@ -87,27 +116,6 @@ function getRelocationSiteFeatures(
     );
 }
 
-function getCatPointFeatures(
-    catPoints: RiskPoint[],
-    featureIdentifier: FeatureIdentifiers,
-) {
-    return (
-        catPoints
-            .filter(cp => cp.longitude && cp.latitude)
-            .map(cp => ({
-                id: featureIdentifier[cp.geosite],
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [
-                        cp.longitude,
-                        cp.latitude,
-                    ],
-                },
-            }))
-    );
-}
-
 export function getPlottableMapLayersFromRiskPoints(
     cat2PointList: RiskPoint[] | undefined = [],
     cat3PointList: RiskPoint[] | undefined = [],
@@ -117,21 +125,29 @@ export function getPlottableMapLayersFromRiskPoints(
         ...cat3PointList,
     ];
 
-    const relocationSiteCodes: RelocationSiteCodes = {};
-    const relocationSiteList = catPointList.map(
-        d => d.relocationSites,
+    const relocationSiteList = unique(
+        catPointList.map(d => d.relocationSites)
+            .flat()
+            .filter(hasValidLatLong),
+        item => item.code,
+    ) as RelocationSite[]; // NOTE: Casting RelocationSite as it cannot be undefined here
+
+    const connectionList = catPointList.map(
+        (catPoint) => {
+            const { relocationSites, ...catPointWithoutSites } = catPoint;
+            return relocationSites.map(relocationSite => ({
+                uid: `${catPointWithoutSites.geosite}:${relocationSite.code}`,
+                relocationSite,
+                catPoint: catPointWithoutSites,
+            }));
+        },
     )
         .flat()
-        .filter(d => !!d.latitude && !!d.longitude)
-        .filter((d) => {
-            const filter = relocationSiteCodes[d.code];
-            relocationSiteCodes[d.code] = true;
-
-            return !filter;
-        });
+        .filter(connection => (
+            hasValidLatLong(connection.catPoint) && hasValidLatLong(connection.relocationSite)
+        ));
 
     const featureIdentifier: FeatureIdentifiers = {};
-
     let count = 1;
     catPointList.forEach((d) => {
         featureIdentifier[d.geosite] = count;
@@ -139,6 +155,10 @@ export function getPlottableMapLayersFromRiskPoints(
     });
     relocationSiteList.forEach((d) => {
         featureIdentifier[d.code] = count;
+        count += 1;
+    });
+    connectionList.forEach((d) => {
+        featureIdentifier[d.uid] = count;
         count += 1;
     });
 
@@ -158,10 +178,10 @@ export function getPlottableMapLayersFromRiskPoints(
         features: getCatPointFeatures(cat3PointList, featureIdentifier),
     };
 
-    const integratedSettelementRelocationPointsGeoJson = {
+    const integratedSettlementRelocationPointsGeoJson = {
         type: 'FeatureCollection',
         features: getRelocationSiteFeatures(
-            relocationSiteList.filter(d => d.siteType === 'Integrated Settelement'),
+            relocationSiteList.filter(d => d.siteType === 'Integrated Settlement'),
             featureIdentifier,
         ),
     };
@@ -174,54 +194,32 @@ export function getPlottableMapLayersFromRiskPoints(
         ),
     };
 
-    const lineStringIdentifier: LineStringIdentifiers = {};
-
     const lineStringsGeoJson = {
         type: 'FeatureCollection',
-        features: catPointList.map(
-            (catPoint) => {
-                const validRelocationSites = catPoint.relocationSites
-                    .filter(d => !!d.latitude && !!d.longitude);
-
-                if (validRelocationSites.length === 0) {
-                    return null;
-                }
-
-                return (
-                    validRelocationSites.map((
-                        (relocationSite) => {
-                            const stringId = `${catPoint.geosite}:${relocationSite.code}`;
-                            const id = count;
-                            lineStringIdentifier[stringId] = id;
-                            count += 1;
-
-                            return {
-                                id,
-                                type: 'Feature',
-                                geometry: {
-                                    type: 'LineString',
-                                    coordinates: [
-                                        [catPoint.longitude, catPoint.latitude],
-                                        [relocationSite.longitude, relocationSite.latitude],
-                                    ],
-                                },
-                            };
-                        }
-                    ))
-                );
+        features: connectionList.map(connection => ({
+            id: featureIdentifier[connection.uid],
+            type: 'Feature',
+            geometry: {
+                type: 'LineString',
+                coordinates: [
+                    [connection.catPoint.longitude, connection.catPoint.latitude],
+                    [connection.relocationSite.longitude, connection.relocationSite.latitude],
+                ],
             },
-        ).flat().filter(d => d),
+        })),
     };
 
     return {
         featureIdentifier,
         featureFromIdentifier,
+
         cat2PointsGeoJson,
         cat3PointsGeoJson,
-        integratedSettelementRelocationPointsGeoJson,
+
+        integratedSettlementRelocationPointsGeoJson,
         privateLandRelocationPointsGeoJson,
+
         lineStringsGeoJson,
-        lineStringIdentifier,
     };
 }
 
@@ -230,72 +228,40 @@ export function getNewMapStateOnRiskPointHoverChange(
     id: number | undefined,
     featureIdentifier: FeatureIdentifiers,
     featureFromIdentifier: FeatureFromIdentifier,
-    lineStringIdentifier: LineStringIdentifiers,
 ) {
-    const newMapState: MapStateElement[] = [];
-    const geosite = id ? featureFromIdentifier[id] : undefined;
+    if (id === undefined) {
+        return undefined;
+    }
 
-    const setAsLight: {
-        [key: number]: boolean;
-    } = {};
+    let newMapState: MapStateElement[] = [
+        {
+            id,
+            value: { darken: true },
+        },
+    ];
 
-    catPointList.forEach((catPoint) => {
-        const shouldDim = id ? catPoint.geosite !== geosite : false;
-        const rs = catPoint.relocationSites;
+    const catPoint = catPointList.find(point => point.geosite === featureFromIdentifier[id]);
+    if (catPoint) {
+        newMapState = newMapState.concat(
+            newMapState,
+            catPoint.relocationSites
+                .filter(hasValidLatLong)
+                .map(site => ({
+                    id: featureIdentifier[site.code],
+                    value: { darken: true },
+                })),
+        );
 
-        let relocationSites: RelocationSite[] = [];
-        if (rs) {
-            relocationSites = rs;
-        }
-
-        if (!shouldDim) {
-            newMapState.push({
-                id: featureIdentifier[catPoint.geosite],
-                value: { dim: shouldDim },
-            });
-
-            setAsLight[featureIdentifier[catPoint.geosite]] = true;
-        }
-
-        if (shouldDim && !setAsLight[featureIdentifier[catPoint.geosite]]) {
-            newMapState.push({
-                id: featureIdentifier[catPoint.geosite],
-                value: { dim: shouldDim },
-            });
-        }
-
-        relocationSites
-            .filter(r => featureIdentifier[r.code])
-            .forEach((r) => {
-                if (!shouldDim) {
-                    newMapState.push({
-                        id: featureIdentifier[r.code],
-                        value: { dim: shouldDim },
-                    });
-                    newMapState.push({
-                        id: lineStringIdentifier[`${catPoint.geosite}:${r.code}`],
-                        value: { dim: shouldDim },
-                    });
-
-                    setAsLight[featureIdentifier[r.code]] = true;
-                    setAsLight[lineStringIdentifier[`${catPoint.geosite}:${r.code}`]] = true;
-                }
-
-                if (shouldDim && !setAsLight[featureIdentifier[r.code]]) {
-                    newMapState.push({
-                        id: featureIdentifier[r.code],
-                        value: { dim: shouldDim },
-                    });
-                }
-
-                if (shouldDim && !setAsLight[lineStringIdentifier[`${catPoint.geosite}:${r.code}`]]) {
-                    newMapState.push({
-                        id: lineStringIdentifier[`${catPoint.geosite}:${r.code}`],
-                        value: { dim: shouldDim },
-                    });
-                }
-            });
-    });
+        newMapState = newMapState.concat(
+            newMapState,
+            catPoint.relocationSites
+                .filter(hasValidLatLong)
+                .map(site => ({
+                    id: featureIdentifier[`${catPoint.geosite}:${site.code}`],
+                    value: { darken: true },
+                })),
+        );
+    }
 
     return newMapState;
 }
@@ -306,10 +272,42 @@ export function getNewMapStateOnRelocationHoverChange(
     id: number | undefined,
     featureIdentifier: FeatureIdentifiers,
     featureFromIdentifier: FeatureFromIdentifier,
-    lineStringIdentifier: LineStringIdentifiers,
 ) {
-    const newMapState: MapStateElement[] = [];
-    // TODO: add logic here
+    if (id === undefined) {
+        return undefined;
+    }
+
+    let newMapState: MapStateElement[] = [
+        {
+            id,
+            value: { darken: true },
+        },
+    ];
+
+    const catPoints = catPointList
+        .filter(point => (
+            point.relocationSites.findIndex(
+                site => site.code === featureFromIdentifier[id],
+            ) !== -1
+        ))
+        .filter(hasValidLatLong);
+
+    newMapState = newMapState.concat(
+        newMapState,
+        catPoints.map(point => ({
+            id: featureIdentifier[point.geosite],
+            value: { darken: true },
+        })),
+    );
+
+    newMapState = newMapState.concat(
+        newMapState,
+        catPoints.map(point => ({
+            id: featureIdentifier[`${point.geosite}:${featureFromIdentifier[id]}`],
+            value: { darken: true },
+        })),
+    );
+
     return newMapState;
 }
 

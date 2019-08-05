@@ -51,9 +51,9 @@ export interface RelocationPoint {
 
 export interface RelocationSite {
     code: string;
-    latitude: number;
-    longitude: number;
-    siteType: 'Integrated Settelement' | 'Private Land';
+    latitude?: number;
+    longitude?: number;
+    siteType: 'Integrated Settlement' | 'Private Land';
 }
 
 export interface RiskPoint {
@@ -64,8 +64,8 @@ export interface RiskPoint {
     highRiskOf: string;
     landslideCat: keyof LandslidesSurveyed;
     landslideCode: string;
-    latitude: number;
-    longitude: number;
+    latitude?: number;
+    longitude?: number;
     mitigationWorkBy: string;
     mitigationWorkStatus: string;
     place: string;
@@ -136,7 +136,7 @@ export interface FeatureFromIdentifier {
 export interface MapStateElement {
     id?: number;
     value?: {
-        dim?: boolean;
+        darken?: boolean;
         show?: boolean;
     };
 }

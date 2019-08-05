@@ -148,13 +148,14 @@ class App extends React.Component<Props, State> {
                     mapStyle={mapStyle.style}
                     fitBoundsDuration={200}
                     minZoom={5}
-                    logoPosition="bottom-left"
+
+                    logoPosition="bottom-right"
 
                     showScaleControl
-                    scaleControlPosition="bottom-right"
+                    scaleControlPosition="top-left"
 
                     showNavControl
-                    navControlPosition="bottom-right"
+                    navControlPosition="top-left"
                 >
                     <div className={styles.left}>
                         <MultiViewContainer
