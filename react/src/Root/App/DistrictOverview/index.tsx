@@ -42,14 +42,18 @@ import styles from './styles.scss';
 
 interface State {
     hoveredRegionId?: number;
-    selectedRegionId?: number;
-
     hoveredCat2PointId?: number;
     hoveredCat3PointId?: number;
     hoveredISRelocationPointId?: number;
     hoveredPLRelocationPointId?: number;
 
-    mapState: MapStateElement[];
+    selectedRegionId?: number;
+    selectedCat2PointId?: number;
+    selectedCat3PointId?: number;
+    selectedISRelocationPointId?: number;
+    selectedPLRelocationPointId?: number;
+
+    // mapState: MapStateElement[];
 
     metadata?: Metadata;
 }
@@ -89,7 +93,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         super(props);
 
         this.state = {
-            mapState: [],
+            // mapState: [],
         };
 
         const {
@@ -100,16 +104,16 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         });
     }
 
-    private featureIdentifier = {}
+    // private featureIdentifier = {}
 
-    private featureFromIdentifier = {}
+    // private featureFromIdentifier = {}
 
-    private lineStringIdentifier = {}
+    // private lineStringIdentifier = {}
 
     private wrapInArray = memoize(wrapInArray);
 
     // NOTE: memoize and generics don't go well
-    private concatArray = memoize((foo: RiskPoint[], bar: RiskPoint[]) => (
+    private concatArray = memoize((foo: RiskPoint[] | undefined, bar: RiskPoint[] | undefined) => (
         concatArray(foo, bar)
     ))
 
@@ -132,10 +136,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
     private getGeoJsonFromGeoAttributeList = memoize(getGeoJsonFromGeoAttributeList);
 
-    private getNewMapStateForRiskPointHoverChange = (id: number) => {
+    /*
+    private getNewMapStateForRiskPointHoverChange = (id: number | undefined) => {
         const {
             metadata,
-            mapState,
         } = this.state;
 
         if (isNotDefined(metadata)) {
@@ -150,7 +154,6 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         const catPointList: RiskPoint[] = this.concatArray(cat2Points, cat3Points);
 
         const newMapState = getNewMapStateOnRiskPointHoverChange(
-            mapState,
             catPointList,
             id,
             this.featureIdentifier,
@@ -160,11 +163,12 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
         return newMapState;
     }
+    */
 
-    private getNewMapStateForRelocationPointHoverChange = (id: number) => {
+    /*
+    private getNewMapStateForRelocationPointHoverChange = (id: number | undefined) => {
         const {
             metadata,
-            mapState,
         } = this.state;
 
         if (isNotDefined(metadata)) {
@@ -179,7 +183,6 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         const catPointList: RiskPoint[] = this.concatArray(cat2Points, cat3Points);
 
         const newMapState = getNewMapStateOnRelocationHoverChange(
-            mapState,
             catPointList,
             id,
             this.featureIdentifier,
@@ -189,45 +192,126 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
         return newMapState;
     }
+    */
 
-    private handleCat2PointHoverChange = (id: number) => {
-        const newMapState = this.getNewMapStateForRiskPointHoverChange(id);
-
+    private handleCat2PointHoverChange = (id: number | undefined) => {
+        // const newMapState = this.getNewMapStateForRiskPointHoverChange(id);
         this.setState({
             hoveredCat2PointId: id,
-            mapState: newMapState,
+            hoveredCat3PointId: undefined,
+            hoveredISRelocationPointId: undefined,
+            hoveredPLRelocationPointId: undefined,
+            // mapState: newMapState,
         });
     }
 
-    private handleCat3PointHoverChange = (id: number) => {
-        const newMapState = this.getNewMapStateForRiskPointHoverChange(id);
-
+    private handleCat3PointHoverChange = (id: number | undefined) => {
+        // const newMapState = this.getNewMapStateForRiskPointHoverChange(id);
         this.setState({
+            hoveredCat2PointId: undefined,
             hoveredCat3PointId: id,
-            mapState: newMapState,
+            hoveredISRelocationPointId: undefined,
+            hoveredPLRelocationPointId: undefined,
+            // mapState: newMapState,
         });
     }
 
-    private handleISRelocationPointHoverChange = (id: number) => {
-        const newMapState = this.getNewMapStateForRelocationPointHoverChange(id);
-
+    private handleISRelocationPointHoverChange = (id: number | undefined) => {
+        // const newMapState = this.getNewMapStateForRelocationPointHoverChange(id);
         this.setState({
+            hoveredCat2PointId: undefined,
+            hoveredCat3PointId: undefined,
             hoveredISRelocationPointId: id,
-            mapState: newMapState,
+            hoveredPLRelocationPointId: undefined,
+            // mapState: newMapState,
         });
     }
 
-    private handlePLRelocationPointHoverChange = (id: number) => {
-        const newMapState = this.getNewMapStateForRelocationPointHoverChange(id);
+    private handlePLRelocationPointHoverChange = (id: number | undefined) => {
+        // const newMapState = this.getNewMapStateForRelocationPointHoverChange(id);
+        this.setState({
+            hoveredCat2PointId: undefined,
+            hoveredCat3PointId: undefined,
+            hoveredISRelocationPointId: undefined,
+            hoveredPLRelocationPointId: id,
+            // mapState: newMapState,
+        });
+    }
+
+    private handleHoverChange = (id: number | undefined) => {
+        this.setState({ hoveredRegionId: id });
+    }
+
+    private handleCat2PointSelectedChange = (_: number[], id: number) => {
+        const { selectedCat2PointId } = this.state;
+        const newId = selectedCat2PointId === id ? undefined : id;
+        const newHoveredId = newId ? undefined : selectedCat2PointId;
+
+        // const newMapState = this.getNewMapStateForRiskPointHoverChange(newId);
 
         this.setState({
-            hoveredPLRelocationPointId: id,
-            mapState: newMapState,
+            selectedCat2PointId: newId,
+            selectedCat3PointId: undefined,
+            selectedISRelocationPointId: undefined,
+            selectedPLRelocationPointId: undefined,
+
+            hoveredCat2PointId: newHoveredId,
+            // mapState: newMapState,
         });
     }
 
-    private handleHoverChange = (id: number) => {
-        this.setState({ hoveredRegionId: id });
+    private handleCat3PointSelectedChange = (_: number[], id: number) => {
+        const { selectedCat3PointId } = this.state;
+        const newId = selectedCat3PointId === id ? undefined : id;
+        const newHoveredId = newId ? undefined : selectedCat3PointId;
+
+        // const newMapState = this.getNewMapStateForRiskPointHoverChange(newId);
+
+        this.setState({
+            selectedCat2PointId: undefined,
+            selectedCat3PointId: newId,
+            selectedISRelocationPointId: undefined,
+            selectedPLRelocationPointId: undefined,
+
+            hoveredCat3PointId: newHoveredId,
+            // mapState: newMapState,
+        });
+    }
+
+    private handleISRelocationPointSelectedChange = (_: number[], id: number) => {
+        const { selectedISRelocationPointId } = this.state;
+        const newId = selectedISRelocationPointId === id ? undefined : id;
+        const newHoveredId = newId ? undefined : selectedISRelocationPointId;
+
+        // const newMapState = this.getNewMapStateForRelocationPointHoverChange(newId);
+
+        this.setState({
+            selectedCat2PointId: undefined,
+            selectedCat3PointId: undefined,
+            selectedISRelocationPointId: newId,
+            selectedPLRelocationPointId: undefined,
+
+            hoveredISRelocationPointId: newHoveredId,
+            // mapState: newMapState,
+        });
+    }
+
+    private handlePLRelocationPointSelectedChange = (_: number[], id: number) => {
+        const { selectedPLRelocationPointId } = this.state;
+        const newId = selectedPLRelocationPointId === id ? undefined : id;
+        const newHoveredId = newId ? undefined : selectedPLRelocationPointId;
+
+        // const newMapState = this.getNewMapStateForRelocationPointHoverChange(newId);
+
+        this.setState({
+            selectedCat2PointId: undefined,
+            selectedCat3PointId: undefined,
+            selectedISRelocationPointId: undefined,
+            selectedPLRelocationPointId: newId,
+
+            hoveredPLRelocationPointId: newHoveredId,
+            // mapState: newMapState,
+        });
     }
 
     private handleDoubleClick = (id: number) => {
@@ -263,7 +347,12 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             metadata,
             hoveredCat2PointId,
             hoveredCat3PointId,
+            selectedCat2PointId,
+            selectedCat3PointId,
         } = this.state;
+
+        const cat2PointId = selectedCat2PointId || hoveredCat2PointId;
+        const cat3PointId = selectedCat3PointId || hoveredCat3PointId;
 
         if (isNotDefined(metadata)) {
             return null;
@@ -274,21 +363,21 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             cat3Points = [],
         } = metadata;
 
-        if (isDefined(hoveredCat3PointId)) {
+        if (isDefined(cat3PointId)) {
             return (
                 <RiskPointHoverDetails
                     title={`${region.name} / Category 3`}
-                    point={cat3Points[hoveredCat3PointId]}
+                    point={cat3Points[cat3PointId]}
                     type="cat3"
                 />
             );
         }
 
-        if (isDefined(hoveredCat2PointId)) {
+        if (isDefined(cat2PointId)) {
             return (
                 <RiskPointHoverDetails
                     title={`${region.name} / Category 2`}
-                    point={cat2Points[hoveredCat2PointId]}
+                    point={cat2Points[cat2PointId]}
                     type="cat2"
                 />
             );
@@ -299,12 +388,17 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
     private renderHoverDetail = () => {
         const {
+            metadata,
             hoveredRegionId,
+
             hoveredCat2PointId,
             hoveredCat3PointId,
             hoveredISRelocationPointId,
             hoveredPLRelocationPointId,
-            metadata,
+            selectedCat2PointId,
+            selectedCat3PointId,
+            selectedISRelocationPointId,
+            selectedPLRelocationPointId,
         } = this.state;
 
         if (
@@ -313,6 +407,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             || isDefined(hoveredCat3PointId)
             || isDefined(hoveredISRelocationPointId)
             || isDefined(hoveredPLRelocationPointId)
+            || isDefined(selectedCat2PointId)
+            || isDefined(selectedCat3PointId)
+            || isDefined(selectedISRelocationPointId)
+            || isDefined(selectedPLRelocationPointId)
         ) {
             return null;
         }
@@ -349,16 +447,25 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             region,
         } = this.props;
 
-        if (!region) {
-            return null;
-        }
-
         const {
             selectedRegionId,
             hoveredRegionId,
-            mapState,
+            // mapState,
             metadata: originalMetadata,
+
+            hoveredCat2PointId,
+            hoveredCat3PointId,
+            hoveredISRelocationPointId,
+            hoveredPLRelocationPointId,
+            selectedCat2PointId,
+            selectedCat3PointId,
+            selectedISRelocationPointId,
+            selectedPLRelocationPointId,
         } = this.state;
+
+        if (!region) {
+            return null;
+        }
 
         const {
             id,
@@ -367,38 +474,97 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         } = region;
 
         // FIXME: memoize this
-        const filter = [
+        // Filter for sub region
+        const subRegionFilter = [
             '==',
             ['get', regionLevel],
             id,
         ];
 
+        // data for information pane
         const {
             title,
             metadata,
         } = getInformationDataForSelectedRegion(name, originalMetadata, selectedRegionId);
 
-        const {
-            cat2Points = [],
-            cat3Points = [],
-        } = originalMetadata || {};
-
+        // geojson data from cat points
         const {
             featureFromIdentifier,
             featureIdentifier,
+            lineStringIdentifier,
+
             cat2PointsGeoJson,
             cat3PointsGeoJson,
             integratedSettelementRelocationPointsGeoJson,
             privateLandRelocationPointsGeoJson,
             lineStringsGeoJson,
-            lineStringIdentifier,
-        } = this.getPlottableMapLayersFromRiskPoints(cat2Points, cat3Points);
+        } = this.getPlottableMapLayersFromRiskPoints(
+            originalMetadata ? originalMetadata.cat2Points : undefined,
+            originalMetadata ? originalMetadata.cat3Points : undefined,
+        );
 
-        this.featureIdentifier = featureIdentifier;
-        this.featureFromIdentifier = featureFromIdentifier;
-        this.lineStringIdentifier = lineStringIdentifier;
 
-        const labelGeoJson = this.getLabelGeoJson(originalMetadata);
+        const hoverEnable = isNotDefined(selectedCat2PointId)
+            && isNotDefined(selectedCat3PointId)
+            && isNotDefined(selectedISRelocationPointId)
+            && isNotDefined(selectedPLRelocationPointId);
+
+        let mapState: MapStateElement[] = [];
+
+        if (isDefined(originalMetadata)) {
+            const {
+                cat2Points,
+                cat3Points,
+            } = originalMetadata;
+
+            const catPointList: RiskPoint[] = this.concatArray(
+                cat2Points,
+                cat3Points,
+            );
+
+            const cat2PointId = selectedCat2PointId || hoveredCat2PointId;
+            const cat3PointId = selectedCat3PointId || hoveredCat3PointId;
+            const relocationISPointId = selectedISRelocationPointId || hoveredISRelocationPointId;
+            const relocationPLPointId = selectedPLRelocationPointId || hoveredPLRelocationPointId;
+
+            if (isDefined(cat2PointId)) {
+                mapState = getNewMapStateOnRiskPointHoverChange(
+                    catPointList,
+                    cat2PointId,
+                    featureIdentifier,
+                    featureFromIdentifier,
+                    lineStringIdentifier,
+                );
+            } else if (isDefined(cat3PointId)) {
+                mapState = getNewMapStateOnRiskPointHoverChange(
+                    catPointList,
+                    cat3PointId,
+                    featureIdentifier,
+                    featureFromIdentifier,
+                    lineStringIdentifier,
+                );
+            } else if (isDefined(relocationISPointId)) {
+                mapState = getNewMapStateOnRelocationHoverChange(
+                    catPointList,
+                    relocationISPointId,
+                    featureIdentifier,
+                    featureFromIdentifier,
+                    lineStringIdentifier,
+                );
+            } else if (isDefined(relocationPLPointId)) {
+                mapState = getNewMapStateOnRelocationHoverChange(
+                    catPointList,
+                    relocationPLPointId,
+                    featureIdentifier,
+                    featureFromIdentifier,
+                    lineStringIdentifier,
+                );
+            }
+        }
+
+        // this.featureIdentifier = featureIdentifier;
+        // this.featureFromIdentifier = featureFromIdentifier;
+        // this.lineStringIdentifier = lineStringIdentifier;
 
         return (
             <div className={_cs(className, styles.overview)}>
@@ -424,8 +590,8 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         type="fill"
                         sourceLayer={mapSources.nepal.layers[subRegionLevel]}
                         paint={mapStyles[subRegionLevel].fill}
-                        filter={filter}
-                        enableHover={!pendingMetadataRequest}
+                        filter={subRegionFilter}
+                        enableHover={!pendingMetadataRequest && hoverEnable}
                         enableSelection={!pendingMetadataRequest}
                         hoveredId={hoveredRegionId}
                         onHoverChange={this.handleHoverChange}
@@ -438,12 +604,12 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         layerKey={`${subRegionLevel}-outline`}
                         sourceLayer={mapSources.nepal.layers[subRegionLevel]}
                         paint={mapStyles[subRegionLevel].outline}
-                        filter={filter}
+                        filter={subRegionFilter}
                     />
                 </MapSource>
                 <MapSource
                     sourceKey={`${subRegionLevel}-label`}
-                    geoJson={labelGeoJson}
+                    geoJson={this.getLabelGeoJson(originalMetadata)}
                 >
                     <MapLayer
                         layerKey={`${subRegionLevel}-label`}
@@ -471,8 +637,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                 >
                     <MapLayer
                         mapState={mapState}
-                        enableHover={!pendingMetadataRequest}
+                        enableHover={!pendingMetadataRequest && hoverEnable}
+                        enableSelection={!pendingMetadataRequest}
                         onHoverChange={this.handleCat2PointHoverChange}
+                        onSelectionChange={this.handleCat2PointSelectedChange}
                         layerKey="cat2-points-circle"
                         type="circle"
                         paint={mapStyles.cat2Point.circle}
@@ -484,8 +652,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                 >
                     <MapLayer
                         mapState={mapState}
-                        enableHover={!pendingMetadataRequest}
+                        enableHover={!pendingMetadataRequest && hoverEnable}
+                        enableSelection={!pendingMetadataRequest}
                         onHoverChange={this.handleCat3PointHoverChange}
+                        onSelectionChange={this.handleCat3PointSelectedChange}
                         layerKey="cat3-points-circle"
                         type="circle"
                         paint={mapStyles.cat3Point.circle}
@@ -496,8 +666,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     geoJson={privateLandRelocationPointsGeoJson}
                 >
                     <MapLayer
-                        enableHover={!pendingMetadataRequest}
+                        enableHover={!pendingMetadataRequest && hoverEnable}
+                        enableSelection={!pendingMetadataRequest}
                         onHoverChange={this.handleISRelocationPointHoverChange}
+                        onSelectionChange={this.handleISRelocationPointSelectedChange}
                         mapState={mapState}
                         layerKey="relocation-points-circle"
                         type="circle"
@@ -509,8 +681,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     geoJson={integratedSettelementRelocationPointsGeoJson}
                 >
                     <MapLayer
-                        enableHover={!pendingMetadataRequest}
+                        enableHover={!pendingMetadataRequest && hoverEnable}
+                        enableSelection={!pendingMetadataRequest}
                         onHoverChange={this.handlePLRelocationPointHoverChange}
+                        onSelectionChange={this.handlePLRelocationPointSelectedChange}
                         mapState={mapState}
                         layerKey="relocation-points-diamond"
                         type="symbol"

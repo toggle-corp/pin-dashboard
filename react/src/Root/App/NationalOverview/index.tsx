@@ -234,6 +234,7 @@ class CountryOverview extends React.PureComponent<MyProps, State> {
                 >
                     <MapLayer
                         type="fill"
+                        disableInteraction
                         enableHover={!pendingMetadataRequest}
                         enableSelection={!pendingMetadataRequest}
                         layerKey={`${subRegionLevel}-fill`}

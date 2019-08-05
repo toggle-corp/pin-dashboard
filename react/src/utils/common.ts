@@ -58,7 +58,7 @@ export function wrapInArray<T>(item?: T) {
     return [item];
 }
 
-export function concatArray<T>(foo: T[], bar: T[]): T[] {
+export function concatArray<T>(foo: T[] | undefined = [], bar: T[] | undefined = []): T[] {
     return [
         ...foo,
         ...bar,
@@ -226,7 +226,6 @@ export function getPlottableMapLayersFromRiskPoints(
 }
 
 export function getNewMapStateOnRiskPointHoverChange(
-    mapState: MapStateElement[],
     catPointList: RiskPoint[] = [],
     id: number | undefined,
     featureIdentifier: FeatureIdentifiers,
@@ -303,7 +302,6 @@ export function getNewMapStateOnRiskPointHoverChange(
 
 
 export function getNewMapStateOnRelocationHoverChange(
-    mapState: MapStateElement[],
     catPointList: RiskPoint[] = [],
     id: number | undefined,
     featureIdentifier: FeatureIdentifiers,
