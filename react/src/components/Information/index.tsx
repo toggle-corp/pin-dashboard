@@ -11,7 +11,6 @@ import { Base } from '#constants';
 import LandslidesSurveyed from './LandslidesSurveyed';
 import EarthquakeAffectedLandlessHouseholds from './EarthquakeAffectedLandlessHouseholds';
 import IntegratedSettlements from './IntegratedSettlements';
-// import LandslidesRiskScore from './LandslidesRiskScore';
 import GeohazardAffectedHouseholds from './GeohazardAffectedHouseholds';
 import LandPurchased from './LandPurchased';
 import TrancheUpdate from './TrancheUpdate';
@@ -57,14 +56,13 @@ class Information extends React.PureComponent<Props> {
 
         const {
             landslidesSurveyed,
-            // landslidesRiskScore,
             geohazardAffected,
             landPurchased,
             totalHouseholds,
             peopleRelocated,
             tranches,
             integratedSettlements,
-            landlessHousehold,
+            landlessHouseholds,
         } = data;
 
         const landPurchasedData = this.getLandPurchasedData(landPurchased, totalHouseholds);
@@ -74,14 +72,6 @@ class Information extends React.PureComponent<Props> {
                 <LandslidesSurveyed
                     data={landslidesSurveyed}
                     className={styles.landslidesSurveyed}
-                />
-                <IntegratedSettlements
-                    data={integratedSettlements}
-                    className={styles.integratedSettlements}
-                />
-                <EarthquakeAffectedLandlessHouseholds
-                    data={landlessHousehold}
-                    className={styles.earthquakeLandlessHouseholds}
                 />
                 <GeohazardAffectedHouseholds
                     className={styles.geohazardAffectedHouseholds}
@@ -98,6 +88,14 @@ class Information extends React.PureComponent<Props> {
                 <PeopleRelocated
                     className={styles.peopleRelocated}
                     data={peopleRelocated}
+                />
+                <IntegratedSettlements
+                    data={integratedSettlements}
+                    className={styles.integratedSettlements}
+                />
+                <EarthquakeAffectedLandlessHouseholds
+                    data={landlessHouseholds}
+                    className={styles.earthquakeLandlessHouseholds}
                 />
             </>
         );

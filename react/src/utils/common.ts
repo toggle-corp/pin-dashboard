@@ -289,6 +289,8 @@ export function getPlottableMapLayersFromRiskPoints(
         privateLandRelocationPointsGeoJson,
 
         lineStringsGeoJson,
+
+        relocationSiteList,
     };
 }
 

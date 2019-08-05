@@ -128,7 +128,7 @@ class Metadata:
         }
 
     def tranches(self):
-        hh = self.hh
+        hh = self.hh.filter(result='Relocated')
 
         first_tranche = len(hh.filter(tranches=1))
         second_tranche = len(hh.filter(tranches=2))

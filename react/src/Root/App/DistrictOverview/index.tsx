@@ -39,6 +39,7 @@ import {
 import Information from '#components/Information';
 import HoverDetails from '#components/HoverDetails';
 import RiskPointHoverDetails from '#components/RiskPointHoverDetails';
+import RelocationSiteDetails from '#components/RelocationSiteDetails';
 
 import styles from './styles.scss';
 
@@ -316,6 +317,55 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         return null;
     }
 
+    private renderRelocationSiteDetail = () => {
+        const {
+            region = {
+                name: 'Unknown',
+            },
+        } = this.props;
+
+        const {
+            metadata,
+            hoveredISRelocationPointId,
+            hoveredPLRelocationPointId,
+            selectedISRelocationPointId,
+            selectedPLRelocationPointId,
+        } = this.state;
+
+        const iSRelocationPointId = hoveredISRelocationPointId || selectedISRelocationPointId;
+        const pLRelocationPointId = hoveredPLRelocationPointId || selectedPLRelocationPointId;
+
+        if (!iSRelocationPointId && !pLRelocationPointId) {
+            return null;
+        }
+
+        const {
+            featureFromIdentifier,
+            featureIdentifier,
+            relocationSiteList,
+        } = this.getPlottableMapLayersFromRiskPoints(
+            metadata ? metadata.cat2Points : undefined,
+            metadata ? metadata.cat3Points : undefined,
+        );
+
+        let relocationPoint;
+
+        if (iSRelocationPointId) {
+            const code = featureFromIdentifier[iSRelocationPointId];
+            if (code) {
+                relocationPoint = relocationSiteList.find(
+                    d => d.code === code,
+                );
+            }
+        }
+
+        return (
+            <RelocationSiteDetails
+                data={relocationPoint}
+            />
+        );
+    }
+
     private renderHoverDetail = () => {
         const {
             metadata,
@@ -458,6 +508,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                 <div className={styles.hoverDetails}>
                     {this.renderHoverDetail()}
                     {this.renderCatPointHoverDetail()}
+                    {this.renderRelocationSiteDetail()}
                 </div>
                 <Information
                     className={styles.information}

@@ -18,6 +18,10 @@ class BaseMetadataSerializer(serializers.Serializer):
 
 
 class RelocationSiteSerializer(serializers.ModelSerializer):
+    palika_name = serializers.CharField(source='palika.name', read_only=True)
+    district_name = serializers.CharField(source='district.name', read_only=True)
+    ward_name = serializers.CharField(source='ward.name', read_only=True)
+
     class Meta:
         model = RelocationSite
         fields = '__all__'

@@ -202,23 +202,23 @@ class CountryOverview extends React.PureComponent<MyProps, State> {
                     <div className={styles.legendItem}>
                         <div
                             style={{
-                                backgroundColor: affectedColor,
-                            }}
-                            className={styles.attr}
-                        />
-                        <div className={styles.label}>
-                            Less affected by earthquake
-                        </div>
-                    </div>
-                    <div className={styles.legendItem}>
-                        <div
-                            style={{
                                 backgroundColor: mostAffectedColor,
                             }}
                             className={styles.attr}
                         />
                         <div className={styles.label}>
                             Most affected by earthquake
+                        </div>
+                    </div>
+                    <div className={styles.legendItem}>
+                        <div
+                            style={{
+                                backgroundColor: affectedColor,
+                            }}
+                            className={styles.attr}
+                        />
+                        <div className={styles.label}>
+                            Less affected by earthquake
                         </div>
                     </div>
                 </div>

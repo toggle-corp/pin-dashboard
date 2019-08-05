@@ -53,19 +53,6 @@
             flex-basis: 33%;
         }
 
-        .integrated-settlements {
-            @extend %half-section;
-            flex-basis: 67%;
-        }
-
-        .earthquake-landless-households {
-            @extend %full-section;
-        }
-
-        .landslides-risk-score {
-            @extend %half-section;
-        }
-
         .geohazard-affected-households {
             @extend %half-section;
             flex-basis: 67%;
@@ -77,10 +64,19 @@
         }
 
         .land-purchased {
-            @extend %full-section;
+            @extend %half-section;
+            flex-basis: 67%;
         }
 
         .people-relocated {
+            @extend %full-section;
+        }
+
+        .integrated-settlements {
+            @extend %full-section;
+        }
+
+        .earthquake-landless-households {
             @extend %full-section;
         }
     }

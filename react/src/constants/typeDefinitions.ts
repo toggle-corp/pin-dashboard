@@ -51,9 +51,18 @@ export interface RelocationPoint {
 
 export interface RelocationSite {
     code: string;
+    place?: string;
     latitude?: number;
     longitude?: number;
-    siteType: 'Integrated Settlement' | 'Private Land';
+    siteType?: 'Integrated Settlement' | 'Private Land';
+    status?: 'Phase 1 - Primary Plan Approved' | 'Phase 2 - DPR Approved' | 'Phase 3 - Implementation' | 'Completed';
+    district?: number;
+    palika?: number;
+    ward?: number;
+    protectionSupport?: string;
+    districtName?: string;
+    palikaName?: string;
+    wardName?: string;
 }
 
 export interface RiskPoint {
@@ -107,7 +116,7 @@ export interface Base {
     peopleRelocated: PeopleRelocated;
     tranches: Tranches;
     integratedSettlements: IntegratedSettlementMeta;
-    landlessHousehold: LandlessHousehold;
+    landlessHouseholds: LandlessHousehold;
 }
 
 export interface Metadata extends Base {
