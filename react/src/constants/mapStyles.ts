@@ -177,18 +177,18 @@ export default {
             'line-cap': 'round',
         },
         paint: {
-            'line-color': [
+            'line-color': '#333333',
+            'line-opacity': [
                 'case',
                 [
                     'boolean',
                     ['feature-state', 'dim'],
                     false,
                 ],
-                '#f5f5f5',
-                '#a0a0a0',
+                0.1,
+                0.4,
             ],
             'line-width': 1,
-            // 'line-dasharray': [2, 3],
         },
     },
 };
