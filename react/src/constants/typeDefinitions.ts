@@ -85,6 +85,11 @@ export interface RiskPoint {
     eligibleHouseholds: number;
     householdsRelocated: number;
     relocationSites: RelocationSite[];
+
+}
+
+export interface RiskPointWithType extends RiskPoint {
+    type: 'cat2' | 'cat3';
 }
 
 export interface GeoAttribute {

@@ -15,7 +15,6 @@ import {
 
 import {
     wrapInArray,
-    concatArray,
     getGeoJsonFromGeoAttributeList,
     getPlottableMapLayersFromRiskPoints,
     getNewMapStateOnRiskPointHoverChange,
@@ -31,9 +30,10 @@ import {
     GeoAttribute,
     Base,
     RiskPoint,
-    MapStateElement,
+    RiskPointWithType,
     FeatureIdentifiers,
     FeatureFromIdentifier,
+    RelocationSite,
 } from '#constants';
 
 import Information from '#components/Information';
@@ -42,6 +42,18 @@ import RiskPointHoverDetails from '#components/RiskPointHoverDetails';
 import RelocationSiteDetails from '#components/RelocationSiteDetails';
 
 import styles from './styles.scss';
+
+function addTypeToCat(point: RiskPoint, type: 'cat2' | 'cat3'): RiskPointWithType {
+    return {
+        ...point,
+        type,
+    };
+}
+
+const categoryNameMapping = {
+    cat2: 'Category 2',
+    cat3: 'Category 3',
+};
 
 interface State {
     hoveredRegionId?: number;
@@ -105,9 +117,13 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
     private wrapInArray = memoize(wrapInArray);
 
     // NOTE: memoize and generics don't go well
-    private concatArray = memoize((foo: RiskPoint[] | undefined, bar: RiskPoint[] | undefined) => (
-        concatArray(foo, bar)
-    ))
+    private concatCatPoints = memoize((
+        foo: RiskPoint[] | undefined = [],
+        bar: RiskPoint[] | undefined = [],
+    ) => ([
+        ...foo.map(d => addTypeToCat(d, 'cat2')),
+        ...bar.map(d => addTypeToCat(d, 'cat3')),
+    ]))
 
     private setRegionMetadata = (metadata: Metadata) => {
         this.setState({ metadata });
@@ -140,9 +156,9 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         hoveredPLRelocationPointId: number | undefined,
         featureIdentifier: FeatureIdentifiers,
         featureFromIdentifier: FeatureFromIdentifier,
-    ): MapStateElement[] | undefined => {
+    ) => {
         if (isNotDefined(originalMetadata)) {
-            return undefined;
+            return {};
         }
 
         const {
@@ -150,7 +166,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             cat3Points,
         } = originalMetadata;
 
-        const catPointList: RiskPoint[] = this.concatArray(
+        const catPointList = this.concatCatPoints(
             cat2Points,
             cat3Points,
         );
@@ -192,7 +208,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                 featureFromIdentifier,
             );
         }
-        return undefined;
+        return {};
     })
 
     private createHoverChangeHandler = (key: keyof State) => (id: number | undefined) => {
@@ -205,8 +221,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         });
     };
 
-    // eslint-disable-next-line max-len
-    private createSelectionChangeHandler = (selectedKey: keyof State, hoveredKey: keyof State) => (_: number[], id: number) => {
+    private createSelectionChangeHandler = (
+        selectedKey: keyof State,
+        hoveredKey: keyof State,
+    ) => (_: number[], id: number) => {
         const {
             [selectedKey]: selectedId,
         } = this.state;
@@ -267,110 +285,33 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         }
     }
 
-    private renderCatPointHoverDetail = () => {
+    private renderCatPointHoverDetail = (catPointList: RiskPointWithType[] | undefined = []) => {
         const {
             region = {
                 name: 'Unknown',
             },
         } = this.props;
 
-        const {
-            metadata,
-            hoveredCat2PointId,
-            hoveredCat3PointId,
-            selectedCat2PointId,
-            selectedCat3PointId,
-        } = this.state;
-
-        const cat2PointId = selectedCat2PointId || hoveredCat2PointId;
-        const cat3PointId = selectedCat3PointId || hoveredCat3PointId;
-
-        if (isNotDefined(metadata)) {
-            return null;
-        }
-
-        const {
-            featureFromIdentifier,
-        } = this.getPlottableMapLayersFromRiskPoints(
-            metadata ? metadata.cat2Points : undefined,
-            metadata ? metadata.cat3Points : undefined,
-        );
-
-        const {
-            cat2Points = [],
-            cat3Points = [],
-        } = metadata;
-
-        if (isDefined(cat3PointId)) {
-            const geosite = featureFromIdentifier[cat3PointId];
-            const cat3Point = cat3Points.find(d => d.geosite === geosite);
-
-            return (
-                <RiskPointHoverDetails
-                    title={`${region.name} / Category 3`}
-                    point={cat3Point}
-                    type="cat3"
-                />
-            );
-        }
-
-        if (isDefined(cat2PointId)) {
-            const geosite = featureFromIdentifier[cat2PointId];
-            const cat2Point = cat2Points.find(d => d.geosite === geosite);
-
-            return (
-                <RiskPointHoverDetails
-                    title={`${region.name} / Category 2`}
-                    point={cat2Point}
-                    type="cat2"
-                />
-            );
-        }
-
-        return null;
+        return catPointList.map(catPoint => (
+            <RiskPointHoverDetails
+                key={catPoint.geosite}
+                title={`${region.name} / ${categoryNameMapping[catPoint.type]}`}
+                point={catPoint}
+                type={catPoint.type}
+            />
+        ));
     }
 
-    private renderRelocationSiteDetail = () => {
-        const {
-            metadata,
-            hoveredISRelocationPointId,
-            hoveredPLRelocationPointId,
-            selectedISRelocationPointId,
-            selectedPLRelocationPointId,
-        } = this.state;
-
-        const iSRelocationPointId = hoveredISRelocationPointId || selectedISRelocationPointId;
-        const pLRelocationPointId = hoveredPLRelocationPointId || selectedPLRelocationPointId;
-
-        if (!iSRelocationPointId && !pLRelocationPointId) {
-            return null;
-        }
-
-        const {
-            featureFromIdentifier,
-            relocationSiteList,
-        } = this.getPlottableMapLayersFromRiskPoints(
-            metadata ? metadata.cat2Points : undefined,
-            metadata ? metadata.cat3Points : undefined,
-        );
-
-        let relocationPoint;
-
-        if (iSRelocationPointId) {
-            const code = featureFromIdentifier[iSRelocationPointId];
-            if (code) {
-                relocationPoint = relocationSiteList.find(
-                    d => d.code === code,
-                );
-            }
-        }
-
-        return (
+    private renderRelocationSiteDetail = (
+        relocationPointList: RelocationSite[] | undefined = [],
+    ) => (
+        relocationPointList.map(relocationPoint => (
             <RelocationSiteDetails
+                key={relocationPoint.code}
                 data={relocationPoint}
             />
-        );
-    }
+        ))
+    )
 
     private renderHoverDetail = () => {
         const {
@@ -495,7 +436,11 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             && isNotDefined(selectedISRelocationPointId)
             && isNotDefined(selectedPLRelocationPointId);
 
-        const mapState = this.getMapState(
+        const {
+            mapState,
+            catPoints,
+            relocationSites,
+        } = this.getMapState(
             originalMetadata,
             selectedCat2PointId,
             selectedCat3PointId,
@@ -513,8 +458,8 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             <div className={_cs(className, styles.overview)}>
                 <div className={styles.hoverDetails}>
                     {this.renderHoverDetail()}
-                    {this.renderCatPointHoverDetail()}
-                    {this.renderRelocationSiteDetail()}
+                    {this.renderCatPointHoverDetail(catPoints)}
+                    {this.renderRelocationSiteDetail(relocationSites)}
                 </div>
                 <Information
                     className={styles.information}

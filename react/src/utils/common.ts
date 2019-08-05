@@ -11,6 +11,7 @@ import {
 import {
     Metadata,
     RiskPoint,
+    RiskPointWithType,
     RelocationSite,
     GeoAttribute,
     FeatureIdentifiers,
@@ -194,12 +195,13 @@ export function getPlottableMapLayersFromRiskPoints(
 ) {
     const catPointList = concatArray(cat2PointList, cat3PointList);
 
+    // NOTE: Casting RelocationSite as it cannot be undefined here
     const relocationSiteList = unique(
         catPointList.map(d => d.relocationSites)
             .flat()
             .filter(hasValidLatLong),
         item => item.code,
-    ) as RelocationSite[]; // NOTE: Casting RelocationSite as it cannot be undefined here
+    ) as RelocationSite[];
 
     const connectionList = catPointList.map(
         (catPoint) => {
@@ -295,14 +297,17 @@ export function getPlottableMapLayersFromRiskPoints(
 }
 
 export function getNewMapStateOnRiskPointHoverChange(
-    catPointList: RiskPoint[] = [],
+    catPointList: RiskPointWithType[] = [],
     id: number | undefined,
     featureIdentifier: FeatureIdentifiers,
     featureFromIdentifier: FeatureFromIdentifier,
 ) {
     if (id === undefined) {
-        return undefined;
+        return {};
     }
+
+    let catPoints: RiskPointWithType[] = [];
+    let relocationSites: RelocationSite[] = [];
 
     let newMapState: MapStateElement[] = [
         {
@@ -313,10 +318,15 @@ export function getNewMapStateOnRiskPointHoverChange(
 
     const catPoint = catPointList.find(point => point.geosite === featureFromIdentifier[id]);
     if (catPoint) {
+        catPoints = [catPoint];
+
+        const sanitizedRelocationSites = catPoint
+            .relocationSites
+            .filter(hasValidLatLong);
+
         newMapState = newMapState.concat(
             newMapState,
-            catPoint.relocationSites
-                .filter(hasValidLatLong)
+            sanitizedRelocationSites
                 .map(site => ({
                     id: featureIdentifier[site.code],
                     value: { darken: true },
@@ -325,27 +335,36 @@ export function getNewMapStateOnRiskPointHoverChange(
 
         newMapState = newMapState.concat(
             newMapState,
-            catPoint.relocationSites
-                .filter(hasValidLatLong)
+            sanitizedRelocationSites
                 .map(site => ({
                     id: featureIdentifier[`${catPoint.geosite}:${site.code}`],
                     value: { darken: true },
                 })),
         );
+
+        relocationSites = relocationSites.concat(sanitizedRelocationSites);
     }
 
-    return newMapState;
+    return {
+        mapState: newMapState,
+        catPoints,
+        // NOTE: Casting RelocationSite as it cannot be undefined here
+        relocationSites: unique(
+            relocationSites,
+            site => site.code,
+        ) as RelocationSite[],
+    };
 }
 
 
 export function getNewMapStateOnRelocationHoverChange(
-    catPointList: RiskPoint[] = [],
+    catPointList: RiskPointWithType[] = [],
     id: number | undefined,
     featureIdentifier: FeatureIdentifiers,
     featureFromIdentifier: FeatureFromIdentifier,
 ) {
     if (id === undefined) {
-        return undefined;
+        return {};
     }
 
     let newMapState: MapStateElement[] = [
@@ -363,6 +382,13 @@ export function getNewMapStateOnRelocationHoverChange(
         ))
         .filter(hasValidLatLong);
 
+    const relocationSite = catPointList
+        .map(catPoint => catPoint.relocationSites)
+        .flat()
+        .find(site => site.code === featureFromIdentifier[id]);
+
+    const relocationSites: RelocationSite[] = relocationSite ? [relocationSite] : [];
+
     newMapState = newMapState.concat(
         newMapState,
         catPoints.map(point => ({
@@ -379,5 +405,9 @@ export function getNewMapStateOnRelocationHoverChange(
         })),
     );
 
-    return newMapState;
+    return {
+        mapState: newMapState,
+        catPoints,
+        relocationSites,
+    };
 }
