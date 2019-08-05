@@ -32,6 +32,8 @@ import {
     Base,
     RiskPoint,
     MapStateElement,
+    FeatureIdentifiers,
+    FeatureFromIdentifier,
 } from '#constants';
 
 import Information from '#components/Information';
@@ -53,8 +55,6 @@ interface State {
     selectedISRelocationPointId?: number;
     selectedPLRelocationPointId?: number;
 
-    // mapState: MapStateElement[];
-
     metadata?: Metadata;
 }
 
@@ -74,7 +74,7 @@ const subRegionLevel = 'palika';
 
 const requestOptions: { [key: string]: ClientAttributes<Props, Params> } = {
     metadataRequest: {
-        url: ({ props }) => `/metadata/district/${props.region && props.region.id}/`,
+        url: ({ props }) => `/metadata/${regionLevel}/${props.region && props.region.id}/`,
         method: methods.GET,
         onMount: ({ props }) => !!props.region && !!props.region.id,
         onSuccess: (val) => {
@@ -128,104 +128,127 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
     private getGeoJsonFromGeoAttributeList = memoize(getGeoJsonFromGeoAttributeList);
 
-    private handleCat2PointHoverChange = (id: number | undefined) => {
+    private getMapState = memoize((
+        originalMetadata: Metadata | undefined,
+        selectedCat2PointId: number | undefined,
+        selectedCat3PointId: number | undefined,
+        selectedISRelocationPointId: number | undefined,
+        selectedPLRelocationPointId: number | undefined,
+        hoveredCat2PointId: number | undefined,
+        hoveredCat3PointId: number | undefined,
+        hoveredISRelocationPointId: number | undefined,
+        hoveredPLRelocationPointId: number | undefined,
+        featureIdentifier: FeatureIdentifiers,
+        featureFromIdentifier: FeatureFromIdentifier,
+    ): MapStateElement[] | undefined => {
+        if (isNotDefined(originalMetadata)) {
+            return undefined;
+        }
+
+        const {
+            cat2Points,
+            cat3Points,
+        } = originalMetadata;
+
+        const catPointList: RiskPoint[] = this.concatArray(
+            cat2Points,
+            cat3Points,
+        );
+
+        const cat2PointId = selectedCat2PointId || hoveredCat2PointId;
+        const cat3PointId = selectedCat3PointId || hoveredCat3PointId;
+        const relocationISPointId = selectedISRelocationPointId || hoveredISRelocationPointId;
+        const relocationPLPointId = selectedPLRelocationPointId || hoveredPLRelocationPointId;
+
+        if (isDefined(cat2PointId)) {
+            return getNewMapStateOnRiskPointHoverChange(
+                catPointList,
+                cat2PointId,
+                featureIdentifier,
+                featureFromIdentifier,
+            );
+        }
+        if (isDefined(cat3PointId)) {
+            return getNewMapStateOnRiskPointHoverChange(
+                catPointList,
+                cat3PointId,
+                featureIdentifier,
+                featureFromIdentifier,
+            );
+        }
+        if (isDefined(relocationISPointId)) {
+            return getNewMapStateOnRelocationHoverChange(
+                catPointList,
+                relocationISPointId,
+                featureIdentifier,
+                featureFromIdentifier,
+            );
+        }
+        if (isDefined(relocationPLPointId)) {
+            return getNewMapStateOnRelocationHoverChange(
+                catPointList,
+                relocationPLPointId,
+                featureIdentifier,
+                featureFromIdentifier,
+            );
+        }
+        return undefined;
+    })
+
+    private createHoverChangeHandler = (key: keyof State) => (id: number | undefined) => {
         this.setState({
-            hoveredCat2PointId: id,
+            hoveredCat2PointId: undefined,
             hoveredCat3PointId: undefined,
             hoveredISRelocationPointId: undefined,
             hoveredPLRelocationPointId: undefined,
+            [key]: id,
+        });
+    };
+
+    // eslint-disable-next-line max-len
+    private createSelectionChangeHandler = (selectedKey: keyof State, hoveredKey: keyof State) => (_: number[], id: number) => {
+        const {
+            [selectedKey]: selectedId,
+        } = this.state;
+        const newSelectedId = selectedId === id ? undefined : id;
+        const newHoveredId = newSelectedId ? undefined : selectedId;
+
+        this.setState({
+            selectedCat2PointId: undefined,
+            selectedCat3PointId: undefined,
+            selectedISRelocationPointId: undefined,
+            selectedPLRelocationPointId: undefined,
+            [selectedKey]: newSelectedId,
+            [hoveredKey]: newHoveredId,
         });
     }
 
-    private handleCat3PointHoverChange = (id: number | undefined) => {
-        this.setState({
-            hoveredCat2PointId: undefined,
-            hoveredCat3PointId: id,
-            hoveredISRelocationPointId: undefined,
-            hoveredPLRelocationPointId: undefined,
-        });
-    }
+    private handleCat2PointHoverChange = this.createHoverChangeHandler('hoveredCat2PointId');
 
-    private handleISRelocationPointHoverChange = (id: number | undefined) => {
-        this.setState({
-            hoveredCat2PointId: undefined,
-            hoveredCat3PointId: undefined,
-            hoveredISRelocationPointId: id,
-            hoveredPLRelocationPointId: undefined,
-        });
-    }
+    private handleCat3PointHoverChange = this.createHoverChangeHandler('hoveredCat3PointId');
 
-    private handlePLRelocationPointHoverChange = (id: number | undefined) => {
-        this.setState({
-            hoveredCat2PointId: undefined,
-            hoveredCat3PointId: undefined,
-            hoveredISRelocationPointId: undefined,
-            hoveredPLRelocationPointId: id,
-        });
-    }
+    private handleISRelocationPointHoverChange = this.createHoverChangeHandler('hoveredISRelocationPointId');
+
+    private handlePLRelocationPointHoverChange = this.createHoverChangeHandler('hoveredPLRelocationPointId');
+
+    private handleCat2PointSelectionChange = this.createSelectionChangeHandler('selectedCat2PointId', 'hoveredCat2PointId');
+
+    private handleCat3PointSelectionChange = this.createSelectionChangeHandler('selectedCat3PointId', 'hoveredCat3PointId');
+
+    private handleISRelocationPointSelectionChange = this.createSelectionChangeHandler('selectedISRelocationPointId', 'hoveredISRelocationPointId');
+
+    private handlePLRelocationPointSelectionChange = this.createSelectionChangeHandler('selectedPLRelocationPointId', 'hoveredPLRelocationPointId');
 
     private handleHoverChange = (id: number | undefined) => {
-        this.setState({ hoveredRegionId: id });
-    }
-
-    private handleCat2PointSelectedChange = (_: number[], id: number) => {
-        const { selectedCat2PointId } = this.state;
-        const newId = selectedCat2PointId === id ? undefined : id;
-        const newHoveredId = newId ? undefined : selectedCat2PointId;
-
         this.setState({
-            selectedCat2PointId: newId,
-            selectedCat3PointId: undefined,
-            selectedISRelocationPointId: undefined,
-            selectedPLRelocationPointId: undefined,
-
-            hoveredCat2PointId: newHoveredId,
+            hoveredRegionId: id,
         });
-    }
+    };
 
-    private handleCat3PointSelectedChange = (_: number[], id: number) => {
-        const { selectedCat3PointId } = this.state;
-        const newId = selectedCat3PointId === id ? undefined : id;
-        const newHoveredId = newId ? undefined : selectedCat3PointId;
-
-        this.setState({
-            selectedCat2PointId: undefined,
-            selectedCat3PointId: newId,
-            selectedISRelocationPointId: undefined,
-            selectedPLRelocationPointId: undefined,
-
-            hoveredCat3PointId: newHoveredId,
-        });
-    }
-
-    private handleISRelocationPointSelectedChange = (_: number[], id: number) => {
-        const { selectedISRelocationPointId } = this.state;
-        const newId = selectedISRelocationPointId === id ? undefined : id;
-        const newHoveredId = newId ? undefined : selectedISRelocationPointId;
-
-        this.setState({
-            selectedCat2PointId: undefined,
-            selectedCat3PointId: undefined,
-            selectedISRelocationPointId: newId,
-            selectedPLRelocationPointId: undefined,
-
-            hoveredISRelocationPointId: newHoveredId,
-        });
-    }
-
-    private handlePLRelocationPointSelectedChange = (_: number[], id: number) => {
-        const { selectedPLRelocationPointId } = this.state;
-        const newId = selectedPLRelocationPointId === id ? undefined : id;
-        const newHoveredId = newId ? undefined : selectedPLRelocationPointId;
-
-        this.setState({
-            selectedCat2PointId: undefined,
-            selectedCat3PointId: undefined,
-            selectedISRelocationPointId: undefined,
-            selectedPLRelocationPointId: newId,
-
-            hoveredPLRelocationPointId: newHoveredId,
-        });
+    private handleSelectionChange = (_: number[], id: number) => {
+        const { selectedRegionId } = this.state;
+        const newId = selectedRegionId === id ? undefined : id;
+        this.setState({ selectedRegionId: newId });
     }
 
     private handleDoubleClick = (id: number) => {
@@ -242,12 +265,6 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         if (onSubRegionDoubleClick) {
             onSubRegionDoubleClick(geoAttribute);
         }
-    }
-
-    private handleSelectionChange = (_: number[], id: number) => {
-        const { selectedRegionId } = this.state;
-        const newId = selectedRegionId === id ? undefined : id;
-        this.setState({ selectedRegionId: newId });
     }
 
     private renderCatPointHoverDetail = () => {
@@ -415,60 +432,24 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             originalMetadata ? originalMetadata.cat3Points : undefined,
         );
 
-
         const hoverEnable = isNotDefined(selectedCat2PointId)
             && isNotDefined(selectedCat3PointId)
             && isNotDefined(selectedISRelocationPointId)
             && isNotDefined(selectedPLRelocationPointId);
 
-        let mapState: MapStateElement[] | undefined;
-
-        if (isDefined(originalMetadata)) {
-            const {
-                cat2Points,
-                cat3Points,
-            } = originalMetadata;
-
-            const catPointList: RiskPoint[] = this.concatArray(
-                cat2Points,
-                cat3Points,
-            );
-
-            const cat2PointId = selectedCat2PointId || hoveredCat2PointId;
-            const cat3PointId = selectedCat3PointId || hoveredCat3PointId;
-            const relocationISPointId = selectedISRelocationPointId || hoveredISRelocationPointId;
-            const relocationPLPointId = selectedPLRelocationPointId || hoveredPLRelocationPointId;
-
-            if (isDefined(cat2PointId)) {
-                mapState = getNewMapStateOnRiskPointHoverChange(
-                    catPointList,
-                    cat2PointId,
-                    featureIdentifier,
-                    featureFromIdentifier,
-                );
-            } else if (isDefined(cat3PointId)) {
-                mapState = getNewMapStateOnRiskPointHoverChange(
-                    catPointList,
-                    cat3PointId,
-                    featureIdentifier,
-                    featureFromIdentifier,
-                );
-            } else if (isDefined(relocationISPointId)) {
-                mapState = getNewMapStateOnRelocationHoverChange(
-                    catPointList,
-                    relocationISPointId,
-                    featureIdentifier,
-                    featureFromIdentifier,
-                );
-            } else if (isDefined(relocationPLPointId)) {
-                mapState = getNewMapStateOnRelocationHoverChange(
-                    catPointList,
-                    relocationPLPointId,
-                    featureIdentifier,
-                    featureFromIdentifier,
-                );
-            }
-        }
+        const mapState = this.getMapState(
+            originalMetadata,
+            selectedCat2PointId,
+            selectedCat3PointId,
+            selectedISRelocationPointId,
+            selectedPLRelocationPointId,
+            hoveredCat2PointId,
+            hoveredCat3PointId,
+            hoveredISRelocationPointId,
+            hoveredPLRelocationPointId,
+            featureIdentifier,
+            featureFromIdentifier,
+        );
 
         return (
             <div className={_cs(className, styles.overview)}>
@@ -548,7 +529,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         enableHover={!pendingMetadataRequest && hoverEnable}
                         enableSelection={!pendingMetadataRequest}
                         onHoverChange={this.handleCat2PointHoverChange}
-                        onSelectionChange={this.handleCat2PointSelectedChange}
+                        onSelectionChange={this.handleCat2PointSelectionChange}
                         layerKey="cat2-points-circle"
                         type="circle"
                         paint={
@@ -567,7 +548,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         enableHover={!pendingMetadataRequest && hoverEnable}
                         enableSelection={!pendingMetadataRequest}
                         onHoverChange={this.handleCat3PointHoverChange}
-                        onSelectionChange={this.handleCat3PointSelectedChange}
+                        onSelectionChange={this.handleCat3PointSelectionChange}
                         layerKey="cat3-points-circle"
                         type="circle"
                         paint={
@@ -585,7 +566,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         enableHover={!pendingMetadataRequest && hoverEnable}
                         enableSelection={!pendingMetadataRequest}
                         onHoverChange={this.handleISRelocationPointHoverChange}
-                        onSelectionChange={this.handleISRelocationPointSelectedChange}
+                        onSelectionChange={this.handleISRelocationPointSelectionChange}
                         mapState={mapState}
                         layerKey="relocation-points-circle"
                         type="circle"
@@ -604,7 +585,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         enableHover={!pendingMetadataRequest && hoverEnable}
                         enableSelection={!pendingMetadataRequest}
                         onHoverChange={this.handlePLRelocationPointHoverChange}
-                        onSelectionChange={this.handlePLRelocationPointSelectedChange}
+                        onSelectionChange={this.handlePLRelocationPointSelectionChange}
                         mapState={mapState}
                         layerKey="relocation-points-diamond"
                         type="symbol"

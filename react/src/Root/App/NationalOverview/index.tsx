@@ -45,12 +45,13 @@ interface Params {
 
 const regionLevel = 'country';
 const subRegionLevel = 'district';
+
 const mostAffectedColor = '#0010A1';
 const affectedColor = '#3656f6';
 
 const requestOptions: { [key: string]: ClientAttributes<Props, Params> } = {
     metadataRequest: {
-        url: '/metadata/country/',
+        url: `/metadata/${regionLevel}/`,
         method: methods.GET,
         onMount: true,
         onSuccess: (val) => {
