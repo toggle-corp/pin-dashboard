@@ -4,6 +4,9 @@ import Map from '#rscz/Map';
 import MapContainer from '#rscz/Map/MapContainer';
 
 import MultiViewContainer from '#rscv/MultiViewContainer';
+import Button from '#rsca/Button';
+import List from '#rscv/List';
+import DropdownMenu from '#rsca/DropdownMenu';
 
 import NationalOverview from './NationalOverview';
 import DistrictOverview from './DistrictOverview';
@@ -50,6 +53,17 @@ interface MyType<T> {
     mount?: boolean;
     lazyMount?: boolean;
 }
+
+interface Layer {
+    key: string;
+    label: string;
+}
+
+const layers: Layer[] = [
+    { key: 'layer1', label: 'Layer 1' },
+    { key: 'layer2', label: 'Layer 2' },
+    { key: 'layer3', label: 'Layer 3' },
+];
 
 /* Loads required info from server */
 // eslint-disable-next-line react/prefer-stateless-function
@@ -141,6 +155,43 @@ class App extends React.Component<Props, State> {
         });
     }
 
+    private handleLayerSwitcherDropdownItemClick = ({ params }: {
+        params: {
+            key: string;
+        };
+    }) => {
+        console.warn(params.key);
+    }
+
+    private getLayerSwitcherDropdownItemRendererParams = (_: keyof(Layer), d: Layer) => ({
+        data: d,
+        onClick: this.handleLayerSwitcherDropdownItemClick,
+        className: styles.dropdownItem,
+    })
+
+    private renderLayerSwitcherDropdownItem = ({
+        data,
+        onClick,
+        className,
+    }: {
+        data: Layer;
+        className?: string;
+        onClick: (d: {
+            params: {
+                key: string;
+            };
+        }) => {};
+    }) => (
+        <Button
+            onClickParams={{ key: data.key }}
+            onClick={onClick}
+            transparent
+            className={className}
+        >
+            { data.label }
+        </Button>
+    )
+
     public render() {
         const {
             currentViewLevel,
@@ -148,6 +199,20 @@ class App extends React.Component<Props, State> {
 
         return (
             <div className={styles.app}>
+                <DropdownMenu
+                    className={styles.layerSwitcher}
+                    iconName="layers"
+                    hideDropdownIcon
+                    dropdownClassName={styles.dropdown}
+                    closeOnClick
+                >
+                    <List
+                        data={layers}
+                        renderer={this.renderLayerSwitcherDropdownItem}
+                        rendererParams={this.getLayerSwitcherDropdownItemRendererParams}
+                        keySelector={d => d.key}
+                    />
+                </DropdownMenu>
                 <Map
                     mapStyle={mapStyle.style}
                     fitBoundsDuration={200}
