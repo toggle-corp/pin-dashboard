@@ -18,7 +18,7 @@ const district = {
             ['==', ['feature-state', 'type'], 'affected-district'], '#3656F6',
             '#ffffff',
         ],
-        'fill-opacity': 0.7,
+        'fill-opacity': 0.5,
     },
     label: {
         paint: {
@@ -78,7 +78,7 @@ const ward = {
             ['==', ['feature-state', 'selected'], true], '#18bc9c',
             '#ffffff',
         ],
-        'fill-opacity': 0.7,
+        'fill-opacity': 0.5,
     },
     label: {
         paint: {

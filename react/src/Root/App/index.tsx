@@ -25,15 +25,10 @@ interface State {
     currentViewLevel: ViewLevel;
     activeDistrict?: GeoAttribute;
     activePalika?: GeoAttribute;
+    mapStyle: string;
 }
 
 interface Props {}
-
-const mapStyle = {
-    name: 'none',
-    style: 'mapbox://styles/adityakhatri/cjuck3jrk1gyt1fprrcz8z4f0',
-    color: '#dddddd',
-};
 
 const countryGeoAttribute: GeoAttribute = {
     id: 0,
@@ -55,15 +50,38 @@ interface MyType<T> {
 }
 
 interface Layer {
-    key: string;
+    style: string;
     label: string;
 }
 
 const layers: Layer[] = [
-    { key: 'layer1', label: 'Layer 1' },
-    { key: 'layer2', label: 'Layer 2' },
-    { key: 'layer3', label: 'Layer 3' },
+    {
+        label: 'Blank',
+        style: 'mapbox://styles/adityakhatri/cjuck3jrk1gyt1fprrcz8z4f0',
+    },
+    {
+        label: 'Light',
+        style: 'mapbox://styles/mapbox/light-v10',
+    },
+    {
+        label: 'Street',
+        style: 'mapbox://styles/mapbox/streets-v11',
+    },
+    {
+        label: 'Roads',
+        style: 'mapbox://styles/mapbox/navigation-guidance-day-v4',
+    },
+    {
+        label: 'Outdoor',
+        style: 'mapbox://styles/mapbox/outdoors-v11',
+    },
+    {
+        label: 'Satellite',
+        style: 'mapbox://styles/mapbox/satellite-streets-v11',
+    },
 ];
+
+const layerKeySelector = (layer: Layer) => layer.style;
 
 /* Loads required info from server */
 // eslint-disable-next-line react/prefer-stateless-function
@@ -73,6 +91,7 @@ class App extends React.Component<Props, State> {
 
         this.state = {
             currentViewLevel: ViewLevel.National,
+            mapStyle: 'mapbox://styles/adityakhatri/cjuck3jrk1gyt1fprrcz8z4f0',
         };
 
         this.views = {
@@ -157,10 +176,10 @@ class App extends React.Component<Props, State> {
 
     private handleLayerSwitcherDropdownItemClick = ({ params }: {
         params: {
-            key: string;
+            style: string;
         };
     }) => {
-        console.warn(params.key);
+        this.setState({ mapStyle: params.style });
     }
 
     private getLayerSwitcherDropdownItemRendererParams = (_: keyof(Layer), d: Layer) => ({
@@ -178,12 +197,13 @@ class App extends React.Component<Props, State> {
         className?: string;
         onClick: (d: {
             params: {
-                key: string;
+                style: string;
             };
-        }) => {};
+        }) => void;
     }) => (
         <Button
-            onClickParams={{ key: data.key }}
+            // FIXME: should create a wrapper component instead
+            onClickParams={{ style: data.style }}
             onClick={onClick}
             transparent
             className={className}
@@ -194,6 +214,7 @@ class App extends React.Component<Props, State> {
 
     public render() {
         const {
+            mapStyle,
             currentViewLevel,
         } = this.state;
 
@@ -210,11 +231,11 @@ class App extends React.Component<Props, State> {
                         data={layers}
                         renderer={this.renderLayerSwitcherDropdownItem}
                         rendererParams={this.getLayerSwitcherDropdownItemRendererParams}
-                        keySelector={d => d.key}
+                        keySelector={layerKeySelector}
                     />
                 </DropdownMenu>
                 <Map
-                    mapStyle={mapStyle.style}
+                    mapStyle={mapStyle}
                     fitBoundsDuration={200}
                     minZoom={5}
 
