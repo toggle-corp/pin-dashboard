@@ -303,7 +303,11 @@ export function getNewMapStateOnRiskPointHoverChange(
     featureFromIdentifier: FeatureFromIdentifier,
 ) {
     if (id === undefined) {
-        return {};
+        return {
+            mapState: [],
+            catPoints: [],
+            relocationSites: [],
+        };
     }
 
     let catPoints: RiskPointWithType[] = [];
@@ -364,7 +368,11 @@ export function getNewMapStateOnRelocationHoverChange(
     featureFromIdentifier: FeatureFromIdentifier,
 ) {
     if (id === undefined) {
-        return {};
+        return {
+            mapState: [],
+            catPoints: [],
+            relocationSites: [],
+        };
     }
 
     let newMapState: MapStateElement[] = [

@@ -22,8 +22,9 @@ const styleProperties = {
     zIndexHoverDetails: '11',
 
     colorDanger: '#e53935',
-    colorWarning: '#fb8c00',
+    colorWarning: '#f9a825',
     colorSuccess: '#43A047',
+    colorAccent: '#009688',
 
     widthGeohazardAffectedHouseholdsChart: '96px',
     heightGeohazardAffectedHouseholdsChart: '96px',

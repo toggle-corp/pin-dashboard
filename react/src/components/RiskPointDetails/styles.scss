@@ -1,7 +1,4 @@
 .cat-point-hover-details {
-    background-color: var(--color-foreground);
-    padding: var(--spacing-small);
-
     .title {
         padding: var(--spacing-medium);
         font-size: var(--font-size-large);
@@ -18,16 +15,12 @@
     }
 
     &.cat2 {
-        border: var(--width-separator-thin) solid var(--color-warning);
-
         .title {
             color: var(--color-warning);
         }
     }
 
     &.cat3 {
-        border: var(--width-separator-thin) solid var(--color-danger);
-
         .title {
             color: var(--color-danger);
         }
