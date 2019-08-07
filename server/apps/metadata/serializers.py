@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from .models import RelocationSite, Household
 
 
 class BaseMetadataSerializer(serializers.Serializer):
@@ -11,8 +12,28 @@ class BaseMetadataSerializer(serializers.Serializer):
     people_relocated = serializers.DictField(serializers.IntegerField)
     total_households = serializers.IntegerField()
 
+    tranches = serializers.DictField(serializers.IntegerField)
+    integrated_settlements = serializers.DictField(serializers.IntegerField)
+    landless_households = serializers.DictField(serializers.IntegerField)
+
+
+class RelocationSiteSerializer(serializers.ModelSerializer):
+    palika_name = serializers.CharField(source='palika.name', read_only=True)
+    district_name = serializers.CharField(source='district.name', read_only=True)
+    ward_name = serializers.CharField(source='ward.name', read_only=True)
+
+    number_of_households = serializers.SerializerMethodField()
+
+    class Meta:
+        model = RelocationSite
+        fields = '__all__'
+
+    def get_number_of_households(self, obj):
+        return len(Household.objects.filter(relocation_site=obj))
+
 
 class CatPointSerializer(serializers.Serializer):
+    geosite = serializers.CharField()
     latitude = serializers.FloatField()
     longitude = serializers.FloatField()
 
@@ -27,6 +48,7 @@ class CatPointSerializer(serializers.Serializer):
     direct_risk_for = serializers.CharField()
     potential_impact = serializers.CharField()
     risk_probability = serializers.CharField()
+    relocation_sites = RelocationSiteSerializer(many=True)
 
 
 class Cat2PointSerializer(CatPointSerializer):

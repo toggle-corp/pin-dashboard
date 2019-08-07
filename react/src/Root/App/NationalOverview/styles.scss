@@ -1,4 +1,4 @@
-.national-overview {
+.overview {
     display: flex;
     flex-direction: column;
     background-color: var(--color-background-alt);
@@ -6,5 +6,39 @@
     .information {
         flex-grow: 1;
         background-color: var(--color-foreground);
+    }
+
+    .hover-details {
+        position: absolute;
+        top: var(--spacing-medium);
+        right: var(--spacing-medium);
+        z-index: var(--z-index-hover-details);
+        width: var(--width-hover-details);
+        pointer-events: none;
+    }
+
+    .legend {
+        position: absolute;
+        bottom: 0;
+        left: var(--width-left-pane);
+        z-index: 11;
+        background-color: var(--color-foreground);
+        padding: var(--spacing-medium);
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+
+            .attr {
+                flex-shrink: 0;
+                margin: var(--spacing-extra-small-alt) var(--spacing-medium);
+                width: var(--spacing-medium);
+                height: var(--spacing-medium);
+            }
+
+            .label {
+                padding: var(--spacing-extra-small-alt) var(--spacing-medium);
+            }
+        }
     }
 }

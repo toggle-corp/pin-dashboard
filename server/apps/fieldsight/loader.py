@@ -14,6 +14,8 @@ from geo.models import (
 from metadata.models import (
     GeoSite,
     Household,
+    RelocationSite,
+    LandlessHousehold,
 )
 
 logger = logging.getLogger(__name__)
@@ -61,10 +63,46 @@ def parse_land_area(text):
     return number and float(number) * 10000
 
 
+def clean_palika_name(palika_name):
+    name = str(palika_name).lower()
+    for remove_string in ['rural', 'municipality', 'r.m']:
+        name = name.replace(remove_string, '')
+    return name.strip().title()
+
+
+def clean_ward_number(ward_number):
+    name = str(ward_number)
+    if name.find(','):
+        name = name[:name.find(',')]
+    return name.strip()
+
+
+def log_geo_warning(data_type, code, datum, defaults, selectors):
+    missing_warning_message = [
+        f"  >> '{geo_dist}' not found"
+        f", Provided data: {get_attr(datum, data_selector)}"
+        f", used data: {query_name}"
+        for geo_dist, data_selector, query_name in selectors
+        if defaults[geo_dist] is None and query_name not in [None, '', 'None', '0']
+    ]
+    if missing_warning_message:
+        logger.warning(f">> Missing Geo Attribute for {data_type} ID: {code}")
+        logger.warning(
+            '  -> ' +
+            ' -> '.join([
+                (
+                    defaults[geo_dist] and f'(pk={defaults[geo_dist].pk}){defaults[geo_dist].name}'
+                ) or 'None'
+                for geo_dist, _, _ in selectors
+            ])
+        )
+        [logger.warning(message) for message in missing_warning_message]
+
+
 def trigram_name_search(queryset, name_query):
     return queryset.annotate(
         similarity=search.TrigramSimilarity('name', str(name_query or '')),
-    ).filter(similarity__gt=0.5)
+    ).filter(similarity__gt=0.3).order_by('-similarity')
 
 
 class Loader:
@@ -87,6 +125,17 @@ class Loader:
         'Ward': 'ward',
     }
 
+    relocation_site_map = {
+        'Site_Type': 'site_type',
+        'Protection_Support': 'protection_support',
+        'Name_of_Place': 'place',
+        'Status': 'status',
+    }
+
+    landless_household_map = {
+        'Result': 'result',
+    }
+
     household_map = {
         'Land_size_allocated_to_HH': 'land_size',
         'Eligibility_Source': 'eligibility_source',
@@ -103,6 +152,7 @@ class Loader:
         'Women_Age_6_18': 'women_6_18',
         'Women_Age_19_60': 'women_19_60',
         'Women_Age_60_Plus': 'women_60_plus',
+        'Tranches': 'tranches',
     }
 
     household_parse_functions = {
@@ -150,6 +200,15 @@ class Loader:
             except Exception:
                 logger.error('Fetch Geosites Failed!!', exc_info=True)
 
+    def fetch_relocation_sites(self, force=False):
+        data = self.fetch_data('ds2_pprisnd', force)
+        for datum in data:
+            try:
+                logger.info('Collecting Relocation Sites!!')
+                self.load_relocation_site(datum)
+            except Exception:
+                logger.error('Fetch Relocation Sites Failed!!', exc_info=True)
+
     def fetch_households(self, force=False):
         data = self.fetch_data('hh_registry', force)
         for datum in data:
@@ -159,16 +218,25 @@ class Loader:
             except Exception:
                 logger.error('Fetch Households Failed!!', exc_info=True)
 
-    def load_geosite(self, datum):
-        code = get_attr(datum, 'Geohazard_code')
+    def fetch_landless_households(self, force=False):
+        data = self.fetch_data('ds_landless', force)
+        for datum in data:
+            try:
+                logger.info('Collecting Landless Households!!')
+                self.load_landless_household(datum)
+            except Exception:
+                logger.error('Fetch Landless Households Failed!!', exc_inf=True)
+
+    def load_relocation_site(self, datum):
+        code = get_attr(datum, 'Relocation_Place_Code')
         defaults = {}
-        for key, value in self.geosite_map.items():
+
+        for key, value in self.relocation_site_map.items():
             defaults[value] = get_attr(datum, key)
 
-        defaults['category'] = 'CAT{}'.format(get_attr(datum, 'Category'))
-        defaults['latitude'] = get_attr(datum, 'latitude') or \
+        defaults['latitude'] = get_attr(datum, 'Geo_point_Lat') or \
             datum['location'][1]
-        defaults['longitude'] = get_attr(datum, 'longitude') or \
+        defaults['longitude'] = get_attr(datum, 'Geo_point_Long') or \
             datum['location'][0]
 
         defaults['district'] = trigram_name_search(District.objects, get_attr(datum, 'District')).first()
@@ -182,7 +250,7 @@ class Loader:
 
         [
             logger.warning(
-                f">> Geosite: '{geo_dist}' not found for '{datum.get('id')}', "
+                f">> Relocation Site: '{geo_dist}' not found for '{datum.get('id')}', "
                 f"Provided data: {get_attr(datum, data_selector)}"
             )
             for geo_dist, data_selector in [
@@ -192,8 +260,87 @@ class Loader:
             ] if defaults[geo_dist] is None
         ]
 
+        relocation_site, _ = RelocationSite.objects.update_or_create(
+            code=code,
+            defaults=defaults,
+        )
+
+    def load_geosite(self, datum):
+        code = get_attr(datum, 'Geohazard_code')
+        defaults = {}
+        for key, value in self.geosite_map.items():
+            defaults[value] = get_attr(datum, key)
+
+        defaults['category'] = 'CAT{}'.format(get_attr(datum, 'Category'))
+        defaults['latitude'] = get_attr(datum, 'latitude') or datum['location'][1]
+        defaults['longitude'] = get_attr(datum, 'longitude') or datum['location'][0]
+
+        district_name = get_attr(datum, 'District')
+        palika_name = clean_palika_name(get_attr(datum, 'Gaupalika'))
+        ward_name = clean_ward_number(get_attr(datum, 'Ward'))
+
+        defaults['district'] = trigram_name_search(District.objects, district_name).first()
+        defaults['palika'] = trigram_name_search(
+            Palika.objects.filter(district__in=[defaults['district']]),
+            palika_name,
+        ).first()
+        defaults['ward'] = Ward.objects.filter(name=ward_name, palika__in=[defaults['palika']]).first()
+
+        log_geo_warning(
+            'Geosite', datum.get('id'), datum, defaults, [
+                ('district', 'District', district_name),
+                ('palika', 'Gaupalika', palika_name),
+                ('ward', 'Ward', ward_name),
+            ],
+        )
+
         geosite, _ = GeoSite.objects.update_or_create(
             code=code,
+            defaults=defaults,
+        )
+
+    def load_landless_household(self, datum):
+        identifier = get_attr(datum, 'LL HH Code')
+
+        defaults = {}
+        for key, value in self.landless_household_map.items():
+            defaults[value] = get_attr(datum, key)
+            if not defaults[value]:
+                defaults[value] = self.household_defaults.get(key)
+            else:
+                function = self.household_parse_functions.get(key)
+                if function:
+                    defaults[value] = function(defaults[value])
+
+        defaults['identifier'] = identifier
+
+        try:
+            district_name = get_attr(datum, 'District_of_origin')
+            palika_name = clean_palika_name(get_attr(datum, 'Gaupalika_Municipality'))
+            ward_name = clean_ward_number(get_attr(datum, 'Ward'))
+
+            defaults['district'] = trigram_name_search(District.objects, district_name).first()
+            defaults['palika'] = trigram_name_search(
+                Palika.objects.filter(district__in=[defaults['district']]),
+                palika_name,
+            ).first()
+            defaults['ward'] = Ward.objects.filter(
+                name=ward_name, palika__in=[defaults['palika']]
+            ).first()
+
+            log_geo_warning(
+                'Household', identifier, datum, defaults, [
+                    ('district', 'District_of_origin', district_name),
+                    ('palika', 'Gaupalika_Municipality', palika_name),
+                    ('ward', 'Ward', ward_name),
+                ],
+            )
+
+        except Exception:
+            logger.error(f'Load Landless Household({identifier}) Failed!!', exc_info=True)
+
+        landless_household, _ = LandlessHousehold.objects.update_or_create(
+            identifier=identifier,
             defaults=defaults,
         )
 
@@ -201,6 +348,9 @@ class Loader:
         code = get_attr(datum, 'DS_II_HH_Code')
         geosite = GeoSite.objects.filter(
             code=get_attr(datum, 'Geohazard_Code')
+        ).first()
+        relocation_site = RelocationSite.objects.filter(
+            code=get_attr(datum, 'Relocation_Place_Code')
         ).first()
 
         if code is None:
@@ -220,28 +370,30 @@ class Loader:
                     defaults[value] = function(defaults[value])
 
         defaults['geosite'] = geosite
+        defaults['relocation_site'] = relocation_site
 
         try:
-            defaults['district'] = trigram_name_search(District.objects, get_attr(datum, 'District_of_origin')).first()
+            district_name = get_attr(datum, 'District_of_origin')
+            palika_name = clean_palika_name(get_attr(datum, 'Gaupalika_Municipality'))
+            ward_name = clean_ward_number(get_attr(datum, 'Ward'))
+
+            defaults['district'] = trigram_name_search(District.objects, district_name).first()
             defaults['palika'] = trigram_name_search(
                 Palika.objects.filter(district__in=[defaults['district']]),
-                get_attr(datum, 'Gaupalika_Municipality'),
+                palika_name,
             ).first()
             defaults['ward'] = Ward.objects.filter(
-                name=str(get_attr(datum, 'Ward')), palika__in=[defaults['palika']]
+                name=ward_name, palika__in=[defaults['palika']]
             ).first()
 
-            [
-                logger.warning(
-                    f">> Household: '{geo_dist}' not found for '{code}', "
-                    f"Provided data: {get_attr(datum, data_selector)}"
-                )
-                for geo_dist, data_selector in [
-                    ('district', 'District_of_origin'),
-                    ('palika', 'Gaupalika_Municipality'),
-                    ('ward', 'Ward'),
-                ] if defaults[geo_dist] is None
-            ]
+            log_geo_warning(
+                'Household', code, datum, defaults, [
+                    ('district', 'District_of_origin', district_name),
+                    ('palika', 'Gaupalika_Municipality', palika_name),
+                    ('ward', 'Ward', ward_name),
+                ],
+            )
+
         except Exception:
             logger.error(f'Load Household({code}) Failed!!', exc_info=True)
 

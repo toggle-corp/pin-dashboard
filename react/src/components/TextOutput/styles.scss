@@ -3,15 +3,15 @@
     align-items: baseline;
 
     .label {
-        padding: var(--spacing-small) var(--spacing-medium);
+        padding: var(--spacing-extra-small-alt) var(--spacing-medium);
     }
 
     .separator {
-        padding: var(--spacing-small) 0;
+        padding: var(--spacing-extra-small-alt) 0;
     }
 
     .value {
-        padding: var(--spacing-small) var(--spacing-medium);
+        padding: var(--spacing-extra-small-alt) var(--spacing-medium);
         font-family: var(--font-family-monospace);
         font-weight: var(--font-weight-bold);
     }

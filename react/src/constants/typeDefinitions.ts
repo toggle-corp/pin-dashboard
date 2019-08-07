@@ -1,6 +1,14 @@
 export type GeoPoint = [number, number];
 export type GeoBounds = [number, number, number, number];
 
+export interface IntegratedSettlementMeta {
+    phase1?: number;
+    phase2?: number;
+    phase3?: number;
+    completed?: number;
+    total?: number;
+}
+
 export interface GeohazardAffected {
     eligible?: number;
     relocated?: number;
@@ -36,20 +44,52 @@ export interface PeopleRelocated {
 }
 
 export interface RelocationPoint {
+    geosite: string;
+    location: number[];
+    solutionType: string;
+}
+
+export interface RelocationSite {
+    code: string;
+    place?: string;
+    latitude?: number;
+    longitude?: number;
+    siteType?: 'Integrated Settlement' | 'Private Land';
+    status?: 'Phase 1 - Primary Plan Approved' | 'Phase 2 - DPR Approved' | 'Phase 3 - Implementation' | 'Completed';
+    district?: number;
+    palika?: number;
+    ward?: number;
+    protectionSupport?: string;
+    districtName?: string;
+    palikaName?: string;
+    wardName?: string;
+    numberOfHouseholds?: number;
+}
+
+export interface RiskPoint {
+    geosite: string;
     directRiskFor: string;
     gpName: string; // TODO: should be name
     hhAffected: number;
     highRiskOf: string;
     landslideCat: keyof LandslidesSurveyed;
     landslideCode: string;
-    latitude: number;
-    longitude: number;
+    latitude?: number;
+    longitude?: number;
     mitigationWorkBy: string;
     mitigationWorkStatus: string;
     place: string;
     potentialImpact: string;
     riskProbability: string;
     riskScore: keyof LandslidesRiskScore;
+    eligibleHouseholds: number;
+    householdsRelocated: number;
+    relocationSites: RelocationSite[];
+
+}
+
+export interface RiskPointWithType extends RiskPoint {
+    type: 'cat2' | 'cat3';
 }
 
 export interface GeoAttribute {
@@ -57,6 +97,18 @@ export interface GeoAttribute {
     name: string;
     bbox?: GeoBounds;
     centroid?: GeoPoint;
+}
+
+export interface Tranches {
+    first?: number;
+    second?: number;
+    third?: number;
+}
+
+export interface LandlessHousehold {
+    approved?: number;
+    relocated?: number;
+    total?: number;
 }
 
 export interface Base {
@@ -68,10 +120,38 @@ export interface Base {
     landslidesRiskScore: LandslidesRiskScore;
     landslidesSurveyed: LandslidesSurveyed;
     peopleRelocated: PeopleRelocated;
+    tranches: Tranches;
+    integratedSettlements: IntegratedSettlementMeta;
+    landlessHouseholds: LandlessHousehold;
 }
 
 export interface Metadata extends Base {
-    cat2Points?: RelocationPoint[];
-    cat3Points?: RelocationPoint[];
+    cat2Points?: RiskPoint[];
+    cat3Points?: RiskPoint[];
+    relocationPoints?: RelocationPoint[];
     regions: Base[];
+}
+
+export interface RelocationSiteCodes {
+    [key: string]: boolean;
+}
+
+export interface FeatureIdentifiers {
+    [key: string]: number;
+}
+
+export interface LineStringIdentifiers {
+    [key: string]: number;
+}
+
+export interface FeatureFromIdentifier {
+    [key: number]: string;
+}
+
+export interface MapStateElement {
+    id?: number;
+    value?: {
+        darken?: boolean;
+        show?: boolean;
+    };
 }

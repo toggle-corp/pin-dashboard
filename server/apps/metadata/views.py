@@ -1,5 +1,5 @@
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+from django.conf import settings
 from django.db import models
 from django.shortcuts import get_object_or_404
 
@@ -16,7 +16,10 @@ from .serializers import (
     PalikaDetailSerializer,
 )
 from .models import (
-    GeoSite, Household,
+    GeoSite,
+    Household,
+    RelocationSite,
+    LandlessHousehold,
 )
 
 from fieldsight.loader import Loader
@@ -39,7 +42,10 @@ class CatPoint:
 
         self.landslide_code = geosite.code
         self.landslide_cat = geosite.category
-        self.gp_name = geosite.palika.name
+
+        # FIXME: sometime palika is undefined
+        self.gp_name = geosite.palika and geosite.palika.name
+
         self.place = geosite.place
 
         self.households = geosite.household_set
@@ -49,6 +55,8 @@ class CatPoint:
         self.direct_risk_for = geosite.direct_risk_for
         self.potential_impact = geosite.potential_impact
         self.risk_probability = geosite.risk_probability
+
+        self.relocation_sites = RelocationSite.objects.filter(household__geosite=geosite).distinct()
 
 
 class Cat2Point(CatPoint):
@@ -77,16 +85,24 @@ class Metadata:
         self.ward = ward
         self.gs = GeoSite.objects
         self.hh = Household.objects
+        self.llhh = LandlessHousehold.objects
+        self.rs = RelocationSite.objects
 
         if self.ward:
             self.gs = self.gs.filter(ward=ward)
             self.hh = self.hh.filter(ward=ward)
+            self.rs = self.rs.filter(ward=ward)
+            self.llhh = self.llhh.filter(ward=ward)
         elif self.palika:
             self.gs = self.gs.filter(palika=palika)
             self.hh = self.hh.filter(palika=palika)
+            self.rs = self.rs.filter(palika=palika)
+            self.llhh = self.llhh.filter(palika=palika)
         elif self.district:
             self.gs = self.gs.filter(district=district)
             self.hh = self.hh.filter(district=district)
+            self.rs = self.rs.filter(district=district)
+            self.llhh = self.llhh.filter(district=district)
 
     def landslides_surveyed(self):
         return get_counts(
@@ -109,6 +125,47 @@ class Metadata:
             'eligible': hh.filter(eligibility__contains='Yes').count(),
             'relocated': hh.filter(result__contains='Relocated').count(),
             'total': hh.count(),
+        }
+
+    def tranches(self):
+        hh = self.hh.filter(result='Relocated')
+
+        first_tranche = hh.filter(tranches=1).count()
+        second_tranche = hh.filter(tranches=2).count()
+        third_tranche = hh.filter(tranches=3).count()
+
+        return {
+            'first': first_tranche + second_tranche + third_tranche,
+            'second': second_tranche + third_tranche,
+            'third': third_tranche
+        }
+
+    def integrated_settlements(self):
+        rs = self.rs
+
+        phase1 = rs.filter(status='Phase 1 - Primary Plan Approved').count()
+        phase2 = rs.filter(status='Phase 2 - DPR Approved').count()
+        phase3 = rs.filter(status='Phase 3 - Implementation').count()
+        completed = rs.filter(status='Completed').count()
+
+        return {
+            'phase1': phase1,
+            'phase2': phase2,
+            'phase3': phase3,
+            'completed': completed,
+            'total': phase1 + phase2 + phase3 + completed,
+        }
+
+    def landless_households(self):
+        llhh = self.llhh
+
+        approved = llhh.filter(result='Approved to live in the existing place').count()
+        relocated = llhh.filter(result='Relocated').count()
+
+        return {
+            'approved': approved,
+            'relocated': relocated,
+            'total': approved + relocated,
         }
 
     def people_relocated(self):
@@ -191,9 +248,12 @@ class Metadata:
 
 
 class MetadataView(views.APIView):
+    DISTRICT_CACHE_KEY = 'pin-district-metadata-cache-{}'
+    PALIKA_CACHE_KEY = 'pin-palika-metadata-cache-{}'
+    COUNTRY_CACHE_KEY = 'pin-country-metadata-cache-nepal'
 
-    @method_decorator(cache_page(60 * 60 * 1))
-    def get(self, request, district_id=None, palika_id=None):
+    @staticmethod
+    def _get(district_id=None, palika_id=None):
         loader = Loader()
 
         try:
@@ -213,4 +273,22 @@ class MetadataView(views.APIView):
         else:
             metadata = Metadata()
             serializer = CountrySerializer(metadata)
-        return response.Response(serializer.data)
+        return serializer.data
+
+    def get(self, request, district_id=None, palika_id=None):
+        if not settings.CACHE_METADATA:
+            print('NOT CACHING')
+            return MetadataView._get(district_id, palika_id)
+
+        cache_key = self.COUNTRY_CACHE_KEY
+        if district_id:
+            cache_key = self.DISTRICT_CACHE_KEY.format(district_id)
+        elif palika_id:
+            cache_key = self.PALIKA_CACHE_KEY.format(palika_id)
+
+        data = cache.get(cache_key)
+        if data is None:
+            data = MetadataView._get(district_id, palika_id)
+            cache.set(cache_key, data)
+
+        return response.Response(data)

@@ -24,6 +24,7 @@ export interface RouteState {
 
 // ACTION TYPES
 
+// eslint-disable-next-line import/prefer-default-export
 export enum RouteType {
     SET_PARAMS = 'route/SET_PARAMS',
     CLEAR_STATE = 'route/CLEAR_STATE',

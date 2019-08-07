@@ -1,43 +1,19 @@
 version: '3.3'
 
 services:
-  wp-db:
-    image: mysql:5.7
-    restart: on-failure
-    volumes:
-      - wp-db:/var/lib/mysql
-    command: --explicit_defaults_for_timestamp
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-
   db:
     image: postgres:9.6
     volumes:
       - pin-db:/var/lib/postgresql/data
 
-  wordpress:
-    depends_on:
-      - wp-db
-    image: wordpress:latest
-    restart: on-failure
+  redis:
+    image: redis:latest
     volumes:
-      - ./wp-theme:/var/www/html/wp-content/themes/ultrasimpleRes
-    ports:
-      - '8051:80'
-    environment:
-      WORDPRESS_DB_HOST: wp-db:3306
-      WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: root
-      WORDPRESS_DB_NAME: wordpress
+      - redis-data:/data
 
   react:
     build: ./react/
     command: sh -c 'yarn install && yarn start'
-    environment:
-      REACT_APP_API_SERVER_URL: http://localhost:8050/api/v1
     env_file:
       - .env
     volumes:
@@ -59,7 +35,8 @@ services:
       - '8050:8050'
     depends_on:
       - db
+      - redis
 
 volumes:
-  wp-db:
   pin-db:
+  redis-data:

@@ -9,9 +9,11 @@ import Button from '#rsca/Button';
 import { Base } from '#constants';
 
 import LandslidesSurveyed from './LandslidesSurveyed';
-import LandslidesRiskScore from './LandslidesRiskScore';
+import EarthquakeAffectedLandlessHouseholds from './EarthquakeAffectedLandlessHouseholds';
+import IntegratedSettlements from './IntegratedSettlements';
 import GeohazardAffectedHouseholds from './GeohazardAffectedHouseholds';
 import LandPurchased from './LandPurchased';
+import TrancheUpdate from './TrancheUpdate';
 import PeopleRelocated from './PeopleRelocated';
 
 import styles from './styles.scss';
@@ -39,7 +41,9 @@ class Information extends React.PureComponent<Props> {
 
         if (pending) {
             return (
-                <LoadingAnimation />
+                <LoadingAnimation
+                    message="Loading Data"
+                />
             );
         }
         if (!data) {
@@ -52,11 +56,13 @@ class Information extends React.PureComponent<Props> {
 
         const {
             landslidesSurveyed,
-            landslidesRiskScore,
             geohazardAffected,
             landPurchased,
             totalHouseholds,
             peopleRelocated,
+            tranches,
+            integratedSettlements,
+            landlessHouseholds,
         } = data;
 
         const landPurchasedData = this.getLandPurchasedData(landPurchased, totalHouseholds);
@@ -67,13 +73,13 @@ class Information extends React.PureComponent<Props> {
                     data={landslidesSurveyed}
                     className={styles.landslidesSurveyed}
                 />
-                <LandslidesRiskScore
-                    data={landslidesRiskScore}
-                    className={styles.landslidesRiskScore}
-                />
                 <GeohazardAffectedHouseholds
                     className={styles.geohazardAffectedHouseholds}
                     data={geohazardAffected}
+                />
+                <TrancheUpdate
+                    className={styles.trancheUpdate}
+                    data={tranches}
                 />
                 <LandPurchased
                     className={styles.landPurchased}
@@ -83,6 +89,14 @@ class Information extends React.PureComponent<Props> {
                     className={styles.peopleRelocated}
                     data={peopleRelocated}
                 />
+                <IntegratedSettlements
+                    data={integratedSettlements}
+                    className={styles.integratedSettlements}
+                />
+                <EarthquakeAffectedLandlessHouseholds
+                    data={landlessHouseholds}
+                    className={styles.earthquakeLandlessHouseholds}
+                />
             </>
         );
     }
@@ -90,7 +104,7 @@ class Information extends React.PureComponent<Props> {
     public render() {
         const {
             className,
-            title,
+            title = 'Unknown',
             showBackButton,
             onBackButtonClick,
         } = this.props;

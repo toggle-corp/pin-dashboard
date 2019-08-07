@@ -1,4 +1,4 @@
-.district-overview {
+.overview {
     display: flex;
     flex-direction: column;
     background-color: var(--color-background-alt);
@@ -6,5 +6,16 @@
     .information {
         flex-grow: 1;
         background-color: var(--color-foreground);
+    }
+
+    .hover-details {
+        position: absolute;
+        top: var(--spacing-medium);
+        right: var(--spacing-medium);
+        z-index: var(--z-index-hover-details);
+        width: var(--width-hover-details);
+        max-height: calc(var(--height-app) - 72px);
+        overflow: auto;
+        // pointer-events: none;
     }
 }

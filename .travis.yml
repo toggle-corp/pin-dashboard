@@ -1,0 +1,34 @@
+sudo: required
+
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - mkdir -p react/src/vendor
+  - git clone https://github.com/toggle-corp/react-store.git --branch=${REACT_STORE_BRANCH:-pin-dashboard-v2} react/src/vendor/react-store
+  - |
+    echo "
+      REACT_APP_API_SERVER_URL=${PIN_SERVER_URL}
+      REACT_APP_MAPBOX_ACCESS_TOKEN=${MAPBOX_ACCESS_TOKEN}
+      REACT_APP_MAPBOX_STYLE=${MAPBOX_STYLE}
+    " | sed -e 's/^[ \t]*//' > .env
+  - docker-compose build react
+
+jobs:
+  include:
+    - stage: Deploy (GitHub Pages Release)
+      script:
+        - docker-compose run --rm react sh -c 'yarn install && yarn build'
+        - sudo chown $USER:$USER -R ./react/build/
+        - cp ./react/build/index.html ./react/build/404.html
+        - echo ${CUSTOM_DOMAIN:-pin.togglecorp.com} > ./react/build/CNAME
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN
+        keep_history: true
+        local_dir: ./react/build
+        on:
+          branch: release-v2
