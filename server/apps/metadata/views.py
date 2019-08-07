@@ -130,9 +130,9 @@ class Metadata:
     def tranches(self):
         hh = self.hh.filter(result='Relocated')
 
-        first_tranche = len(hh.filter(tranches=1))
-        second_tranche = len(hh.filter(tranches=2))
-        third_tranche = len(hh.filter(tranches=3))
+        first_tranche = hh.filter(tranches=1).count()
+        second_tranche = hh.filter(tranches=2).count()
+        third_tranche = hh.filter(tranches=3).count()
 
         return {
             'first': first_tranche + second_tranche + third_tranche,
@@ -143,10 +143,10 @@ class Metadata:
     def integrated_settlements(self):
         rs = self.rs
 
-        phase1 = len(rs.filter(status='Phase 1 - Primary Plan Approved'))
-        phase2 = len(rs.filter(status='Phase 2 - DPR Approved'))
-        phase3 = len(rs.filter(status='Phase 3 - Implementation'))
-        completed = len(rs.filter(status='Completed'))
+        phase1 = rs.filter(status='Phase 1 - Primary Plan Approved').count()
+        phase2 = rs.filter(status='Phase 2 - DPR Approved').count()
+        phase3 = rs.filter(status='Phase 3 - Implementation').count()
+        completed = rs.filter(status='Completed').count()
 
         return {
             'phase1': phase1,
@@ -159,8 +159,8 @@ class Metadata:
     def landless_households(self):
         llhh = self.llhh
 
-        approved = len(llhh.filter(result='Approved to live in the existing place'))
-        relocated = len(llhh.filter(result='Relocated'))
+        approved = llhh.filter(result='Approved to live in the existing place').count()
+        relocated = llhh.filter(result='Relocated').count()
 
         return {
             'approved': approved,

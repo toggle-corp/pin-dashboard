@@ -7,7 +7,7 @@ import {
 import schema from '#schema';
 import { sanitizeResponse } from '#utils/common';
 
-const wsEndpoint = process.env.REACT_APP_API_SERVER_URL || 'http://pin-api.togglecorp.com:8000/api/v1';
+const wsEndpoint = process.env.REACT_APP_API_SERVER_URL || 'http://localhost:8050/api/v1';
 
 export function createConnectedRequestCoordinator<OwnProps>() {
     type Props = OwnProps;
