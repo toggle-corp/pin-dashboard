@@ -37,14 +37,11 @@ import {
     RiskPointWithType,
     FeatureIdentifiers,
     FeatureFromIdentifier,
-    RelocationSite,
     MapStateElement,
 } from '#constants';
 
 import Information from '#components/Information';
 import HoverDetails from '#components/HoverDetails';
-import RiskPointDetails from '#components/RiskPointDetails';
-import RelocationSiteDetails from '#components/RelocationSiteDetails';
 
 import PointDetails from './PointDetails';
 import styles from './styles.scss';
@@ -233,17 +230,17 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
         const id = featureIdentifier[selectedPoint];
         const newMapState = mapState.map((d) => {
-            if (d.id === id) {
-                return {
-                    id,
-                    value: {
-                        ...d.value,
-                        outline: true,
-                    },
-                };
+            if (d.id !== id) {
+                return d;
             }
 
-            return d;
+            return {
+                id,
+                value: {
+                    ...d.value,
+                    outline: true,
+                },
+            };
         });
 
         return newMapState;
@@ -455,8 +452,8 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
         const {
             mapState: unselectedMapState,
-            catPoints = [],
-            relocationSites = [],
+            catPoints,
+            relocationSites,
         } = this.getMapState(
             originalMetadata,
             selectedCat2PointId,

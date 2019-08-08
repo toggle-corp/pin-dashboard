@@ -32,9 +32,6 @@ const emptyList: [] = [];
 const emptyCatPointList: RiskPointWithType[] = emptyList;
 const emptyRelocationSiteList: RelocationSite[] = emptyList;
 
-// const riskPointKeySelector = (d: RiskPointWithType) => d.geosite;
-// const relocationSiteKeySelector = (d: RelocationSite) => d.code;
-
 const catPointKeySelector = (d: RiskPointWithType) => d.geosite;
 const catPointLabelSelector = (d: RiskPointWithType) => d.place;
 
@@ -134,18 +131,6 @@ class PointDetails extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {};
-    }
-
-    private getRiskPointRendererParams = (_: string, catPoint: RiskPointWithType) => ({
-        data: catPoint,
-    })
-
-    private getRelocationSiteRendererParams = (_: string, riskPoint: RelocationSite) => ({
-        data: riskPoint,
-    })
-
-    private handleBackButtonClick = () => {
-        console.warn('back button click');
     }
 
     private handleCatPointSelectInputChange = (value: string) => {

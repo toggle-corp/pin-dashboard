@@ -9,7 +9,7 @@ import List from '#rscv/List';
 import DropdownMenu from '#rsca/DropdownMenu';
 
 import NationalOverview from './NationalOverview';
-import DistrictOverview from './DistrictOverview';
+import RegionOverview from './RegionOverview';
 
 import { GeoAttribute } from '#constants';
 
@@ -104,7 +104,7 @@ class App extends React.Component<Props, State> {
                 }),
             },
             [ViewLevel.District]: {
-                component: DistrictOverview,
+                component: RegionOverview,
                 rendererParams: () => {
                     const {
                         activeDistrict,
@@ -121,7 +121,7 @@ class App extends React.Component<Props, State> {
                 },
             },
             [ViewLevel.Palika]: {
-                component: DistrictOverview,
+                component: RegionOverview,
                 rendererParams: () => {
                     const {
                         activePalika,
@@ -142,8 +142,8 @@ class App extends React.Component<Props, State> {
 
     private views: {
         [ViewLevel.National]: MyType<React.ComponentProps<typeof NationalOverview>>;
-        [ViewLevel.District]: MyType<React.ComponentProps<typeof DistrictOverview>>;
-        [ViewLevel.Palika]: MyType<React.ComponentProps<typeof DistrictOverview>>;
+        [ViewLevel.District]: MyType<React.ComponentProps<typeof RegionOverview>>;
+        [ViewLevel.Palika]: MyType<React.ComponentProps<typeof RegionOverview>>;
     }
 
     private handleDistrictBackButtonClick = () => {
