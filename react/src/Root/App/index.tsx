@@ -182,7 +182,7 @@ class App extends React.Component<Props, State> {
         this.setState({ mapStyle: params.style });
     }
 
-    private getLayerSwitcherDropdownItemRendererParams = (_: keyof(Layer), d: Layer) => ({
+    private getLayerSwitcherDropdownItemRendererParams = (_: string, d: Layer) => ({
         data: d,
         onClick: this.handleLayerSwitcherDropdownItemClick,
         className: styles.dropdownItem,

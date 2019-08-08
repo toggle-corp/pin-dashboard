@@ -102,7 +102,7 @@ class DonutChart<T> extends React.PureComponent<Props<T>> {
         };
     })
 
-    private getArcRendererParams = (_: string, datum: RenderDatum) => {
+    private getArcRendererParams = (_: string | number, datum: RenderDatum) => {
         const {
             boundingClientRect: {
                 width = 0,
