@@ -2,19 +2,18 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import ListView from '#rscv/List/ListView';
-import { RiskPoint } from '#constants/typeDefinitions';
+import { RiskPointWithType } from '#constants/typeDefinitions';
 import TextOutput from '../TextOutput';
+
 import styles from './styles.scss';
 
 interface Props {
     className?: string;
-    title?: string;
-    type?: 'cat2' | 'cat3';
-    point?: RiskPoint;
+    data?: RiskPointWithType;
 }
 
 interface KeyLabel {
-    key: keyof RiskPoint;
+    key: keyof RiskPointWithType;
     label: string;
 }
 
@@ -46,16 +45,20 @@ const cat3RenderValueList: KeyLabel[] = [
     { key: 'householdsRelocated', label: 'Households relocated' },
 ];
 
+const categoryNameMapping = {
+    cat2: 'Category 2',
+    cat3: 'Category 3',
+};
 
 class RiskPointHoverDetails extends React.PureComponent<Props> {
-    private getDetailRendererParams = (_: string, data: KeyLabel) => {
+    private getDetailRendererParams = (_: string, renderValue: KeyLabel) => {
         const {
-            point,
+            data,
         } = this.props;
 
         return {
-            label: data.label,
-            value: point ? point[data.key] : undefined,
+            label: renderValue.label,
+            value: data ? data[renderValue.key] : undefined,
             valueClassName: styles.value,
             labelClassName: styles.label,
         };
@@ -64,11 +67,15 @@ class RiskPointHoverDetails extends React.PureComponent<Props> {
     public render() {
         const {
             className,
-            title,
-            type = 'cat2',
+            // regionName,
+            data,
         } = this.props;
 
-        const valueRenderList = type === 'cat3'
+        if (!data) {
+            return null;
+        }
+
+        const valueRenderList = data.type === 'cat3'
             ? cat3RenderValueList
             : cat2RenderValueList;
 
@@ -81,11 +88,11 @@ class RiskPointHoverDetails extends React.PureComponent<Props> {
             <div className={_cs(
                 className,
                 styles.catPointHoverDetails,
-                catStyles[type],
+                catStyles[data.type],
             )}
             >
                 <div className={styles.title}>
-                    { title }
+                    {`${data.place} / ${categoryNameMapping[data.type]}`}
                 </div>
                 <ListView
                     data={valueRenderList}

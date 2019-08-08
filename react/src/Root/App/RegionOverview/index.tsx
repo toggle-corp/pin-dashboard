@@ -1,6 +1,10 @@
 import React from 'react';
 import memoize from 'memoize-one';
-import { _cs, isDefined, isNotDefined } from '@togglecorp/fujs';
+import {
+    _cs,
+    isDefined,
+    isNotDefined,
+} from '@togglecorp/fujs';
 
 import MapSource from '#rscz/Map/MapSource';
 import MapLayer from '#rscz/Map/MapLayer';
@@ -33,14 +37,13 @@ import {
     RiskPointWithType,
     FeatureIdentifiers,
     FeatureFromIdentifier,
-    RelocationSite,
+    MapStateElement,
 } from '#constants';
 
 import Information from '#components/Information';
 import HoverDetails from '#components/HoverDetails';
-import RiskPointHoverDetails from '#components/RiskPointHoverDetails';
-import RelocationSiteDetails from '#components/RelocationSiteDetails';
 
+import PointDetails from './PointDetails';
 import styles from './styles.scss';
 
 function addTypeToCat(point: RiskPoint, type: 'cat2' | 'cat3'): RiskPointWithType {
@@ -49,11 +52,6 @@ function addTypeToCat(point: RiskPoint, type: 'cat2' | 'cat3'): RiskPointWithTyp
         type,
     };
 }
-
-const categoryNameMapping = {
-    cat2: 'Category 2',
-    cat3: 'Category 3',
-};
 
 interface State {
     hoveredRegionId?: number;
@@ -69,6 +67,8 @@ interface State {
     selectedPLRelocationPointId?: number;
 
     metadata?: Metadata;
+
+    selectedPoint?: string;
 }
 
 interface Props {
@@ -158,7 +158,11 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         featureFromIdentifier: FeatureFromIdentifier,
     ) => {
         if (isNotDefined(originalMetadata)) {
-            return {};
+            return {
+                mapState: [],
+                catPoints: [],
+                relocationSites: [],
+            };
         }
 
         const {
@@ -208,8 +212,39 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                 featureFromIdentifier,
             );
         }
-        return {};
+        return {
+            mapState: [],
+            catPoints: [],
+            relocationSites: [],
+        };
     })
+
+    private getMapStateOnSelectedPoints = (
+        mapState: MapStateElement[],
+        selectedPoint: string | undefined,
+        featureIdentifier: FeatureIdentifiers,
+    ) => {
+        if (!selectedPoint) {
+            return mapState;
+        }
+
+        const id = featureIdentifier[selectedPoint];
+        const newMapState = mapState.map((d) => {
+            if (d.id !== id) {
+                return d;
+            }
+
+            return {
+                id,
+                value: {
+                    ...d.value,
+                    outline: true,
+                },
+            };
+        });
+
+        return newMapState;
+    }
 
     private createHoverChangeHandler = (key: keyof State) => (id: number | undefined) => {
         this.setState({
@@ -217,6 +252,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             hoveredCat3PointId: undefined,
             hoveredISRelocationPointId: undefined,
             hoveredPLRelocationPointId: undefined,
+            selectedPoint: undefined,
             [key]: id,
         });
     };
@@ -285,34 +321,6 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         }
     }
 
-    private renderCatPointHoverDetail = (catPointList: RiskPointWithType[] | undefined = []) => {
-        const {
-            region = {
-                name: 'Unknown',
-            },
-        } = this.props;
-
-        return catPointList.map(catPoint => (
-            <RiskPointHoverDetails
-                key={catPoint.geosite}
-                title={`${region.name} / ${categoryNameMapping[catPoint.type]}`}
-                point={catPoint}
-                type={catPoint.type}
-            />
-        ));
-    }
-
-    private renderRelocationSiteDetail = (
-        relocationPointList: RelocationSite[] | undefined = [],
-    ) => (
-        relocationPointList.map(relocationPoint => (
-            <RelocationSiteDetails
-                key={relocationPoint.code}
-                data={relocationPoint}
-            />
-        ))
-    )
-
     private renderHoverDetail = () => {
         const {
             metadata,
@@ -362,6 +370,10 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         );
     }
 
+    private handlePointSelectionChange = (value: string) => {
+        this.setState({ selectedPoint: value });
+    }
+
     public render() {
         const {
             className,
@@ -389,6 +401,8 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             selectedCat3PointId,
             selectedISRelocationPointId,
             selectedPLRelocationPointId,
+
+            selectedPoint,
         } = this.state;
 
         if (!region) {
@@ -437,7 +451,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             && isNotDefined(selectedPLRelocationPointId);
 
         const {
-            mapState,
+            mapState: unselectedMapState,
             catPoints,
             relocationSites,
         } = this.getMapState(
@@ -454,12 +468,24 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             featureFromIdentifier,
         );
 
+        const mapState = this.getMapStateOnSelectedPoints(
+            unselectedMapState,
+            selectedPoint,
+            featureIdentifier,
+        );
+
         return (
             <div className={_cs(className, styles.overview)}>
                 <div className={styles.hoverDetails}>
                     {this.renderHoverDetail()}
-                    {this.renderCatPointHoverDetail(catPoints)}
-                    {this.renderRelocationSiteDetail(relocationSites)}
+                    { (catPoints.length > 0 || relocationSites.length > 0) && (
+                        <PointDetails
+                            catPointList={catPoints}
+                            relocationSiteList={relocationSites}
+                            onCatPointSelectionChange={this.handlePointSelectionChange}
+                            onRelocationSiteSelectionChange={this.handlePointSelectionChange}
+                        />
+                    )}
                 </div>
                 <Information
                     className={styles.information}
@@ -518,7 +544,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         type="line"
                         layout={mapStyles.connectionLine.layout}
                         paint={
-                            mapState
+                            mapState.length > 0
                                 ? mapStyles.connectionLineInverted.line
                                 : mapStyles.connectionLine.line
                         }
@@ -537,7 +563,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         layerKey="cat2-points-circle"
                         type="circle"
                         paint={
-                            mapState
+                            mapState.length > 0
                                 ? mapStyles.cat2PointInverted.circle
                                 : mapStyles.cat2Point.circle
                         }
@@ -556,7 +582,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         layerKey="cat3-points-circle"
                         type="circle"
                         paint={
-                            mapState
+                            mapState.length > 0
                                 ? mapStyles.cat3PointInverted.circle
                                 : mapStyles.cat3Point.circle
                         }
@@ -569,15 +595,15 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     <MapLayer
                         enableHover={!pendingMetadataRequest && hoverEnable}
                         enableSelection={!pendingMetadataRequest}
-                        onHoverChange={this.handleISRelocationPointHoverChange}
-                        onSelectionChange={this.handleISRelocationPointSelectionChange}
+                        onHoverChange={this.handlePLRelocationPointHoverChange}
+                        onSelectionChange={this.handlePLRelocationPointSelectionChange}
                         mapState={mapState}
                         layerKey="relocation-points-circle"
                         type="circle"
                         paint={
-                            mapState
-                                ? mapStyles.relocationISPointInverted.circle
-                                : mapStyles.relocationISPoint.circle
+                            mapState.length > 0
+                                ? mapStyles.relocationPLPointInverted.circle
+                                : mapStyles.relocationPLPoint.circle
                         }
                     />
                 </MapSource>
@@ -588,16 +614,16 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     <MapLayer
                         enableHover={!pendingMetadataRequest && hoverEnable}
                         enableSelection={!pendingMetadataRequest}
-                        onHoverChange={this.handlePLRelocationPointHoverChange}
-                        onSelectionChange={this.handlePLRelocationPointSelectionChange}
+                        onHoverChange={this.handleISRelocationPointHoverChange}
+                        onSelectionChange={this.handleISRelocationPointSelectionChange}
                         mapState={mapState}
                         layerKey="relocation-points-diamond"
                         type="symbol"
-                        layout={mapStyles.relocationPLPoint.layout}
+                        layout={mapStyles.relocationISPoint.layout}
                         paint={
-                            mapState
-                                ? mapStyles.relocationPLPointInverted.text
-                                : mapStyles.relocationPLPoint.text
+                            mapState.length > 0
+                                ? mapStyles.relocationISPointInverted.text
+                                : mapStyles.relocationISPoint.text
                         }
                     />
                 </MapSource>

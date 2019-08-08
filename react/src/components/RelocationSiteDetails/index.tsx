@@ -33,12 +33,9 @@ class RelocationSiteDetails extends React.PureComponent<Props> {
         const {
             place,
             protectionSupport,
-            siteType,
-            status,
             districtName,
             palikaName,
             wardName,
-            code,
             numberOfHouseholds,
         } = data;
 

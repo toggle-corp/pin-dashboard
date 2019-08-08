@@ -36,6 +36,8 @@ const relocatedPeopleIcons: { [key in keyof PeopleRelocated]: string } = {
 
 const relocatedPeopleKeyList = Object.keys(relocatedPeopleIcons) as (keyof PeopleRelocated)[];
 
+const keySelector = (item: keyof PeopleRelocated) => item;
+
 class PeopleRelocatedView extends React.PureComponent<Props> {
     private getParamsForRelocatedPeople = (_: string, key: keyof PeopleRelocated) => {
         const { data } = this.props;
@@ -77,6 +79,7 @@ class PeopleRelocatedView extends React.PureComponent<Props> {
                     data={relocatedPeopleKeyList}
                     renderer={People}
                     rendererParams={this.getParamsForRelocatedPeople}
+                    keySelector={keySelector}
                 />
                 <TextOutput
                     label="People relocated"

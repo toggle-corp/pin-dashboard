@@ -38,8 +38,13 @@ const NumberOutput = ({ label, value }: { label: string; value?: number }) => (
     />
 );
 
+const keySelector = (item: keyof LandslidesRiskScore) => item;
+
 class LandslidesRiskScoreView extends React.PureComponent<Props> {
-    public getRendererParams = (_: string, riskScoreKey: keyof LandslidesRiskScore) => {
+    public getRendererParams = (
+        _: keyof LandslidesRiskScore,
+        riskScoreKey: keyof LandslidesRiskScore,
+    ) => {
         const { data } = this.props;
 
         return {
@@ -65,6 +70,7 @@ class LandslidesRiskScoreView extends React.PureComponent<Props> {
                     className={styles.content}
                     data={riskScoreKeys}
                     renderer={NumberOutput}
+                    keySelector={keySelector}
                     rendererParams={this.getRendererParams}
                 />
             </div>

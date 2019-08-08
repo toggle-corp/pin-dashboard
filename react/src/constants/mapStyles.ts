@@ -13,7 +13,7 @@ const district = {
     fill: {
         'fill-color': [
             'case',
-            ['==', ['feature-state', 'selected'], true], '#18bc9c',
+            ['==', ['feature-state', 'selected'], true], '#b2dfdb',
             ['==', ['feature-state', 'type'], 'most-affected-district'], '#0010A1',
             ['==', ['feature-state', 'type'], 'affected-district'], '#3656F6',
             '#ffffff',
@@ -45,7 +45,7 @@ const palika = {
     fill: {
         'fill-color': [
             'case',
-            ['==', ['feature-state', 'selected'], true], '#18bc9c',
+            ['==', ['feature-state', 'selected'], true], '#b2dfdb',
             '#ffffff',
         ],
         'fill-opacity': 0.7,
@@ -75,7 +75,7 @@ const ward = {
     fill: {
         'fill-color': [
             'case',
-            ['==', ['feature-state', 'selected'], true], '#18bc9c',
+            ['==', ['feature-state', 'selected'], true], '#b2dfdb',
             '#ffffff',
         ],
         'fill-opacity': 0.5,
@@ -99,8 +99,8 @@ const ward = {
 
 const cat2Point = {
     circle: {
-        'circle-color': 'orange',
-        'circle-radius': 8,
+        'circle-color': '#f9a825',
+        'circle-radius': 7,
         'circle-opacity': 1,
     },
 };
@@ -118,13 +118,24 @@ const cat2PointInverted = {
             1,
             0.1,
         ],
+        'circle-stroke-width': [
+            'case',
+            [
+                'boolean',
+                ['feature-state', 'outline'],
+                false,
+            ],
+            3,
+            0,
+        ],
+        'circle-stroke-color': '#000000',
     },
 };
 
 const cat3Point = {
     circle: {
         'circle-color': '#e53935',
-        'circle-radius': 8,
+        'circle-radius': 7,
         'circle-opacity': 1,
     },
 };
@@ -142,20 +153,31 @@ const cat3PointInverted = {
             1,
             0.1,
         ],
+        'circle-stroke-width': [
+            'case',
+            [
+                'boolean',
+                ['feature-state', 'outline'],
+                false,
+            ],
+            3,
+            0,
+        ],
+        'circle-stroke-color': '#000000',
     },
 };
 
-const relocationISPoint = {
+const relocationPLPoint = {
     circle: {
         'circle-color': '#1565c0',
-        'circle-radius': 9,
+        'circle-radius': 7,
         'circle-opacity': 1,
     },
 };
 
-const relocationISPointInverted = {
+const relocationPLPointInverted = {
     circle: {
-        ...relocationISPoint.circle,
+        ...relocationPLPoint.circle,
         'circle-opacity': [
             'case',
             [
@@ -166,10 +188,21 @@ const relocationISPointInverted = {
             1,
             0.1,
         ],
+        'circle-stroke-width': [
+            'case',
+            [
+                'boolean',
+                ['feature-state', 'outline'],
+                false,
+            ],
+            3,
+            0,
+        ],
+        'circle-stroke-color': '#000000',
     },
 };
 
-const relocationPLPoint = {
+const relocationISPoint = {
     text: {
         'text-color': '#1565c0',
         'text-opacity': 1,
@@ -181,9 +214,9 @@ const relocationPLPoint = {
     },
 };
 
-const relocationPLPointInverted = {
+const relocationISPointInverted = {
     text: {
-        ...relocationPLPoint.text,
+        ...relocationISPoint.text,
         'text-opacity': [
             'case',
             [
@@ -194,8 +227,19 @@ const relocationPLPointInverted = {
             1,
             0.1,
         ],
+        'text-halo-width': [
+            'case',
+            [
+                'boolean',
+                ['feature-state', 'outline'],
+                false,
+            ],
+            3,
+            0,
+        ],
+        'text-halo-color': '#000000',
     },
-    layout: relocationPLPoint.layout,
+    layout: relocationISPoint.layout,
 };
 
 const connectionLine = {
