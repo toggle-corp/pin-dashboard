@@ -1,8 +1,19 @@
 .relocation-site-details {
+    padding-bottom: var(--spacing-medium);
+
     .title {
         padding: var(--spacing-medium);
         color: var(--color-primary);
         font-size: var(--font-size-large);
         font-weight: var(--font-weight-bold);
+    }
+
+    .label {
+        color: var(--color-text-label);
+    }
+
+    .value {
+        font-family: var(--font-family-sans-serif);
+        font-weight: var(--font-weight-medium);
     }
 }

@@ -191,7 +191,7 @@ class CountryOverview extends React.PureComponent<MyProps, State> {
             metadata,
         } = getInformationDataForSelectedRegion(name, originalMetadata, selectedId);
 
-        const labelGeoJson = this.getLabelGeoJson(originalMetadata);
+        // const labelGeoJson = this.getLabelGeoJson(originalMetadata);
 
         return (
             <div className={_cs(className, styles.overview)}>
@@ -255,6 +255,7 @@ class CountryOverview extends React.PureComponent<MyProps, State> {
                         paint={mapStyles[subRegionLevel].outline}
                     />
                 </MapSource>
+                {/*
                 <MapSource
                     sourceKey={`${subRegionLevel}-label`}
                     geoJson={labelGeoJson}
@@ -267,6 +268,7 @@ class CountryOverview extends React.PureComponent<MyProps, State> {
                         layout={mapStyles[subRegionLevel].label.layout}
                     />
                 </MapSource>
+                */}
             </div>
         );
     }

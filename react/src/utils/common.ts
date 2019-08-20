@@ -96,6 +96,7 @@ export function getInformationDataForSelectedRegion(
     title: string,
     metadata: Metadata | undefined,
     selectedId: number | undefined,
+    regionLevel: string,
 ) {
     if (!selectedId) {
         return {
@@ -114,6 +115,13 @@ export function getInformationDataForSelectedRegion(
             name,
         },
     } = subRegion;
+
+    if (regionLevel === 'palika') {
+        return ({
+            title: `${title} - ${name}`,
+            metadata: subRegion,
+        });
+    }
 
     return ({
         title: name,

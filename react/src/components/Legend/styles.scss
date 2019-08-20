@@ -1,0 +1,42 @@
+.legend {
+    .legend-item {
+        display: flex;
+        align-items: center;
+
+        .circle,
+        .diamond {
+            flex-shrink: 0;
+            margin: var(--spacing-extra-small-alt) var(--spacing-medium);
+            width: var(--font-size-medium);
+            height: var(--font-size-medium);
+        }
+
+        .circle {
+            border-radius: 50%;
+        }
+
+        .diamond {
+            transform: rotate(45deg);
+        }
+
+        .label {
+            padding: var(--spacing-extra-small-alt) var(--spacing-medium);
+        }
+
+        &.cat2 .circle {
+            background-color: var(--color-warning);
+        }
+
+        &.cat3 .circle {
+            background-color: var(--color-danger);
+        }
+
+        &.private-land,
+        &.integrated-settlement {
+            .circle,
+            .diamond {
+                background-color: var(--color-primary);
+            }
+        }
+    }
+}

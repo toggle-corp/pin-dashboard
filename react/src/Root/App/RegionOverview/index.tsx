@@ -40,6 +40,7 @@ import {
     MapStateElement,
 } from '#constants';
 
+import Legend from '#components/Legend';
 import Information from '#components/Information';
 import HoverDetails from '#components/HoverDetails';
 
@@ -356,6 +357,19 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         }
 
         const {
+            region,
+            regionLevel,
+        } = this.props;
+
+        if (!region) {
+            return null;
+        }
+
+        const {
+            name: regionName,
+        } = region;
+
+        const {
             landslidesSurveyed,
             geoAttribute: {
                 name,
@@ -364,7 +378,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
         return (
             <HoverDetails
-                name={name}
+                name={regionLevel === 'palika' ? `${regionName} - ${name}` : name}
                 landslidesSurveyed={landslidesSurveyed}
             />
         );
@@ -428,7 +442,12 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         const {
             title,
             metadata,
-        } = getInformationDataForSelectedRegion(name, originalMetadata, selectedRegionId);
+        } = getInformationDataForSelectedRegion(
+            name,
+            originalMetadata,
+            selectedRegionId,
+            regionLevel,
+        );
 
         // geojson data from cat points
         const {
@@ -476,6 +495,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
 
         return (
             <div className={_cs(className, styles.overview)}>
+                <Legend className={styles.legend} />
                 <div className={styles.hoverDetails}>
                     {this.renderHoverDetail()}
                     { (catPoints.length > 0 || relocationSites.length > 0) && (

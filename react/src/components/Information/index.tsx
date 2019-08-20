@@ -77,6 +77,10 @@ class Information extends React.PureComponent<Props> {
                     className={styles.geohazardAffectedHouseholds}
                     data={geohazardAffected}
                 />
+                <IntegratedSettlements
+                    data={integratedSettlements}
+                    className={styles.integratedSettlements}
+                />
                 <TrancheUpdate
                     className={styles.trancheUpdate}
                     data={tranches}
@@ -88,10 +92,6 @@ class Information extends React.PureComponent<Props> {
                 <PeopleRelocated
                     className={styles.peopleRelocated}
                     data={peopleRelocated}
-                />
-                <IntegratedSettlements
-                    data={integratedSettlements}
-                    className={styles.integratedSettlements}
                 />
                 <EarthquakeAffectedLandlessHouseholds
                     data={landlessHouseholds}
