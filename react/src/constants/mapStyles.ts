@@ -271,6 +271,38 @@ const connectionLineInverted = {
     },
 };
 
+const arrow = {
+    text: {
+        'icon-color': '#333333',
+        'icon-opacity': 0,
+    },
+    layout: {
+        'icon-allow-overlap': true,
+        'icon-image': 'mountain-11',
+        'icon-size': 0.7,
+        'icon-rotate': 90,
+
+        'symbol-placement': 'line-center',
+    },
+};
+
+const arrowInverted = {
+    ...arrow,
+    text: {
+        'icon-color': '#333333',
+        'icon-opacity': [
+            'case',
+            [
+                'boolean',
+                ['feature-state', 'darken'],
+                false,
+            ],
+            1,
+            0,
+        ],
+    },
+};
+
 export default {
     district,
     palika,
@@ -286,4 +318,6 @@ export default {
     relocationISPointInverted,
     relocationPLPointInverted,
     connectionLineInverted,
+    arrow,
+    arrowInverted,
 };

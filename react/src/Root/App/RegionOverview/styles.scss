@@ -3,6 +3,15 @@
     flex-direction: column;
     background-color: var(--color-background-alt);
 
+    .legend {
+        position: absolute;
+        bottom: 0;
+        left: var(--width-left-pane);
+        z-index: 11;
+        background-color: var(--color-foreground);
+        padding: var(--spacing-medium);
+    }
+
     .information {
         flex-grow: 1;
         background-color: var(--color-foreground);
@@ -16,6 +25,5 @@
         width: var(--width-hover-details);
         max-height: calc(var(--height-app) - 72px);
         overflow: auto;
-        // pointer-events: none;
     }
 }

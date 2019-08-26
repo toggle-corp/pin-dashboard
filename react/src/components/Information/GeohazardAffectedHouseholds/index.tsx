@@ -5,14 +5,13 @@ import memoize from 'memoize-one';
 import Numeral from '#rscv/Numeral';
 import connectWithStyles from '#rsu/styles/connectWithStyles';
 
-
 import { GeohazardAffected } from '#constants';
 
 import CategoricalTextOutput from '../../CategoricalTextOutput';
 import TextOutput from '../../TextOutput';
 import Header from '../Header';
 import Heading from '../Heading';
-import DonutChart from './DonutChart';
+import DonutChart from '#components/DonutChart';
 
 import styles from './styles.scss';
 
@@ -71,7 +70,13 @@ class GeohazardAffectedHouseholdsView extends React.PureComponent<Props> {
                 <Header className={styles.header}>
                     <Heading
                         className={styles.heading}
-                        text="Geohazard affected households"
+                        text={(
+                            <>
+                                Geohazard affected
+                                <br />
+                                households
+                            </>
+                        )}
                     />
                 </Header>
                 <div className={styles.content}>

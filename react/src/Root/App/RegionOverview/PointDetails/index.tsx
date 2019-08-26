@@ -173,6 +173,10 @@ class PointDetails extends React.PureComponent<Props, State> {
                         cat2PointsLen > cat3PointsLen ? styles.cat2 : styles.cat3,
                     )}
                 >
+                    <CatPointListDetails
+                        catPointList={catPointList}
+                        selectedCatPointGeosite={catPointSelectInputValue}
+                    />
                     { catPointList.length > 1 && (
                         <SelectInput
                             className={styles.riskPointSelectInput}
@@ -186,13 +190,13 @@ class PointDetails extends React.PureComponent<Props, State> {
                             optionsClassName={styles.options}
                         />
                     )}
-                    <CatPointListDetails
-                        catPointList={catPointList}
-                        selectedCatPointGeosite={catPointSelectInputValue}
-                    />
                 </div>
                 { relocationSiteList.length > 0 && (
                     <div className={styles.relocationSiteListDetails}>
+                        <RelocationSiteListDetails
+                            relocationSiteList={relocationSiteList}
+                            selectedRelocationSiteCode={relocationSiteSelectInputValue}
+                        />
                         { relocationSiteList.length > 1 && (
                             <SelectInput
                                 className={styles.relocationSiteSelectInput}
@@ -206,10 +210,6 @@ class PointDetails extends React.PureComponent<Props, State> {
                                 optionsClassName={styles.options}
                             />
                         )}
-                        <RelocationSiteListDetails
-                            relocationSiteList={relocationSiteList}
-                            selectedRelocationSiteCode={relocationSiteSelectInputValue}
-                        />
                     </div>
                 )}
             </div>

@@ -5,7 +5,7 @@ import styles from './styles.scss';
 
 interface Props {
     className?: string;
-    text?: string;
+    text?: React.ReactNode | React.ReactNode[];
 }
 
 class Heading extends React.PureComponent<Props> {

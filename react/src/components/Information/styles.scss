@@ -11,6 +11,7 @@
     .header {
         display: flex;
         flex-shrink: 0;
+        padding: 0 var(--spacing-small);
 
         .back-button {
             flex-shrink: 0;
@@ -35,37 +36,39 @@
         overflow: auto;
 
         %half-section {
-            flex-basis: 50%;
+            flex-basis: calc(50% - 2 * var(--spacing-medium));
             flex-grow: 0;
             flex-shrink: 0;
+            margin: 0 var(--spacing-medium);
             padding: var(--spacing-small) 0;
         }
 
         %full-section {
-            flex-basis: 100%;
+            flex-basis: calc(100% - 2 * var(--spacing-medium));
             flex-grow: 0;
             flex-shrink: 0;
+            margin: 0 var(--spacing-medium);
             padding: var(--spacing-small) 0;
         }
 
         .landslides-surveyed {
             @extend %half-section;
-            flex-basis: 33%;
+            flex-basis: calc(40% - 2 * var(--spacing-medium));
         }
 
         .geohazard-affected-households {
             @extend %half-section;
-            flex-basis: 67%;
+            flex-basis: calc(60% - 2 * var(--spacing-medium));
         }
 
         .tranche-update {
             @extend %half-section;
-            flex-basis: 33%;
+            flex-basis: calc(40% - 2 * var(--spacing-medium));
         }
 
         .land-purchased {
             @extend %half-section;
-            flex-basis: 67%;
+            flex-basis: calc(60% - 2 * var(--spacing-medium));
         }
 
         .people-relocated {

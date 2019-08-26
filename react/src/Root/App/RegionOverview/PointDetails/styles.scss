@@ -5,12 +5,20 @@
         background-color: var(--color-foreground);
 
         .relocation-site-select-input {
-            margin: var(--spacing-small) var(--spacing-medium);
+            margin: var(--spacing-medium);
+
+            :global {
+                .clear-button {
+                    opacity: 1;
+                }
+            }
         }
 
         .title {
-            padding: var(--spacing-small) var(--spacing-medium);
+            padding: var(--spacing-medium);
             color: var(--color-primary);
+            font-size: var(--font-size-large);
+            font-weight: var(--font-weight-bold);
         }
     }
 
@@ -18,12 +26,20 @@
         background-color: var(--color-foreground);
 
         .title {
-            padding: var(--spacing-small) var(--spacing-medium);
+            padding: var(--spacing-medium);
             color: var(--color-primary);
+            font-size: var(--font-size-large);
+            font-weight: var(--font-weight-bold);
         }
 
         .risk-point-select-input {
-            margin: var(--spacing-small) var(--spacing-medium);
+            margin: var(--spacing-medium);
+
+            :global {
+                .clear-button {
+                    opacity: 1;
+                }
+            }
         }
 
         .relocation-site-summary {

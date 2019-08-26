@@ -52,14 +52,20 @@ class RelocationSiteDetails extends React.PureComponent<Props> {
                     <TextOutput
                         label="Address"
                         value={`${districtName}, ${palikaName} - ${wardName}`}
+                        valueClassName={styles.value}
+                        labelClassName={styles.label}
                     />
                     <TextOutput
                         label="Number of households"
                         value={this.renderNumericValue(numberOfHouseholds)}
+                        valueClassName={styles.value}
+                        labelClassName={styles.label}
                     />
                     <TextOutput
                         label="Protection support"
                         value={protectionSupport}
+                        valueClassName={styles.value}
+                        labelClassName={styles.label}
                     />
                 </div>
             </div>

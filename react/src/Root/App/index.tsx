@@ -63,6 +63,7 @@ const layers: Layer[] = [
         label: 'Light',
         style: 'mapbox://styles/mapbox/light-v10',
     },
+    /*
     {
         label: 'Street',
         style: 'mapbox://styles/mapbox/streets-v11',
@@ -75,6 +76,7 @@ const layers: Layer[] = [
         label: 'Outdoor',
         style: 'mapbox://styles/mapbox/outdoors-v11',
     },
+     */
     {
         label: 'Satellite',
         style: 'mapbox://styles/mapbox/satellite-streets-v11',
@@ -91,7 +93,8 @@ class App extends React.Component<Props, State> {
 
         this.state = {
             currentViewLevel: ViewLevel.National,
-            mapStyle: 'mapbox://styles/adityakhatri/cjuck3jrk1gyt1fprrcz8z4f0',
+            // mapStyle: 'mapbox://styles/adityakhatri/cjuck3jrk1gyt1fprrcz8z4f0',
+            mapStyle: 'mapbox://styles/mapbox/light-v10',
         };
 
         this.views = {

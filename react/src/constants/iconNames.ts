@@ -51,6 +51,8 @@ const iconNames: { [key: string]: string } = {
 
     login: 'ion-log-in',
     back: 'ion-android-arrow-back',
+
+    help: 'ion-help-circled',
 };
 
 export default iconNames;
