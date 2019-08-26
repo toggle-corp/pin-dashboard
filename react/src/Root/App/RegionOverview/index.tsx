@@ -559,6 +559,16 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     geoJson={lineStringsGeoJson}
                 >
                     <MapLayer
+                        layerKey="arrow-head"
+                        type="symbol"
+                        layout={mapStyles.arrow.layout}
+                        paint={
+                            mapState.length > 0
+                                ? mapStyles.arrowInverted.text
+                                : mapStyles.arrow.text
+                        }
+                    />
+                    <MapLayer
                         mapState={mapState}
                         layerKey="line-string"
                         type="line"
@@ -567,16 +577,6 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                             mapState.length > 0
                                 ? mapStyles.connectionLineInverted.line
                                 : mapStyles.connectionLine.line
-                        }
-                    />
-                    <MapLayer
-                        layerKey="arrow-head"
-                        type="symbol"
-                        layout={mapStyles.arrow.layout}
-                        paint={
-                            mapState.length > 0
-                                ? mapStyles.arrowInverted.text
-                                : mapStyles.arrow.text
                         }
                     />
                 </MapSource>

@@ -273,13 +273,15 @@ const connectionLineInverted = {
 
 const arrow = {
     text: {
-        'text-color': '#333333',
-        'text-opacity': 0,
+        'icon-color': '#333333',
+        'icon-opacity': 0,
     },
     layout: {
-        'text-field': '◀',
-        'text-allow-overlap': true,
-        'text-size': 18,
+        'icon-allow-overlap': true,
+        'icon-image': 'mountain-11',
+        'icon-size': 0.7,
+        'icon-rotate': 90,
+
         'symbol-placement': 'line-center',
     },
 };
@@ -287,8 +289,8 @@ const arrow = {
 const arrowInverted = {
     ...arrow,
     text: {
-        'text-color': '#333333',
-        'text-opacity': [
+        'icon-color': '#333333',
+        'icon-opacity': [
             'case',
             [
                 'boolean',
