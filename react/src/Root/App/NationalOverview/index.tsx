@@ -189,7 +189,11 @@ class CountryOverview extends React.PureComponent<MyProps, State> {
         const {
             title,
             metadata,
-        } = getInformationDataForSelectedRegion(name, originalMetadata, selectedId);
+        } = getInformationDataForSelectedRegion(
+            name,
+            originalMetadata,
+            selectedId,
+        );
 
         // const labelGeoJson = this.getLabelGeoJson(originalMetadata);
 

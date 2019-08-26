@@ -96,7 +96,7 @@ export function getInformationDataForSelectedRegion(
     title: string,
     metadata: Metadata | undefined,
     selectedId: number | undefined,
-    regionLevel: string,
+    regionLevel?: string,
 ) {
     if (!selectedId) {
         return {

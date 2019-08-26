@@ -571,6 +571,17 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                     />
                 </MapSource>
                 <MapSource
+                    sourceKey={`${subRegionLevel}-arrow-head`}
+                    geoJson={lineStringsGeoJson}
+                >
+                    <MapLayer
+                        layerKey="arrow-head"
+                        type="symbol"
+                        layout={mapStyles.arrow.layout}
+                        paint={mapStyles.arrow.text}
+                    />
+                </MapSource>
+                <MapSource
                     sourceKey={`${subRegionLevel}-cat2-points`}
                     geoJson={cat2PointsGeoJson}
                 >

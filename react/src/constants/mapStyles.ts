@@ -271,6 +271,19 @@ const connectionLineInverted = {
     },
 };
 
+const arrow = {
+    text: {
+        'text-color': '#000000',
+        'text-opacity': 1,
+    },
+    layout: {
+        'text-field': '◀',
+        'text-allow-overlap': true,
+        'text-size': 18,
+        'symbol-placement': 'line-center',
+    },
+};
+
 export default {
     district,
     palika,
@@ -286,4 +299,5 @@ export default {
     relocationISPointInverted,
     relocationPLPointInverted,
     connectionLineInverted,
+    arrow,
 };
