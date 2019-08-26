@@ -32,19 +32,23 @@ const chartKeySelector = (d: { key: string }) => d.key;
 const chartColorSelector = (d: { color: string }) => d.color;
 
 class EarthaquakeAffectedLandlessHouseholds extends React.PureComponent<Props> {
-    private getChartData = memoize((relocated, approved, currentStyle) => {
+    private getChartData = memoize((
+        relocated: number | undefined,
+        approved: number | undefined,
+        currentStyles: Props['currentStyles'],
+    ) => {
         const chartData = [
             {
                 key: 'approved',
                 label: 'Approved to live in the existing place',
                 value: approved || 0,
-                color: currentStyle.colorSuccess,
+                color: currentStyles.colorSuccess,
             },
             {
                 key: 'relocated',
                 label: 'Relocated to new location',
                 value: relocated || 0,
-                color: currentStyle.colorWarning,
+                color: currentStyles.colorWarning,
             },
         ];
 

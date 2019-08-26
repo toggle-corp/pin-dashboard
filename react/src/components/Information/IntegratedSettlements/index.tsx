@@ -35,7 +35,12 @@ const chartColorSelector = (d: { color: string }) => d.color;
 
 
 class IntegratedSettlements extends React.PureComponent<Props> {
-    private getChartData = memoize((phase1, phase2, underConstruction, currentStyle) => {
+    private getChartData = memoize((
+        phase1: number | undefined,
+        phase2: number | undefined,
+        underConstruction: number | undefined,
+        currentStyle: Props['currentStyles'],
+    ) => {
         const chartData = [
             {
                 key: 'phase1',
