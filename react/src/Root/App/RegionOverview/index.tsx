@@ -569,16 +569,15 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                                 : mapStyles.connectionLine.line
                         }
                     />
-                </MapSource>
-                <MapSource
-                    sourceKey={`${subRegionLevel}-arrow-head`}
-                    geoJson={lineStringsGeoJson}
-                >
                     <MapLayer
                         layerKey="arrow-head"
                         type="symbol"
                         layout={mapStyles.arrow.layout}
-                        paint={mapStyles.arrow.text}
+                        paint={
+                            mapState.length > 0
+                                ? mapStyles.arrowInverted.text
+                                : mapStyles.arrow.text
+                        }
                     />
                 </MapSource>
                 <MapSource

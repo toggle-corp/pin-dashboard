@@ -273,14 +273,31 @@ const connectionLineInverted = {
 
 const arrow = {
     text: {
-        'text-color': '#000000',
-        'text-opacity': 1,
+        'text-color': '#333333',
+        'text-opacity': 0,
     },
     layout: {
         'text-field': '◀',
         'text-allow-overlap': true,
         'text-size': 18,
         'symbol-placement': 'line-center',
+    },
+};
+
+const arrowInverted = {
+    ...arrow,
+    text: {
+        'text-color': '#333333',
+        'text-opacity': [
+            'case',
+            [
+                'boolean',
+                ['feature-state', 'darken'],
+                false,
+            ],
+            1,
+            0,
+        ],
     },
 };
 
@@ -300,4 +317,5 @@ export default {
     relocationPLPointInverted,
     connectionLineInverted,
     arrow,
+    arrowInverted,
 };
