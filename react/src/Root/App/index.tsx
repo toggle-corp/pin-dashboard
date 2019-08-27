@@ -185,6 +185,17 @@ class App extends React.Component<Props, State> {
         this.setState({ mapStyle: params.style });
     }
 
+    private handleMapClick = (e: any) => {
+        const eventData = {
+            detail: {
+                mapEvent: e,
+            },
+        };
+
+        const mapClickEvent = new CustomEvent('onmapclick', eventData);
+        document.dispatchEvent(mapClickEvent);
+    }
+
     private getLayerSwitcherDropdownItemRendererParams = (_: string, d: Layer) => ({
         data: d,
         onClick: this.handleLayerSwitcherDropdownItemClick,
@@ -249,6 +260,7 @@ class App extends React.Component<Props, State> {
 
                     showNavControl
                     navControlPosition="top-left"
+                    onClick={this.handleMapClick}
                 >
                     <div className={styles.left}>
                         <MultiViewContainer

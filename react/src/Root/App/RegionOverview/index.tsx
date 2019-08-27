@@ -115,6 +115,23 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         });
     }
 
+    public componentDidMount() {
+        document.addEventListener('onmapclick', this.handleMapClick);
+    }
+
+    public componentWillUnmount() {
+        document.removeEventListener('onmapclick', this.handleMapClick);
+    }
+
+    private handleMapClick = () => {
+        this.setState({
+            selectedCat2PointId: undefined,
+            selectedCat3PointId: undefined,
+            selectedISRelocationPointId: undefined,
+            selectedPLRelocationPointId: undefined,
+        });
+    }
+
     private wrapInArray = memoize(wrapInArray);
 
     // NOTE: memoize and generics don't go well
@@ -487,6 +504,13 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             featureFromIdentifier,
         );
 
+        const shouldEnableRegionSelection = !(
+            selectedCat2PointId
+                || selectedCat3PointId
+                || selectedISRelocationPointId
+                || selectedPLRelocationPointId
+        );
+
         const mapState = this.getMapStateOnSelectedPoints(
             unselectedMapState,
             selectedPoint,
@@ -527,7 +551,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
                         paint={mapStyles[subRegionLevel].fill}
                         filter={subRegionFilter}
                         enableHover={!pendingMetadataRequest && hoverEnable}
-                        enableSelection={!pendingMetadataRequest}
+                        enableSelection={!pendingMetadataRequest && shouldEnableRegionSelection}
                         hoveredId={hoveredRegionId}
                         onHoverChange={this.handleHoverChange}
                         onDoubleClick={this.handleDoubleClick}
