@@ -15,8 +15,7 @@ const styleProperties = {
     widthDonutChartStrokeOnHover: 14,
     widthLeftPane: '440px',
 
-    // TODO: reaccess following value
-    heightApp: getPropertyValue('--height-app'),
+    heightApp: '759px',
 
     widthHoverDetails: '320px',
     zIndexHoverDetails: '11',
@@ -31,6 +30,8 @@ const styleProperties = {
     heightGeohazardAffectedHouseholdsChart: '96px',
 
     heightRelocatedPerson: '64px',
+
+    lineHeightDefault: '1.2',
 };
 
 export default styleProperties;
