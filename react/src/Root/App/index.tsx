@@ -261,6 +261,7 @@ class App extends React.Component<Props, State> {
                     showNavControl
                     navControlPosition="top-left"
                     onClick={this.handleMapClick}
+                    enableDoubleClickZoom
                 >
                     <div className={styles.left}>
                         <MultiViewContainer

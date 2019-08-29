@@ -9,6 +9,7 @@ import {
     methods,
 } from '#request';
 
+import Icon from '#rscg/Icon';
 import MapSource from '#rscz/Map/MapSource';
 import MapLayer from '#rscz/Map/MapLayer';
 
@@ -199,7 +200,16 @@ class CountryOverview extends React.PureComponent<MyProps, State> {
 
         return (
             <div className={_cs(className, styles.overview)}>
-                <div className={styles.hoverDetails}>
+                <div className={styles.topRightDetails}>
+                    <div className={styles.helpText}>
+                        <Icon
+                            name="info"
+                            className={styles.icon}
+                        />
+                        <div className={styles.text}>
+                            Double-click on any district for more information
+                        </div>
+                    </div>
                     { this.renderHoverDetail() }
                 </div>
                 <div className={styles.legend}>

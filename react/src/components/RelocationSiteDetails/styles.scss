@@ -8,12 +8,18 @@
         font-weight: var(--font-weight-bold);
     }
 
-    .label {
-        color: var(--color-text-label);
-    }
+    .row {
+        display: table-row;
 
-    .value {
-        font-family: var(--font-family-sans-serif);
-        font-weight: var(--font-weight-medium);
+        .label {
+            display: table-cell;
+            color: var(--color-text-label);
+        }
+
+        .value {
+            display: table-cell;
+            font-family: var(--font-family-sans-serif);
+            font-weight: var(--font-weight-medium);
+        }
     }
 }

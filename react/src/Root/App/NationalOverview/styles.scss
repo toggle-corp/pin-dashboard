@@ -8,13 +8,31 @@
         background-color: var(--color-foreground);
     }
 
-    .hover-details {
+    .top-right-details {
         position: absolute;
         top: var(--spacing-medium);
         right: var(--spacing-medium);
         z-index: var(--z-index-hover-details);
         width: var(--width-hover-details);
         pointer-events: none;
+
+        .help-text {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-medium);
+            background-color: var(--color-foreground);
+            
+            .icon {
+                margin: 0 var(--spacing-medium);
+                color: var(--color-primary);
+                font-size: var(--font-size-large);
+            }
+
+            .text {
+                padding: var(--spacing-medium);
+                font-size: var(--font-size-small);
+            }
+        }
     }
 
     .legend {
