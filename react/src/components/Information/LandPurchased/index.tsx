@@ -66,8 +66,8 @@ class LandPurchasedView extends React.PureComponent<Props> {
                                 showSeparator
                             />
                         )}
-                        invertOrder
-                        hideSeparator
+                        // invertOrder
+                        // hideSeparator
                     />
                     <TextOutput
                         label={(
@@ -84,8 +84,8 @@ class LandPurchasedView extends React.PureComponent<Props> {
                                 showSeparator
                             />
                         )}
-                        invertOrder
-                        hideSeparator
+                        // invertOrder
+                        // hideSeparator
                     />
                 </div>
             </div>

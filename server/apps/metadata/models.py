@@ -64,6 +64,7 @@ class RelocationSite(models.Model):
     place = models.CharField(max_length=256, blank=True)
 
     protection_support = models.CharField(max_length=256, blank=True)
+    technical_support = models.CharField(max_length=256, blank=True)
     site_type = models.CharField(max_length=256, blank=True)
     status = models.CharField(max_length=256, blank=True)
 

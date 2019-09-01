@@ -83,16 +83,14 @@ class Information extends React.PureComponent<Props> {
                     data={integratedSettlements}
                     className={styles.integratedSettlements}
                 />
-                <div className={styles.row}>
-                    <TrancheUpdate
-                        className={styles.trancheUpdate}
-                        data={tranches}
-                    />
-                    <LandPurchased
-                        className={styles.landPurchased}
-                        data={landPurchasedData}
-                    />
-                </div>
+                <TrancheUpdate
+                    className={styles.trancheUpdate}
+                    data={tranches}
+                />
+                <LandPurchased
+                    className={styles.landPurchased}
+                    data={landPurchasedData}
+                />
                 <PeopleRelocated
                     className={styles.peopleRelocated}
                     data={peopleRelocated}

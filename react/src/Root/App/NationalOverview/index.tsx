@@ -126,7 +126,10 @@ class CountryOverview extends React.PureComponent<MyProps, State> {
         const { geoAttribute } = subRegion;
 
         if (onSubRegionDoubleClick) {
-            onSubRegionDoubleClick(geoAttribute);
+            // Note required when double click zoom is enabled
+            setTimeout(() => {
+                onSubRegionDoubleClick(geoAttribute);
+            }, 0);
         }
     }
 

@@ -22,6 +22,8 @@
         .heading {
             flex-grow: 1;
             padding: var(--spacing-medium);
+            text-transform: uppercase;
+            font-family: var(--font-family-heading);
             font-size: var(--font-size-super-large);
             font-weight: var(--font-weight-bold);
         }
@@ -54,16 +56,16 @@
                 @extend %section;
                 flex-basis: calc(60% - 2 * var(--spacing-medium));
             }
+        }
 
-            .tranche-update {
-                @extend %section;
-                flex-basis: calc(40% - 2 * var(--spacing-medium));
-            }
+        .tranche-update {
+            @extend %section;
+            flex-basis: calc(100% - 2 * var(--spacing-medium));
+        }
 
-            .land-purchased {
-                @extend %section;
-                flex-basis: calc(60% - 2 * var(--spacing-medium));
-            }
+        .land-purchased {
+            @extend %section;
+            flex-basis: calc(100% - 2 * var(--spacing-medium));
         }
 
         .integrated-settlements {

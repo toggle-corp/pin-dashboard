@@ -128,6 +128,7 @@ class Loader:
     relocation_site_map = {
         'Site_Type': 'site_type',
         'Protection_Support': 'protection_support',
+        'Technical Support': 'technical_support',
         'Name_of_Place': 'place',
         'Status': 'status',
     }

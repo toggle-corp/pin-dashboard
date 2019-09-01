@@ -1,0 +1,18 @@
+.tranche-update {
+    .content {
+        display: flex;
+        align-items: center;
+
+        .chart-container {
+            .chart {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: var(--spacing-extra-small);
+
+                width: var(--width-geohazard-affected-households-chart);
+                height: var(--height-geohazard-affected-households-chart);
+            }
+        }
+    }
+}

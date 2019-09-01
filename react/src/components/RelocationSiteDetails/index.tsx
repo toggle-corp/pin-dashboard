@@ -33,6 +33,7 @@ class RelocationSiteDetails extends React.PureComponent<Props> {
         const {
             place,
             protectionSupport,
+            technicalSupport,
             districtName,
             palikaName,
             wardName,
@@ -66,6 +67,13 @@ class RelocationSiteDetails extends React.PureComponent<Props> {
                     <TextOutput
                         label="Protection support"
                         value={protectionSupport}
+                        className={styles.row}
+                        valueClassName={styles.value}
+                        labelClassName={styles.label}
+                    />
+                    <TextOutput
+                        label="Techincal support"
+                        value={technicalSupport}
                         className={styles.row}
                         valueClassName={styles.value}
                         labelClassName={styles.label}
