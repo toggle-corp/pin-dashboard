@@ -61,15 +61,19 @@ const CatPointListDetails = ({
         );
 
         return (
-            <div className={styles.relocationSiteListSummary}>
+            <div className={styles.catPointListSummary}>
                 <div className={styles.title}>
-                    Geosite summary
+                    Place of origin - summary
                 </div>
                 <TextOutput
+                    labelClassName={styles.label}
+                    valueClassName={styles.value}
                     label="Number of geosites"
                     value={catPointList.length}
                 />
                 <TextOutput
+                    labelClassName={styles.label}
+                    valueClassName={styles.value}
                     label="Total number of affected househods"
                     value={totalAffectedHouseholds}
                 />
@@ -108,13 +112,17 @@ const RelocationSiteListDetails = ({
         return (
             <div className={styles.relocationSiteListSummary}>
                 <div className={styles.title}>
-                    Relocation summary
+                    Summary of relocation sites
                 </div>
                 <TextOutput
+                    labelClassName={styles.label}
+                    valueClassName={styles.value}
                     label="Number of relocation sites"
                     value={relocationSiteList.length}
                 />
                 <TextOutput
+                    labelClassName={styles.label}
+                    valueClassName={styles.value}
                     label="Total number of househods"
                     value={totalNumberOfHouseholds}
                 />

@@ -60,6 +60,7 @@ export interface RelocationSite {
     palika?: number;
     ward?: number;
     protectionSupport?: string;
+    technicalSupport?: string;
     districtName?: string;
     palikaName?: string;
     wardName?: string;

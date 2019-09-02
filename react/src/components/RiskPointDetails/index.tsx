@@ -57,6 +57,7 @@ class RiskPointHoverDetails extends React.PureComponent<Props> {
         } = this.props;
 
         return {
+            className: styles.row,
             label: renderValue.label,
             value: data ? data[renderValue.key] : undefined,
             valueClassName: styles.value,
@@ -67,7 +68,6 @@ class RiskPointHoverDetails extends React.PureComponent<Props> {
     public render() {
         const {
             className,
-            // regionName,
             data,
         } = this.props;
 

@@ -18,25 +18,25 @@ class Legend extends React.PureComponent<Props> {
                 <div className={_cs(styles.legendItem, styles.cat2)}>
                     <div className={styles.circle} />
                     <div className={styles.label}>
-                        Category 2 point
+                        Category 2 site
                     </div>
                 </div>
                 <div className={_cs(styles.legendItem, styles.cat3)}>
                     <div className={styles.circle} />
                     <div className={styles.label}>
-                        Category 3 point
+                        Category 3 site
                     </div>
                 </div>
                 <div className={_cs(styles.legendItem, styles.privateLand)}>
                     <div className={styles.circle} />
                     <div className={styles.label}>
-                        Relocation point (private land)
+                        Relocation site - private land
                     </div>
                 </div>
                 <div className={_cs(styles.legendItem, styles.integratedSettlement)}>
                     <div className={styles.diamond} />
                     <div className={styles.label}>
-                        Integrated settlement
+                        Relocation site - integrated settlement
                     </div>
                 </div>
             </div>

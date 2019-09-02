@@ -90,8 +90,8 @@ class PeopleRelocatedView extends React.PureComponent<Props> {
                             showSeparator
                         />
                     )}
-                    invertOrder
-                    hideSeparator
+                    // invertOrder
+                    // hideSeparator
                 />
             </div>
         );

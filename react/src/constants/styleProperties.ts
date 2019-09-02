@@ -15,7 +15,7 @@ const styleProperties = {
     widthDonutChartStrokeOnHover: 14,
     widthLeftPane: '440px',
 
-    heightApp: '759px',
+    heightApp: '858px',
 
     widthHoverDetails: '320px',
     zIndexHoverDetails: '11',

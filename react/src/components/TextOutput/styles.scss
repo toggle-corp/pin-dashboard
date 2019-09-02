@@ -1,16 +1,19 @@
 .text-output {
-    display: flex;
+    display: table-row;
     align-items: baseline;
 
     .label {
+        display: table-cell;
         padding: var(--spacing-extra-small-alt) var(--spacing-medium);
     }
 
     .separator {
+        display: table-cell;
         padding: var(--spacing-extra-small-alt) 0;
     }
 
     .value {
+        display: table-cell;
         padding: var(--spacing-extra-small-alt) var(--spacing-medium);
         font-family: var(--font-family-monospace);
         font-weight: var(--font-weight-bold);
