@@ -72,7 +72,7 @@ class RelocationSiteDetails extends React.PureComponent<Props> {
                         labelClassName={styles.label}
                     />
                     <TextOutput
-                        label="Techincal support"
+                        label="Technical support"
                         value={technicalSupport}
                         className={styles.row}
                         valueClassName={styles.value}
