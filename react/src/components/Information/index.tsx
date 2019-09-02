@@ -69,26 +69,30 @@ class Information extends React.PureComponent<Props> {
 
         return (
             <>
-                <LandslidesSurveyed
-                    data={landslidesSurveyed}
-                    className={styles.landslidesSurveyed}
-                />
-                <GeohazardAffectedHouseholds
-                    className={styles.geohazardAffectedHouseholds}
-                    data={geohazardAffected}
-                />
+                <div className={styles.row}>
+                    <LandslidesSurveyed
+                        data={landslidesSurveyed}
+                        className={styles.landslidesSurveyed}
+                    />
+                    <GeohazardAffectedHouseholds
+                        className={styles.geohazardAffectedHouseholds}
+                        data={geohazardAffected}
+                    />
+                </div>
                 <IntegratedSettlements
                     data={integratedSettlements}
                     className={styles.integratedSettlements}
                 />
-                <TrancheUpdate
-                    className={styles.trancheUpdate}
-                    data={tranches}
-                />
-                <LandPurchased
-                    className={styles.landPurchased}
-                    data={landPurchasedData}
-                />
+                <div className={styles.row}>
+                    <TrancheUpdate
+                        className={styles.trancheUpdate}
+                        data={tranches}
+                    />
+                    <LandPurchased
+                        className={styles.landPurchased}
+                        data={landPurchasedData}
+                    />
+                </div>
                 <PeopleRelocated
                     className={styles.peopleRelocated}
                     data={peopleRelocated}

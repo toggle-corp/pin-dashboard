@@ -35,52 +35,50 @@
         flex-wrap: wrap;
         overflow: auto;
 
-        %half-section {
-            flex-basis: calc(50% - 2 * var(--spacing-medium));
+        %section {
             flex-grow: 0;
             flex-shrink: 0;
             margin: 0 var(--spacing-medium);
             padding: var(--spacing-small) 0;
         }
 
-        %full-section {
-            flex-basis: calc(100% - 2 * var(--spacing-medium));
-            flex-grow: 0;
-            flex-shrink: 0;
-            margin: 0 var(--spacing-medium);
-            padding: var(--spacing-small) 0;
-        }
+        .row {
+            display: flex;
 
-        .landslides-surveyed {
-            @extend %half-section;
-            flex-basis: calc(40% - 2 * var(--spacing-medium));
-        }
+            .landslides-surveyed {
+                @extend %section;
+                flex-basis: calc(40% - 2 * var(--spacing-medium));
+            }
 
-        .geohazard-affected-households {
-            @extend %half-section;
-            flex-basis: calc(60% - 2 * var(--spacing-medium));
-        }
+            .geohazard-affected-households {
+                @extend %section;
+                flex-basis: calc(60% - 2 * var(--spacing-medium));
+            }
 
-        .tranche-update {
-            @extend %half-section;
-            flex-basis: calc(40% - 2 * var(--spacing-medium));
-        }
+            .tranche-update {
+                @extend %section;
+                flex-basis: calc(40% - 2 * var(--spacing-medium));
+            }
 
-        .land-purchased {
-            @extend %half-section;
-            flex-basis: calc(60% - 2 * var(--spacing-medium));
-        }
-
-        .people-relocated {
-            @extend %full-section;
+            .land-purchased {
+                @extend %section;
+                flex-basis: calc(60% - 2 * var(--spacing-medium));
+            }
         }
 
         .integrated-settlements {
-            @extend %full-section;
+            @extend %section;
+            flex-basis: calc(100% - 2 * var(--spacing-medium));
+        }
+
+        .people-relocated {
+            @extend %section;
+            flex-basis: calc(100% - 2 * var(--spacing-medium));
         }
 
         .earthquake-landless-households {
-            @extend %full-section;
+            @extend %section;
+            flex-basis: calc(100% - 2 * var(--spacing-medium));
         }
     }
 }
