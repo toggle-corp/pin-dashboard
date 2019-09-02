@@ -42,7 +42,7 @@ export const sanitizeResponse = (data: unknown): any => {
         let newData = {};
         forEach(data, (k, val) => {
             const newEntry = sanitizeResponse(val);
-            if (newEntry) {
+            if (isDefined(newEntry)) {
                 newData = {
                     ...newData,
                     [k]: newEntry,
