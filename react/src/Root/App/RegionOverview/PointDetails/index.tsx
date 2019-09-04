@@ -188,7 +188,7 @@ class PointDetails extends React.PureComponent<Props, State> {
                     { catPointList.length > 1 && (
                         <SelectInput
                             className={styles.riskPointSelectInput}
-                            label="Select geosite"
+                            label="Select place of origin"
                             options={catPointList}
                             onChange={this.handleCatPointSelectInputChange}
                             value={catPointSelectInputValue}

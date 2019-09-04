@@ -1,7 +1,19 @@
 .path {
     stroke-width: var(--width-donut-chart-stroke);
+    animation: dash var(--duration-donut-chart-animation) ease-in forwards;
+    stroke-dasharray: 360;
 
     &:hover {
         stroke-width: var(--width-donut-chart-stroke-on-hover);
+    }
+}
+
+@keyframes dash {
+    from {
+        stroke-dashoffset: -360;
+    }
+
+    to {
+        stroke-dashoffset: 0;
     }
 }

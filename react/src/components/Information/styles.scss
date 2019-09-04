@@ -46,15 +46,16 @@
 
         .row {
             display: flex;
+            flex-basis: 100%;
 
             .landslides-surveyed {
                 @extend %section;
-                flex-basis: calc(40% - 2 * var(--spacing-medium));
+                flex-basis: calc(36% - 2 * var(--spacing-medium));
             }
 
             .geohazard-affected-households {
                 @extend %section;
-                flex-basis: calc(60% - 2 * var(--spacing-medium));
+                flex-basis: calc(64% - 2 * var(--spacing-medium));
             }
         }
 
