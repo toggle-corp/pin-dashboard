@@ -1,9 +1,9 @@
 const labelSize = 14;
-const labelFont = ['Source Sans Pro Regular'];
-const labelColor = '#666';
-const labelHaloColor = 'rgba(255, 255, 255, 0.95)';
-const labelHaloWidth = 1.5;
-const labelHaloBlur = 1;
+const labelFont = ['Open Sans Regular'];
+const labelColor = '#222';
+const labelHaloColor = '#fff';
+const labelHaloWidth = 1;
+const labelHaloBlur = 2;
 
 const district = {
     outline: {

@@ -15,7 +15,7 @@ const styleProperties = {
     widthDonutChartStrokeOnHover: 14,
     widthLeftPane: '440px',
 
-    heightApp: '858px',
+    heightApp: '874px',
 
     widthHoverDetails: '320px',
     zIndexHoverDetails: '11',
@@ -31,7 +31,9 @@ const styleProperties = {
 
     heightRelocatedPerson: '64px',
 
-    lineHeightDefault: '1.2',
+    lineHeightDefault: '1.25',
+
+    durationDonutChartAnimation: '1s',
 };
 
 export default styleProperties;
