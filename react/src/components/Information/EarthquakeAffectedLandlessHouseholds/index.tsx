@@ -104,10 +104,12 @@ class EarthaquakeAffectedLandlessHouseholds extends React.PureComponent<Props> {
                     </div>
                     <div className={styles.details}>
                         <TextOutput
+                            className={styles.approved}
                             label="Approved to live in the existing place"
                             value={this.renderValue(approved)}
                         />
                         <TextOutput
+                            className={styles.relocated}
                             label="Relocated to new location"
                             value={this.renderValue(relocated)}
                         />
