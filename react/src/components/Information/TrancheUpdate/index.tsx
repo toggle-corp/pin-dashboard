@@ -20,7 +20,7 @@ interface Props {
     currentStyles: {
         colorWarning: string;
         colorSuccess: string;
-        colorPurple: string;
+        colorBlue: string;
     };
 }
 
@@ -49,7 +49,7 @@ class TrancheUpdate extends React.PureComponent<Props> {
                 key: 'second',
                 label: 'Second',
                 value: second || 0,
-                color: currentStyles.colorPurple,
+                color: currentStyles.colorBlue,
             },
             {
                 key: 'third',
@@ -106,14 +106,17 @@ class TrancheUpdate extends React.PureComponent<Props> {
                     </div>
                     <div className={styles.details}>
                         <TextOutput
+                            className={styles.first}
                             label="First"
                             value={this.renderValue(first)}
                         />
                         <TextOutput
+                            className={styles.second}
                             label="Second"
                             value={this.renderValue(second)}
                         />
                         <TextOutput
+                            className={styles.third}
                             label="Third"
                             value={this.renderValue(third)}
                         />

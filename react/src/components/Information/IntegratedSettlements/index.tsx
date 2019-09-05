@@ -22,7 +22,7 @@ interface Props {
     currentStyles: {
         colorWarning: string;
         colorSuccess: string;
-        colorPurple: string;
+        colorBlue: string;
     };
 }
 
@@ -52,7 +52,7 @@ class IntegratedSettlements extends React.PureComponent<Props> {
                 key: 'phase2',
                 label: 'DPR approved',
                 value: phase2 || 0,
-                color: currentStyle.colorPurple,
+                color: currentStyle.colorBlue,
             },
             {
                 key: 'underConstruction',
@@ -118,14 +118,17 @@ class IntegratedSettlements extends React.PureComponent<Props> {
                     </div>
                     <div className={styles.details}>
                         <TextOutput
+                            className={styles.preliminaryApproved}
                             label="Preliminary approved"
                             value={this.renderValue(phase1)}
                         />
                         <TextOutput
+                            className={styles.dprApproved}
                             label="DPR approved"
                             value={this.renderValue(phase2)}
                         />
                         <TextOutput
+                            className={styles.underConstruction}
                             label="Under construction"
                             value={this.renderValue(underConstruction)}
                         />

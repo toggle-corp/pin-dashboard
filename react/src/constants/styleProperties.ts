@@ -25,6 +25,7 @@ const styleProperties = {
     colorSuccess: '#43A047',
     colorAccent: '#009688',
     colorPurple: '#5e35b1',
+    colorBlue: '#343a6a',
 
     widthGeohazardAffectedHouseholdsChart: '96px',
     heightGeohazardAffectedHouseholdsChart: '96px',
@@ -34,6 +35,7 @@ const styleProperties = {
     lineHeightDefault: '1.25',
 
     durationDonutChartAnimation: '1s',
+
 };
 
 export default styleProperties;

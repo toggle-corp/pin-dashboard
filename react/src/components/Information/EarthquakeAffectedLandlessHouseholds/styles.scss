@@ -23,5 +23,15 @@
                 height: var(--height-geohazard-affected-households-chart);
             }
         }
+
+        .details {
+            .approved {
+                color: var(--color-success);
+            }
+
+            .relocated {
+                color: var(--color-warning);
+            }
+        }
     }
 }
