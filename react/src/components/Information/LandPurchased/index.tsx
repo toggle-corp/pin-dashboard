@@ -61,13 +61,11 @@ class LandPurchasedView extends React.PureComponent<Props> {
                         label="Total hectares purchased for relocation"
                         value={(
                             <Numeral
-                                value={landPurchasedInHecters}
+                                value={landPurchasedInHecters || undefined}
                                 precision={2}
                                 showSeparator
                             />
                         )}
-                        // invertOrder
-                        // hideSeparator
                     />
                     <TextOutput
                         label={(
@@ -79,13 +77,11 @@ class LandPurchasedView extends React.PureComponent<Props> {
                         )}
                         value={(
                             <Numeral
-                                value={averageLandPurchased}
+                                value={averageLandPurchased || undefined}
                                 precision={2}
                                 showSeparator
                             />
                         )}
-                        // invertOrder
-                        // hideSeparator
                     />
                 </div>
             </div>

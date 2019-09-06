@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
     isDefined,
     isObject,
@@ -18,6 +20,8 @@ import {
     FeatureFromIdentifier,
     MapStateElement,
 } from '#constants';
+
+import Numeral from '#rscv/Numeral';
 
 interface WithLatLong {
     latitude?: number;
@@ -427,3 +431,11 @@ export function getNewMapStateOnRelocationHoverChange(
         relocationSites,
     };
 }
+
+export const renderNumericValue = (value: number | undefined) => (
+    <Numeral
+        value={value || undefined} // To show '-' instead of 0
+        precision={null}
+        showSeparator
+    />
+);

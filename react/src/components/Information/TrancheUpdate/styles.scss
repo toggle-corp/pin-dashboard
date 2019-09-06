@@ -1,4 +1,13 @@
 .tranche-update {
+    .header {
+        display: flex;
+        align-items: center;
+
+        .icon {
+            font-size: var(--font-size-large);
+        }
+    }
+
     .content {
         display: flex;
         align-items: center;

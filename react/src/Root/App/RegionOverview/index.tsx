@@ -6,6 +6,7 @@ import {
     isNotDefined,
 } from '@togglecorp/fujs';
 
+import AccentButton from '#rsca/Button/AccentButton';
 import MapSource from '#rscz/Map/MapSource';
 import MapLayer from '#rscz/Map/MapLayer';
 
@@ -404,7 +405,7 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
         );
     }
 
-    private handlePointSelectionChange = (value: string) => {
+    private handlePointSelectionChange = (value: string | undefined) => {
         this.setState({ selectedPoint: value });
     }
 
@@ -524,6 +525,14 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             <div className={_cs(className, styles.overview)}>
                 <Legend className={styles.legend} />
                 <div className={styles.hoverDetails}>
+                    <div className={styles.backButtonContainer}>
+                        <AccentButton
+                            className={styles.goBackButton}
+                            onClick={onBackButtonClick}
+                        >
+                            Go back
+                        </AccentButton>
+                    </div>
                     {this.renderHoverDetail()}
                     { (catPoints.length > 0 || relocationSites.length > 0) && (
                         <PointDetails

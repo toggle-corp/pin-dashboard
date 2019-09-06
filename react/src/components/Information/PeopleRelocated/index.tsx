@@ -1,7 +1,6 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import Numeral from '#rscv/Numeral';
 import ListView from '#rscv/List/ListView';
 
 import childrenFemaleIcon from '#resources/img/children-female.png';
@@ -16,6 +15,7 @@ import Header from '../Header';
 import Heading from '../Heading';
 import People from './People';
 
+import { renderNumericValue } from '#utils/common';
 import { PeopleRelocated } from '#constants';
 
 import styles from './styles.scss';
@@ -83,15 +83,7 @@ class PeopleRelocatedView extends React.PureComponent<Props> {
                 />
                 <TextOutput
                     label="People relocated"
-                    value={(
-                        <Numeral
-                            value={total}
-                            precision={null}
-                            showSeparator
-                        />
-                    )}
-                    // invertOrder
-                    // hideSeparator
+                    value={renderNumericValue(total)}
                 />
             </div>
         );

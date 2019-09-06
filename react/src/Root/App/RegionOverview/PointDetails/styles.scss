@@ -10,21 +10,30 @@
             font-weight: var(--font-weight-bold);
         }
 
-        .relocation-site-select-input,
-        .risk-point-select-input {
-            margin: var(--spacing-medium);
+        .risk-point-select-container,
+        .relocation-site-select-container {
+            display: flex;
 
-            :global {
-                .input-label {
-                    text-transform: none;
-                    font-size: var(--font-size-small);
-                }
+            .relocation-site-select-input,
+            .risk-point-select-input {
+                flex-grow: 1;
+                margin: var(--spacing-medium);
 
-                .clear-button {
-                    opacity: 1;
+                :global {
+                    .input-label {
+                        text-transform: none;
+                        font-size: var(--font-size-small);
+                    }
                 }
             }
+
+            .back-button {
+                align-self: flex-end;
+                margin: var(--spacing-medium);
+                width: 96px;
+            }
         }
+
 
         .cat-point-list-summary,
         .relocation-site-list-summary {

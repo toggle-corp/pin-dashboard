@@ -6,6 +6,7 @@ import SelectInput from '#rsci/SelectInput';
 import RiskPointDetails from '#components/RiskPointDetails';
 import RelocationSiteDetails from '#components/RelocationSiteDetails';
 
+import AccentButton from '#rsca/Button/AccentButton';
 import TextOutput from '#components/TextOutput';
 
 import {
@@ -18,8 +19,8 @@ import styles from './styles.scss';
 interface Props {
     catPointList?: RiskPointWithType[];
     relocationSiteList?: RelocationSite[];
-    onRelocationSiteSelectionChange: (d: string) => void;
-    onCatPointSelectionChange: (d: string) => void;
+    onRelocationSiteSelectionChange: (d: string | undefined) => void;
+    onCatPointSelectionChange: (d: string | undefined) => void;
 }
 
 interface State {
@@ -63,7 +64,7 @@ const CatPointListDetails = ({
         return (
             <div className={styles.catPointListSummary}>
                 <div className={styles.title}>
-                    Place of origin - summary
+                    Place of origin - overview
                 </div>
                 <TextOutput
                     labelClassName={styles.label}
@@ -75,7 +76,7 @@ const CatPointListDetails = ({
                     labelClassName={styles.label}
                     valueClassName={styles.value}
                     label="Total number of affected househods"
-                    value={totalAffectedHouseholds}
+                    value={totalAffectedHouseholds || '-'}
                 />
             </div>
         );
@@ -112,7 +113,7 @@ const RelocationSiteListDetails = ({
         return (
             <div className={styles.relocationSiteListSummary}>
                 <div className={styles.title}>
-                    Summary of relocation sites
+                    Overview of relocation sites
                 </div>
                 <TextOutput
                     labelClassName={styles.label}
@@ -155,6 +156,20 @@ class PointDetails extends React.PureComponent<Props, State> {
         onRelocationSiteSelectionChange(value);
     }
 
+    private handleRiskPointBackButtonClick = () => {
+        this.setState({ catPointSelectInputValue: undefined });
+
+        const { onCatPointSelectionChange } = this.props;
+        onCatPointSelectionChange(undefined);
+    }
+
+    private handleRelocationSiteBackButtonClick = () => {
+        this.setState({ relocationSiteSelectInputValue: undefined });
+
+        const { onRelocationSiteSelectionChange } = this.props;
+        onRelocationSiteSelectionChange(undefined);
+    }
+
     public render() {
         const {
             catPointList = emptyCatPointList,
@@ -186,17 +201,28 @@ class PointDetails extends React.PureComponent<Props, State> {
                         selectedCatPointGeosite={catPointSelectInputValue}
                     />
                     { catPointList.length > 1 && (
-                        <SelectInput
-                            className={styles.riskPointSelectInput}
-                            label="Select place of origin"
-                            options={catPointList}
-                            onChange={this.handleCatPointSelectInputChange}
-                            value={catPointSelectInputValue}
-                            keySelector={catPointKeySelector}
-                            showHintAndError={false}
-                            labelSelector={catPointLabelSelector}
-                            optionsClassName={styles.options}
-                        />
+                        <div className={styles.riskPointSelectContainer}>
+                            <SelectInput
+                                className={styles.riskPointSelectInput}
+                                label="Select place of origin"
+                                options={catPointList}
+                                onChange={this.handleCatPointSelectInputChange}
+                                value={catPointSelectInputValue}
+                                keySelector={catPointKeySelector}
+                                showHintAndError={false}
+                                labelSelector={catPointLabelSelector}
+                                optionsClassName={styles.options}
+                                hideClearButton
+                            />
+                            { catPointSelectInputValue && (
+                                <AccentButton
+                                    className={styles.backButton}
+                                    onClick={this.handleRiskPointBackButtonClick}
+                                >
+                                    Back to summary
+                                </AccentButton>
+                            )}
+                        </div>
                     )}
                 </div>
                 { relocationSiteList.length > 0 && (
@@ -206,17 +232,27 @@ class PointDetails extends React.PureComponent<Props, State> {
                             selectedRelocationSiteCode={relocationSiteSelectInputValue}
                         />
                         { relocationSiteList.length > 1 && (
-                            <SelectInput
-                                className={styles.relocationSiteSelectInput}
-                                keySelector={relocationSiteKeySelector}
-                                label="Select relocation site"
-                                labelSelector={relocationSiteLabelSelector}
-                                onChange={this.handleRelocationSiteSelectInputChange}
-                                options={relocationSiteList}
-                                showHintAndError={false}
-                                value={relocationSiteSelectInputValue}
-                                optionsClassName={styles.options}
-                            />
+                            <div className={styles.relocationSiteSelectContainer}>
+                                <SelectInput
+                                    className={styles.relocationSiteSelectInput}
+                                    keySelector={relocationSiteKeySelector}
+                                    label="Select relocation site"
+                                    labelSelector={relocationSiteLabelSelector}
+                                    onChange={this.handleRelocationSiteSelectInputChange}
+                                    options={relocationSiteList}
+                                    showHintAndError={false}
+                                    value={relocationSiteSelectInputValue}
+                                    optionsClassName={styles.options}
+                                />
+                                { relocationSiteSelectInputValue && (
+                                    <AccentButton
+                                        className={styles.backButton}
+                                        onClick={this.handleRelocationSiteBackButtonClick}
+                                    >
+                                        Back to summary
+                                    </AccentButton>
+                                )}
+                            </div>
                         )}
                     </div>
                 )}

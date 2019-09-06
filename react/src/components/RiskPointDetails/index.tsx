@@ -56,10 +56,12 @@ class RiskPointHoverDetails extends React.PureComponent<Props> {
             data,
         } = this.props;
 
+        const value = data ? data[renderValue.key] : '-';
+
         return {
             className: styles.row,
             label: renderValue.label,
-            value: data ? data[renderValue.key] : undefined,
+            value: (value === 0 || value === '0') ? '-' : value,
             valueClassName: styles.value,
             labelClassName: styles.label,
         };
