@@ -2,11 +2,12 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import memoize from 'memoize-one';
 
-import Numeral from '#rscv/Numeral';
+import Icon from '#rscg/Icon';
 import TextOutput from '../../TextOutput';
 import Header from '../Header';
 import Heading from '../Heading';
 
+import { renderNumericValue } from '#utils/common';
 import DonutChart from '#components/DonutChart';
 import connectWithStyles from '#rsu/styles/connectWithStyles';
 
@@ -62,14 +63,6 @@ class TrancheUpdate extends React.PureComponent<Props> {
         return chartData;
     })
 
-    private renderValue = (value: number | undefined) => (
-        <Numeral
-            value={value}
-            precision={null}
-            showSeparator
-        />
-    )
-
     public render() {
         const {
             className,
@@ -90,7 +83,12 @@ class TrancheUpdate extends React.PureComponent<Props> {
                 <Header className={styles.header}>
                     <Heading
                         className={styles.heading}
-                        text="Reconstruction housing tranche details"
+                        text="Housing reconstruction tranche details"
+                    />
+                    <Icon
+                        title="See Relocation section for more information"
+                        className={styles.icon}
+                        name="help"
                     />
                 </Header>
                 <div className={styles.content}>
@@ -108,17 +106,17 @@ class TrancheUpdate extends React.PureComponent<Props> {
                         <TextOutput
                             className={styles.first}
                             label="First"
-                            value={this.renderValue(first)}
+                            value={renderNumericValue(first)}
                         />
                         <TextOutput
                             className={styles.second}
                             label="Second"
-                            value={this.renderValue(second)}
+                            value={renderNumericValue(second)}
                         />
                         <TextOutput
                             className={styles.third}
                             label="Third"
-                            value={this.renderValue(third)}
+                            value={renderNumericValue(third)}
                         />
                     </div>
                 </div>

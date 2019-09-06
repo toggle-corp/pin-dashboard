@@ -1,9 +1,9 @@
 import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
-import Numeral from '#rscv/Numeral';
 import { LandslidesSurveyed } from '#constants/typeDefinitions';
 import CategoricalTextOutput from '../CategoricalTextOutput';
+import { renderNumericValue } from '#utils/common';
 import styles from './styles.scss';
 
 interface Props {
@@ -25,9 +25,9 @@ class HoverDetails extends React.PureComponent<Props> {
         }
 
         const {
-            CAT1: cat1 = 0,
-            CAT2: cat2 = 0,
-            CAT3: cat3 = 0,
+            CAT1: cat1,
+            CAT2: cat2,
+            CAT3: cat3,
         } = landslidesSurveyed;
 
         return (
@@ -40,48 +40,42 @@ class HoverDetails extends React.PureComponent<Props> {
                         riskCategory="low"
                         label="Cat 1"
                         value={(
-                            <React.Fragment>
-                                <Numeral
-                                    value={cat1}
-                                    precision={null}
-                                    showSeparator
-                                />
-                                <div className={styles.extra}>
-                                    assessed landslides
-                                </div>
-                            </React.Fragment>
+                            <>
+                                { renderNumericValue(cat1) }
+                                { cat1 && (
+                                    <div className={styles.extra}>
+                                        assessed landslides
+                                    </div>
+                                )}
+                            </>
                         )}
                     />
                     <CategoricalTextOutput
                         riskCategory="medium"
                         label="Cat 2"
                         value={(
-                            <React.Fragment>
-                                <Numeral
-                                    value={cat2}
-                                    precision={null}
-                                    showSeparator
-                                />
-                                <div className={styles.extra}>
-                                    assessed landslides
-                                </div>
-                            </React.Fragment>
+                            <>
+                                { renderNumericValue(cat2) }
+                                { cat2 && (
+                                    <div className={styles.extra}>
+                                        assessed landslides
+                                    </div>
+                                )}
+                            </>
                         )}
                     />
                     <CategoricalTextOutput
                         riskCategory="high"
                         label="Cat 3"
                         value={(
-                            <React.Fragment>
-                                <Numeral
-                                    value={cat3}
-                                    precision={null}
-                                    showSeparator
-                                />
-                                <div className={styles.extra}>
-                                    assessed landslides
-                                </div>
-                            </React.Fragment>
+                            <>
+                                { renderNumericValue(cat3) }
+                                { cat3 && (
+                                    <div className={styles.extra}>
+                                        assessed landslides
+                                    </div>
+                                )}
+                            </>
                         )}
                     />
                 </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Numeral from '#rscv/Numeral';
+import Icon from '#rscg/Icon';
 
 import { LandslidesSurveyed } from '#constants';
 
@@ -9,6 +10,7 @@ import CategoricalTextOutput from '../../CategoricalTextOutput';
 import TextOutput from '../../TextOutput';
 import Header from '../Header';
 import Heading from '../Heading';
+import { renderNumericValue } from '#utils/common';
 
 import styles from './styles.scss';
 
@@ -43,50 +45,31 @@ class LandslidesSurveyedView extends React.PureComponent<Props> {
                         className={styles.heading}
                         text="Landslides surveyed"
                     />
+                    <Icon
+                        title="See Geohazard Unit section for more information"
+                        className={styles.icon}
+                        name="help"
+                    />
                 </Header>
                 <div className={styles.content}>
                     <CategoricalTextOutput
                         riskCategory="high"
                         label="Cat 3"
-                        value={(
-                            <Numeral
-                                value={cat3}
-                                precision={null}
-                                showSeparator
-                            />
-                        )}
+                        value={renderNumericValue(cat3)}
                     />
                     <CategoricalTextOutput
                         riskCategory="medium"
                         label="Cat 2"
-                        value={(
-                            <Numeral
-                                value={cat2}
-                                precision={null}
-                                showSeparator
-                            />
-                        )}
+                        value={renderNumericValue(cat2)}
                     />
                     <CategoricalTextOutput
                         riskCategory="low"
                         label="Cat 1"
-                        value={(
-                            <Numeral
-                                value={cat1}
-                                precision={null}
-                                showSeparator
-                            />
-                        )}
+                        value={renderNumericValue(cat1)}
                     />
                     <TextOutput
                         label="Total"
-                        value={(
-                            <Numeral
-                                value={total}
-                                precision={null}
-                                showSeparator
-                            />
-                        )}
+                        value={renderNumericValue(total)}
                     />
                 </div>
             </div>

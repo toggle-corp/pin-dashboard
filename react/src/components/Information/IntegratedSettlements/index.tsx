@@ -2,13 +2,13 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import memoize from 'memoize-one';
 
-import Numeral from '#rscv/Numeral';
 import Icon from '#rscg/Icon';
 
 import TextOutput from '../../TextOutput';
 import Header from '../Header';
 import Heading from '../Heading';
 
+import { renderNumericValue } from '#utils/common';
 import DonutChart from '#components/DonutChart';
 import connectWithStyles from '#rsu/styles/connectWithStyles';
 
@@ -65,14 +65,6 @@ class IntegratedSettlements extends React.PureComponent<Props> {
         return chartData;
     })
 
-    private renderValue = (value: number | undefined) => (
-        <Numeral
-            value={value}
-            precision={null}
-            showSeparator
-        />
-    )
-
     public render() {
         const {
             data = emptyIntegratedSettlement,
@@ -100,7 +92,7 @@ class IntegratedSettlements extends React.PureComponent<Props> {
                         text="Integrated settlements"
                     />
                     <Icon
-                        title="See Geohazard Unit section for more information"
+                        title="See Relocation section for more information"
                         className={styles.icon}
                         name="help"
                     />
@@ -120,21 +112,21 @@ class IntegratedSettlements extends React.PureComponent<Props> {
                         <TextOutput
                             className={styles.preliminaryApproved}
                             label="Preliminary approved"
-                            value={this.renderValue(phase1)}
+                            value={renderNumericValue(phase1)}
                         />
                         <TextOutput
                             className={styles.dprApproved}
                             label="DPR approved"
-                            value={this.renderValue(phase2)}
+                            value={renderNumericValue(phase2)}
                         />
                         <TextOutput
                             className={styles.underConstruction}
                             label="Under construction"
-                            value={this.renderValue(underConstruction)}
+                            value={renderNumericValue(underConstruction)}
                         />
                         <TextOutput
                             label="Total"
-                            value={this.renderValue(total)}
+                            value={renderNumericValue(total)}
                         />
                     </div>
                 </div>

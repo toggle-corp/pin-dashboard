@@ -2,6 +2,7 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import Numeral from '#rscv/Numeral';
+import { renderNumericValue } from '#utils/common';
 
 import styles from './styles.scss';
 
@@ -29,11 +30,7 @@ class People extends React.PureComponent<Props> {
                     src={icon}
                 />
                 <div className={styles.value}>
-                    <Numeral
-                        value={value}
-                        showSeparator
-                        precision={null}
-                    />
+                    {renderNumericValue(value)}
                 </div>
             </div>
         );

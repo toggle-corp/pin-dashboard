@@ -25,5 +25,22 @@
         width: var(--width-hover-details);
         max-height: calc(var(--height-app) - 72px);
         overflow: auto;
+
+        .back-button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: var(--spacing-medium);
+            overflow: hidden;
+
+            .go-back-button {
+                background-color: var(--color-accent);
+                color: var(--color-text-on-accent);
+                font-size: var(--font-size-medium);
+
+                &:hover {
+                    background-color: var(--color-accent);
+                }
+            }
+        }
     }
 }

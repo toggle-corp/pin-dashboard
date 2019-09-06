@@ -2,7 +2,6 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import memoize from 'memoize-one';
 
-import Numeral from '#rscv/Numeral';
 import connectWithStyles from '#rsu/styles/connectWithStyles';
 
 import { GeohazardAffected } from '#constants';
@@ -12,6 +11,8 @@ import TextOutput from '../../TextOutput';
 import Header from '../Header';
 import Heading from '../Heading';
 import DonutChart from '#components/DonutChart';
+
+import { renderNumericValue } from '#utils/common';
 
 import styles from './styles.scss';
 
@@ -93,35 +94,17 @@ class GeohazardAffectedHouseholdsView extends React.PureComponent<Props> {
                     <div className={styles.details}>
                         <TextOutput
                             label="Eligible"
-                            value={(
-                                <Numeral
-                                    value={eligible}
-                                    precision={null}
-                                    showSeparator
-                                />
-                            )}
+                            value={renderNumericValue(eligible)}
                         />
                         <CategoricalTextOutput
                             riskCategory="medium"
                             label="In process"
-                            value={(
-                                <Numeral
-                                    value={inProcess}
-                                    precision={null}
-                                    showSeparator
-                                />
-                            )}
+                            value={renderNumericValue(inProcess)}
                         />
                         <CategoricalTextOutput
                             riskCategory="low"
                             label="Relocated"
-                            value={(
-                                <Numeral
-                                    value={relocated}
-                                    precision={null}
-                                    showSeparator
-                                />
-                            )}
+                            value={renderNumericValue(relocated)}
                         />
                     </div>
                 </div>

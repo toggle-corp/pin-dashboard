@@ -2,7 +2,6 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 import memoize from 'memoize-one';
 
-import Numeral from '#rscv/Numeral';
 import Icon from '#rscg/Icon';
 
 import TextOutput from '../../TextOutput';
@@ -12,6 +11,7 @@ import Heading from '../Heading';
 import DonutChart from '#components/DonutChart';
 import connectWithStyles from '#rsu/styles/connectWithStyles';
 import { LandlessHousehold } from '#constants';
+import { renderNumericValue } from '#utils/common';
 
 import styles from './styles.scss';
 
@@ -55,14 +55,6 @@ class EarthaquakeAffectedLandlessHouseholds extends React.PureComponent<Props> {
         return chartData;
     })
 
-    private renderValue = (value: number | undefined) => (
-        <Numeral
-            value={value}
-            precision={null}
-            showSeparator
-        />
-    )
-
     public render() {
         const {
             data = emptyLandlessData,
@@ -86,7 +78,7 @@ class EarthaquakeAffectedLandlessHouseholds extends React.PureComponent<Props> {
                         text="Earthquake affected landless households"
                     />
                     <Icon
-                        title="See Geohazard Unit section for more information"
+                        title="See Landless section for more information"
                         className={styles.icon}
                         name="help"
                     />
@@ -106,16 +98,16 @@ class EarthaquakeAffectedLandlessHouseholds extends React.PureComponent<Props> {
                         <TextOutput
                             className={styles.approved}
                             label="Approved to live in the existing place"
-                            value={this.renderValue(approved)}
+                            value={renderNumericValue(approved)}
                         />
                         <TextOutput
                             className={styles.relocated}
                             label="Relocated to new location"
-                            value={this.renderValue(relocated)}
+                            value={renderNumericValue(relocated)}
                         />
                         <TextOutput
                             label="Total"
-                            value={this.renderValue(total)}
+                            value={renderNumericValue(total)}
                         />
                     </div>
                 </div>
