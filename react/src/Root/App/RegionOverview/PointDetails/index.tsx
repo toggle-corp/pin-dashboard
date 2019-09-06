@@ -219,7 +219,7 @@ class PointDetails extends React.PureComponent<Props, State> {
                                     className={styles.backButton}
                                     onClick={this.handleRiskPointBackButtonClick}
                                 >
-                                    Back to summary
+                                    Back to overview
                                 </AccentButton>
                             )}
                         </div>
@@ -249,7 +249,7 @@ class PointDetails extends React.PureComponent<Props, State> {
                                         className={styles.backButton}
                                         onClick={this.handleRelocationSiteBackButtonClick}
                                     >
-                                        Back to summary
+                                        Back to overview
                                     </AccentButton>
                                 )}
                             </div>

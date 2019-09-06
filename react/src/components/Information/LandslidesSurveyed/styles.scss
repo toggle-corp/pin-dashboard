@@ -4,6 +4,8 @@
         align-items: center;
 
         .icon {
+            flex-shrink: 0;
+            padding-right: var(--spacing-large);
             font-size: var(--font-size-large);
         }
     }
