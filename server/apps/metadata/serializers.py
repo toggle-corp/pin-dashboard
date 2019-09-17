@@ -68,12 +68,16 @@ class GeoAttributeSerializer(serializers.Serializer):
     bbox = serializers.ListField(serializers.IntegerField, source='meta.bbox')
 
 
+class PalikaAttributeSerializer(GeoAttributeSerializer):
+    type = serializers.CharField(source='get_type_display')
+
+
 class WardSerializer(BaseMetadataSerializer):
     geo_attribute = GeoAttributeSerializer(source='ward')
 
 
 class PalikaSerializer(BaseMetadataSerializer):
-    geo_attribute = GeoAttributeSerializer(source='palika')
+    geo_attribute = PalikaAttributeSerializer(source='palika')
 
 
 class PalikaDetailSerializer(PalikaSerializer):

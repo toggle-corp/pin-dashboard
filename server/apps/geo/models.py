@@ -29,9 +29,26 @@ class District(models.Model):
 
 
 class Palika(models.Model):
+    NAGARPALIKA = 'nagarpalika'
+    GAUNPALIKA = 'gaunpalika'
+    METRO = 'metro'
+    SUB_METRO = 'sub_metro'
+
+    PALIKA_TYPES = (
+        (NAGARPALIKA, 'Nagarpalika'),
+        (GAUNPALIKA, 'Gaunpalika'),
+        (METRO, 'Metropolitan City'),
+        (SUB_METRO, 'Sub-Metropolitan City'),
+    )
+
     name = models.CharField(max_length=256)
     district = models.ForeignKey(District, on_delete=models.CASCADE)
     meta = JSONField(default=dict)
+    type = models.CharField(
+        max_length=50,
+        choices=PALIKA_TYPES,
+        null=True, blank=True,
+    )
 
     def __str__(self):
         return self.name

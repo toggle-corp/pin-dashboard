@@ -54,6 +54,9 @@ class DistrictAdmin(MetaCountMixin, admin.ModelAdmin):
     list_display = ('name', linkify('province'), 'hh_count', 'gs_count')
     list_filter = ('province',)
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('province')
+
 
 class WardInline(admin.StackedInline):
     model = Ward
@@ -65,11 +68,15 @@ class PalikaAdmin(MetaCountMixin, admin.ModelAdmin):
     search_fields = ('name',)
     inlines = (WardInline,)
     list_display = (
-        'name', linkify('district'),
+        'name', 'type', linkify('district'),
         linkify('district.province', 'Province'),
         'hh_count', 'gs_count',
     )
     list_filter = (
+        'type',
         ('district', RelatedDropdownFilter),
         'district__province',
     )
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('district', 'district__province')
