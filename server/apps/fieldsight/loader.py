@@ -72,7 +72,7 @@ def clean_palika_name(palika_name):
 
 def clean_ward_number(ward_number):
     name = str(ward_number)
-    if name.find(','):
+    if name.find(',') != -1:
         name = name[:name.find(',')]
     return name.strip()
 
