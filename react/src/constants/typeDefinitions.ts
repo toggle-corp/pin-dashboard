@@ -98,6 +98,7 @@ export interface GeoAttribute {
     name: string;
     bbox?: GeoBounds;
     centroid?: GeoPoint;
+    type?: 'Gaunpalika' | 'Nagarpalika';
 }
 
 export interface Tranches {

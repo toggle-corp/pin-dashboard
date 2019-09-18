@@ -20,12 +20,30 @@
         }
 
         .heading {
+            display: flex;
             flex-grow: 1;
             padding: var(--spacing-medium);
+            overflow: auto;
             text-transform: uppercase;
             font-family: var(--font-family-heading);
             font-size: var(--font-size-super-large);
             font-weight: var(--font-weight-bold);
+
+            .title {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .geo-attribute-type {
+                align-self: center;
+                flex-shrink: 0;
+                border: var(--width-separator-thin) solid var(--color-separator);
+                padding: var(--spacing-extra-small) var(--spacing-extra-small-alt);
+                text-transform: uppercase;
+                color: var(--color-primary);
+                font-size: var(--font-size-medium);
+            }
         }
     }
 

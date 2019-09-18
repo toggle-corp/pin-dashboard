@@ -6,7 +6,10 @@ import LoadingAnimation from '#rscv/LoadingAnimation';
 import Message from '#rscv/Message';
 
 import Button from '#rsca/Button';
-import { Base } from '#constants';
+import {
+    Base,
+    GeoAttribute,
+} from '#constants';
 
 import LandslidesSurveyed from './LandslidesSurveyed';
 import EarthquakeAffectedLandlessHouseholds from './EarthquakeAffectedLandlessHouseholds';
@@ -26,6 +29,13 @@ interface Props {
     showBackButton?: boolean;
     onBackButtonClick?: () => void;
 }
+
+const attributeTypeMap: {
+    [key in GeoAttribute['type']]: string;
+} = {
+    Gaunpalika: 'GP',
+    Nagarpalika: 'NP',
+};
 
 class Information extends React.PureComponent<Props> {
     private getLandPurchasedData = memoize((landPurchased, totalHouseholds) => ({
@@ -109,7 +119,14 @@ class Information extends React.PureComponent<Props> {
             title = 'Unknown',
             showBackButton,
             onBackButtonClick,
+            data,
         } = this.props;
+
+        let geoAttributeType: GeoAttribute['type'];
+
+        if (data) {
+            geoAttributeType = data.geoAttribute.type;
+        }
 
         return (
             <div className={_cs(className, styles.information)}>
@@ -125,7 +142,23 @@ class Information extends React.PureComponent<Props> {
                         />
                     )}
                     <h2 className={styles.heading}>
-                        { title }
+                        <div
+                            className={styles.title}
+                            title={title}
+                        >
+                            { title }
+                        </div>
+                        { geoAttributeType && (
+                            <>
+                                &nbsp;
+                                <div
+                                    className={styles.geoAttributeType}
+                                    title={geoAttributeType}
+                                >
+                                    { attributeTypeMap[geoAttributeType] }
+                                </div>
+                            </>
+                        )}
                     </h2>
                 </header>
                 <div className={styles.content}>
