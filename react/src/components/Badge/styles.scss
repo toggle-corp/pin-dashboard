@@ -1,0 +1,7 @@
+.badge {
+    border: var(--width-separator-thin) solid var(--color-separator);
+    padding: var(--spacing-extra-small) var(--spacing-extra-small-alt);
+    text-transform: uppercase;
+    color: var(--color-primary);
+    font-size: var(--font-size-medium);
+}

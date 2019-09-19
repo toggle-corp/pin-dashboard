@@ -93,12 +93,14 @@ export interface RiskPointWithType extends RiskPoint {
     type: 'cat2' | 'cat3';
 }
 
+export type GeoAttributeType = 'Gaunpalika' | 'Nagarpalika';
+
 export interface GeoAttribute {
     id: number;
     name: string;
     bbox?: GeoBounds;
     centroid?: GeoPoint;
-    type?: 'Gaunpalika' | 'Nagarpalika';
+    type?: GeoAttributeType;
 }
 
 export interface Tranches {

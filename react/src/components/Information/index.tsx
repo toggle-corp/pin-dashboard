@@ -9,7 +9,10 @@ import Button from '#rsca/Button';
 import {
     Base,
     GeoAttribute,
+    GeoAttributeType,
 } from '#constants';
+
+import Badge from '#components/Badge';
 
 import LandslidesSurveyed from './LandslidesSurveyed';
 import EarthquakeAffectedLandlessHouseholds from './EarthquakeAffectedLandlessHouseholds';
@@ -31,7 +34,7 @@ interface Props {
 }
 
 const attributeTypeMap: {
-    [key in GeoAttribute['type']]: string;
+    [key in GeoAttributeType]: string;
 } = {
     Gaunpalika: 'GP',
     Nagarpalika: 'NP',
@@ -122,7 +125,7 @@ class Information extends React.PureComponent<Props> {
             data,
         } = this.props;
 
-        let geoAttributeType: GeoAttribute['type'];
+        let geoAttributeType: GeoAttributeType | undefined;
 
         if (data) {
             geoAttributeType = data.geoAttribute.type;
@@ -151,12 +154,12 @@ class Information extends React.PureComponent<Props> {
                         { geoAttributeType && (
                             <>
                                 &nbsp;
-                                <div
+                                <Badge
                                     className={styles.geoAttributeType}
                                     title={geoAttributeType}
                                 >
                                     { attributeTypeMap[geoAttributeType] }
-                                </div>
+                                </Badge>
                             </>
                         )}
                     </h2>

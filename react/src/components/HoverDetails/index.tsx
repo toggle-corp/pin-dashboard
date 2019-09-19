@@ -2,15 +2,25 @@ import React from 'react';
 import { _cs } from '@togglecorp/fujs';
 
 import { LandslidesSurveyed } from '#constants/typeDefinitions';
-import CategoricalTextOutput from '../CategoricalTextOutput';
+import CategoricalTextOutput from '#components/CategoricalTextOutput';
+import Badge from '#components/Badge';
 import { renderNumericValue } from '#utils/common';
+import { GeoAttributeType } from '#constants';
 import styles from './styles.scss';
 
 interface Props {
     className?: string;
     landslidesSurveyed?: LandslidesSurveyed;
     name?: string;
+    geoAttributeType?: GeoAttributeType;
 }
+
+const attributeTypeMap: {
+    [key in GeoAttributeType]: string;
+} = {
+    Gaunpalika: 'GP',
+    Nagarpalika: 'NP',
+};
 
 class HoverDetails extends React.PureComponent<Props> {
     public render() {
@@ -18,6 +28,7 @@ class HoverDetails extends React.PureComponent<Props> {
             name,
             landslidesSurveyed,
             className,
+            geoAttributeType,
         } = this.props;
 
         if (!landslidesSurveyed) {
@@ -33,7 +44,23 @@ class HoverDetails extends React.PureComponent<Props> {
         return (
             <div className={_cs(className, styles.hoverDetails)}>
                 <div className={styles.name}>
-                    { name }
+                    <div
+                        title={name}
+                        className={styles.title}
+                    >
+                        { name }
+                    </div>
+                    { geoAttributeType && (
+                        <>
+                            &nbsp;
+                            <Badge
+                                className={styles.geoAttributeType}
+                                title={geoAttributeType}
+                            >
+                                { attributeTypeMap[geoAttributeType] }
+                            </Badge>
+                        </>
+                    )}
                 </div>
                 <div className={styles.details}>
                     <CategoricalTextOutput
