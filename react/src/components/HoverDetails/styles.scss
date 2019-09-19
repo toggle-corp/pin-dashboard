@@ -4,9 +4,22 @@
     padding: var(--spacing-small);
 
     .name {
+        display: flex;
         padding: var(--spacing-medium);
+        overflow: auto;
         font-size: var(--font-size-large);
         font-weight: var(--font-weight-bold);
+
+        .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .geo-attribute-type {
+            align-self: center;
+            flex-shrink: 0;
+        }
     }
 
     .details {

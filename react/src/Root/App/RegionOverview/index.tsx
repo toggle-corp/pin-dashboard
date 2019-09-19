@@ -394,12 +394,14 @@ class DistrictOverview extends React.PureComponent<MyProps, State> {
             landslidesSurveyed,
             geoAttribute: {
                 name,
+                type,
             },
         } = subRegion;
 
         return (
             <HoverDetails
                 name={regionLevel === 'palika' ? `${regionName} - ${name}` : name}
+                geoAttributeType={type}
                 landslidesSurveyed={landslidesSurveyed}
             />
         );
