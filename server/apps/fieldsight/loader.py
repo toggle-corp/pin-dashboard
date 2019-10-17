@@ -301,7 +301,7 @@ class Loader:
         )
 
     def load_landless_household(self, datum):
-        identifier = get_attr(datum, 'LL HH Code')
+        identifier = get_attr(datum, 'id')
 
         defaults = {}
         for key, value in self.landless_household_map.items():
