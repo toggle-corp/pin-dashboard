@@ -6,7 +6,7 @@ WORKDIR /code
 
 COPY ./requirements.txt /code/requirements.txt
 
-RUN apk add --no-cache git bash libpq \
+RUN apk add --no-cache git bash libpq coreutils \
     && apk add --no-cache --virtual .build-deps \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/main \
         --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
