@@ -316,9 +316,9 @@ class Loader:
         defaults['identifier'] = identifier
 
         try:
-            district_name = get_attr(datum, 'District_of_origin')
-            palika_name = clean_palika_name(get_attr(datum, 'Gaupalika_Municipality'))
-            ward_name = clean_ward_number(get_attr(datum, 'Ward'))
+            district_name = get_attr(datum, 'District of Place of Origin')
+            palika_name = clean_palika_name(get_attr(datum, 'GP NP of Place of Origin'))
+            ward_name = clean_ward_number(get_attr(datum, 'Ward of Place of Origin'))
 
             defaults['district'] = trigram_name_search(District.objects, district_name).first()
             defaults['palika'] = trigram_name_search(
@@ -331,9 +331,9 @@ class Loader:
 
             log_geo_warning(
                 'Household', identifier, datum, defaults, [
-                    ('district', 'District_of_origin', district_name),
-                    ('palika', 'Gaupalika_Municipality', palika_name),
-                    ('ward', 'Ward', ward_name),
+                    ('district', 'District of Place of Origin', district_name),
+                    ('palika', 'GP NP of Place of Origin', palika_name),
+                    ('ward', 'Ward of Place of Origin', ward_name),
                 ],
             )
 
